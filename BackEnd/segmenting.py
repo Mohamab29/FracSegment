@@ -1,3 +1,5 @@
+from typing import Union
+
 import cv2
 import numpy as np
 from tqdm import tqdm
@@ -23,7 +25,7 @@ def display(img, title, cmap='gray'):
     plt.show()
 
 
-def image_resize(img: np.array, d_size: int = DESIRED_SIZE) -> int:
+def image_resize(img: np.ndarray, d_size: int = DESIRED_SIZE) -> int:
     """
     the function take an image then resize to a desired size and then add a border to where there us no data
     :param img: an image we want to resize
@@ -96,7 +98,7 @@ def clean_mask(image):
     return crop_image(thresh_image)
 
 
-def load_images(paths: list) -> np.array:
+def load_images(paths: list) -> np.ndarray:
     """
      The function takes a list of image paths and loads them.
      :param paths: a list of paths for images we want to load
@@ -116,11 +118,12 @@ def load_images(paths: list) -> np.array:
     return np.asarray(images)
 
 
-def segment(paths: list) -> list:
+def segment(paths: list) -> Union[np.ndarray, list]:
     """
-    the main function that handles the image segmentation after the User has chosen to predict selected images
-    :param paths: a list of images we want to segment
-    :returns: a list of predicted masks corresponding to each given image
+    the main function that handles the image segmentation after the User has chosen to predict selected images.
+
+    :param paths: a list of images we want to segment.
+    :returns: a list of predicted masks corresponding to each given image or an empty np.ndarray if an empty list is passed.
     """
     original_images = load_images(paths)
     if original_images.__len__() == 0:
