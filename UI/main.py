@@ -439,6 +439,8 @@ class MainWindow(QMainWindow):
         self.ui.label_results_page_images.setText(
             f"Images: {widget_list.count()} Checked: {numOfCheckedItems(widget_list)}")
 
+    # def renderPredictedImages(self,pixmap_list, path_list):
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

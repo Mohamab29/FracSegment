@@ -162,14 +162,15 @@ def segment(paths: list) -> Union[np.ndarray, list]:
         return original_images
 
     # we load the trained model
-    model = load_model(f'../assets/models/{MODEL_NAME}.h5')
+    # model = load_model(f'../assets/models/{MODEL_NAME}.h5')
 
     # the masks of each image will be contained in this varible
     predicted_masks = []
     for img in original_images:
-        patches, original_shape = split_to_patches(img)
-        prediction = model.predict(x=patches, verbose=1, use_multiprocessing=True)
-        patched_img = patch_back(prediction, original_shape)
-        predicted_masks.append(clean_mask(patched_img))
+        # patches, original_shape = split_to_patches(img)
+        # prediction = model.predict(x=patches, verbose=1, use_multiprocessing=True)
+        # patched_img = patch_back(prediction, original_shape)
+        # predicted_masks.append(clean_mask(img))
+        predicted_masks.append(img)
 
     return predicted_masks
