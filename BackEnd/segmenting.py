@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Union, Tuple
 
 import cv2
 import numpy as np
@@ -52,31 +52,63 @@ def image_resize(img: np.ndarray, d_size: int = DESIRED_SIZE) -> int:
     return new_img
 
 
-def split_to_patches(image):
+def split_to_patches(image: np.ndarray, d_size=256) -> Tuple[np.ndarray, tuple]:
     """
-    Spliting a given an image of shape 1024x1024 to 16 patches
-    :param: an image we want to create from it patches
-    :returns: 16 image patches
+    the model takes in 2d array in shape (desired_size,desired_size),so in order to predict a mask for a given images,
+    we need to make patches for that image where each patch doesn't overlap with its neighbors.
+
+    we first take an image and then we increase it's shape so that it can be dividable by the desired_size , we then
+    use view_as_widows method and make patches.
+
+    :param image: a 2D numpy array.
+    :param d_size: the desired size for both the height and width of patch .
+    :returns: patches of a given image, and the shape of the image with the new added borders
     """
-    split_images = view_as_windows(image, window_shape=(256, 256), step=256)
 
-    # we use a 4-d shape because that's what our model takes as input
-    return np.reshape(split_images, (16, 256, 256, 1))
+    original_height, original_width = image.shape
+    h_border = original_height - d_size - 1
+    w_border = original_width - d_size - 1
+    i = 0
+    j = 0
+    while j <= h_border:
+        j += d_size
+    while i <= w_border:
+        i += d_size
+
+    black_h_border = (j + d_size) - original_height
+    black_w_border = (i + d_size) - original_width
+
+    new_image = np.zeros((black_h_border + original_height, black_w_border + original_width))
+
+    new_image[:original_height, :original_width] = image
+    patches = view_as_windows(new_image, (d_size, d_size), step=d_size).astype(np.float32)
+    rows, cols = patches.shape[0], patches.shape[1]
+
+    patches = patches.reshape((rows * cols, d_size, d_size, 1)) / 255
+
+    return patches, new_image.shape
 
 
-def patch_back(patches):
+def patch_back(prediction: np.ndarray, original_shape: tuple, d_size=256) -> np.ndarray:
     """
-    :param patches: an image that is split into 16 images and we want to patch back to one whole image
-    :returns: a patched image
-    """
-    patches = np.reshape(patches, (4, 4, 256, 256))
+    When thee model makes a prediction for an image it takes patches made form the same image and returns a predicted mask
+    with the same amount of patches, so we want to repatch back the prediction into the original shape of the image
+    before we made patches from it.
 
-    patched_image = np.zeros((1024, 1024))
-    h, w = 256, 256
-    for i in range(patches.shape[0]):
-        for j in range(patches.shape[1]):
-            patched_image[i * h:(i + 1) * h, j * w:(j + 1) * w] = patches[i][j]
-    return patched_image
+    :param prediction: a numpy array of the shape(number of patches,desired size,desired size,1).
+    :param original_shape: a tuple containing the original shape of the image before pachifying.
+    :param d_size: the desired size for both the height and width of patch .
+    :returns: a numpy array of the mask with the original shape.
+    """
+    rows, cols = int((prediction.shape[0] * d_size) / original_shape[1]), int(
+        (prediction.shape[0] * d_size) / original_shape[0])
+    y_pred = prediction.reshape((rows, cols, d_size, d_size))
+    pred = np.zeros((original_shape[0], original_shape[1]))
+    h, w = d_size, d_size
+    for i in range(rows):
+        for j in range(cols):
+            pred[i * h:(i + 1) * h, j * w:(j + 1) * w] = y_pred[i][j]
+    return pred
 
 
 def crop_image(img):
@@ -129,21 +161,15 @@ def segment(paths: list) -> Union[np.ndarray, list]:
     if original_images.__len__() == 0:
         return original_images
 
-    # after loading the images we would like to resize each image to the desirable size
-    resized_images = []
-    for img in original_images:
-        resized_images.append(image_resize(img))
-    resized_images = np.asarray(resized_images)
-
     # we load the trained model
     model = load_model(f'../assets/models/{MODEL_NAME}.h5')
 
     # the masks of each image will be contained in this varible
     predicted_masks = []
-    for img in resized_images:
-        patches = split_to_patches(img)
+    for img in original_images:
+        patches, original_shape = split_to_patches(img)
         prediction = model.predict(x=patches, verbose=1, use_multiprocessing=True)
-        patched_img = patch_back(patches=prediction)
+        patched_img = patch_back(prediction, original_shape)
         predicted_masks.append(clean_mask(patched_img))
 
     return predicted_masks
