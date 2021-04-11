@@ -1,4 +1,4 @@
-from typing import Union, Tuple
+from typing import Union, Tuple, Optional
 
 import cv2
 import numpy as np
@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 
 # a global size that we want to resize images to
 DESIRED_SIZE = 1024
-MODEL_NAME = "model_20-08_09-Apr-2021"
+MODEL_NAME = "model_18-22_20-Mar-2021"
 
 
 def display(img, title, cmap='gray'):
@@ -130,7 +130,7 @@ def clean_mask(image):
     return crop_image(thresh_image)
 
 
-def load_images(paths: list) -> np.ndarray:
+def load_images(paths: list) -> Union[np.ndarray, list]:
     """
      The function takes a list of image paths and loads them.
      :param paths: a list of paths for images we want to load
@@ -147,7 +147,7 @@ def load_images(paths: list) -> np.ndarray:
         image = cv2.imread(img_path, 0)  # converted to grayscale
         images.append(image.copy())
         image = []
-    return np.asarray(images)
+    return images
 
 
 def segment(paths: list) -> Union[np.ndarray, list]:
@@ -162,6 +162,7 @@ def segment(paths: list) -> Union[np.ndarray, list]:
         return original_images
 
     # we load the trained model
+
     model = load_model(f'../assets/models/{MODEL_NAME}.h5')
 
     # the masks of each image will be contained in this varible
@@ -171,10 +172,5 @@ def segment(paths: list) -> Union[np.ndarray, list]:
         prediction = model.predict(x=patches, verbose=1, use_multiprocessing=True)
         patched_img = patch_back(prediction, original_shape)
         predicted_masks.append(clean_mask(patched_img))
-
-#############################################
-    # for img in original_images:
-    #     predicted_masks.append(img)
-#############################################
 
     return predicted_masks
