@@ -369,7 +369,7 @@ class MainWindow(QMainWindow):
 
             if not len(self.ui.images_results_page_import_list):
                 label = self.ui.label_results_page_selected_picture
-                label.setText("Please load and select image.")
+                label.setText("Please predict images first.")
                 imageLabelFrame(label, 0, 0, 0)
                 toggleButtonAndChangeStyle(self.ui.btn_results_page_clear_images, False)
 
@@ -394,7 +394,7 @@ class MainWindow(QMainWindow):
             self.ui.images_results_page_import_list.clear()
             self.PredictedImages = {}
             imageLabelFrame(self.ui.label_results_page_selected_picture)
-            self.ui.label_results_page_selected_picture.setText("Please load and select image.")
+            self.ui.label_results_page_selected_picture.setText("Please predict images first.")
             toggleButtonAndChangeStyle(self.ui.btn_results_page_clear_images, False)
             toggleButtonAndChangeStyle(self.ui.btn_results_page_uncheck_all, False)
             toggleButtonAndChangeStyle(self.ui.btn_results_page_check_all, False)
