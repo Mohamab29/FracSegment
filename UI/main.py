@@ -127,7 +127,8 @@ class MainWindow(QMainWindow):
         self.ui.setupUi(self)
         self.animation = QtCore.QPropertyAnimation(self.ui.frame_left_menu, b"minimumWidth")
         self.imageListPathDict = {}
-        self.predictedImageListPathDict = {}
+        self.PredictedImages = {}
+
         self.setActions()
         self.center()
 
@@ -161,10 +162,11 @@ class MainWindow(QMainWindow):
         self.ui.btn_results_page_uncheck_all.clicked.connect(self.evnUncheckAllButtonClickedPageResults)
         self.ui.btn_results_page_delete_selected_images.clicked.connect(
             self.evnDeleteSelectedImagesButtonClickedPageResults)
+        self.ui.btn_results_page_save_images.clicked.connect(self.SaveData)
 
         self.ui.images_results_page_import_list.itemClicked.connect(self.evnImageListItemClickedPageResults)
-        self.ui.images_results_page_import_list.itemDoubleClicked.connect(
-            partial(evnImageListItemDoubleClicked, self.predictedImageListPathDict))
+        # self.ui.images_results_page_import_list.itemDoubleClicked.connect(
+        #     partial(evnImageListItemDoubleClicked, self.PredictedImages))
         self.ui.images_results_page_import_list.currentItemChanged.connect(
             partial(self.evnCurrentItemChangedPageResults, self.ui.label_results_page_selected_picture))
 
@@ -175,10 +177,44 @@ class MainWindow(QMainWindow):
             if self.ui.images_predict_page_import_list.item(index).checkState() == 2:
                 list_item = self.ui.images_predict_page_import_list.item(index)
                 checked_items.append(self.imageListPathDict[list_item.text()])
+
         segmented_images = segment(checked_items)
         if segmented_images.__len__() != 0:
-            for img in segmented_images:
-                print(convertCvImage2QtImage(img))
+            for img in range(segmented_images.__len__()):
+                segmented_image = segmented_images[img]
+                splited_image_name = checked_items[img].split('/')[-1].split('.')
+                image_name = f"{splited_image_name[0]}_predicted.{splited_image_name[1]}"
+                self.PredictedImages[image_name] = convertCvImage2QtImage(segmented_image)
+                self.addPredictedImagesToPredictedImageList(image_name)
+
+            toggleButtonAndChangeStyle(self.ui.btn_results_page_clear_images, True)
+            toggleButtonAndChangeStyle(self.ui.btn_results_page_uncheck_all, True)
+            toggleButtonAndChangeStyle(self.ui.btn_results_page_delete_selected_images, True)
+            toggleButtonAndChangeStyle(self.ui.btn_results_page_save_images, True)
+
+            if len(self.ui.images_results_page_import_list.selectedItems()) == 0:
+                label = self.ui.label_results_page_selected_picture
+                imageLabelFrame(label, 0, 0, 0)
+                label.setText("Please select image to view on the screen.")
+            self.updateNumOfImagesPageResults(self.ui.images_results_page_import_list)
+
+    def addPredictedImagesToPredictedImageList(self, image_name):
+        list_item = QtWidgets.QListWidgetItem()
+        list_item.setCheckState(QtCore.Qt.Checked)
+        list_item.setText(image_name)
+        setListItemItemStyle(list_item)
+        self.ui.images_results_page_import_list.addItem(list_item)
+
+    def SaveData(self):
+        checked_items = {}
+
+        for index in range(self.ui.images_results_page_import_list.count()):
+            if self.ui.images_results_page_import_list.item(index).checkState() == 2:
+                list_item = self.ui.images_results_page_import_list.item(index)
+                checked_items[list_item.text()] = self.PredictedImages[list_item.text()]
+
+        for image_name in checked_items:
+            checked_items[image_name].save(image_name, "png")
 
     def evnCurrentItemChangedPagePredict(self, label, item):
         if item:
@@ -187,7 +223,7 @@ class MainWindow(QMainWindow):
 
     def evnCurrentItemChangedPageResults(self, label, item):
         if item:
-            label.setPixmap(QtGui.QPixmap(self.predictedImageListPathDict[item.text()]))
+            label.setPixmap(self.PredictedImages[item.text()])
             imageLabelFrame(label, QFrame.StyledPanel, QFrame.Sunken, 3)
 
     def sharedTermsPagePredict(self):
@@ -289,32 +325,11 @@ class MainWindow(QMainWindow):
                 toggleButtonAndChangeStyle(self.ui.btn_predict_page_uncheck_all, True)
                 toggleButtonAndChangeStyle(self.ui.btn_predict_page_delete_selected_images, True)
 
-                ################################################################################################
-                self.predictedImageListPathDict[pictures_input_path[i].split('/')[-1]] = pictures_input_path[i]
-                list_item2 = QtWidgets.QListWidgetItem()
-                list_item2.setCheckState(QtCore.Qt.Checked)
-                list_item2.setText(pictures_input_path[i].split('/')[-1])
-                setListItemItemStyle(list_item2)
-                self.ui.images_results_page_import_list.addItem(list_item2)
-
-                toggleButtonAndChangeStyle(self.ui.btn_results_page_clear_images, True)
-                toggleButtonAndChangeStyle(self.ui.btn_results_page_uncheck_all, True)
-                toggleButtonAndChangeStyle(self.ui.btn_results_page_delete_selected_images, True)
-
-                ################################################################################################
-
         if len(self.ui.images_predict_page_import_list.selectedItems()) == 0:
             label = self.ui.label_predict_page_selected_picture
             imageLabelFrame(label, 0, 0, 0)
             label.setText("Please select image to view on the screen.")
         self.updateNumOfImagesPagePredict(self.ui.images_predict_page_import_list)
-
-        #####################################################################################################
-        if len(self.ui.images_results_page_import_list.selectedItems()) == 0:
-            label = self.ui.label_results_page_selected_picture
-            imageLabelFrame(label, 0, 0, 0)
-            label.setText("Please select image to view on the screen.")
-        self.updateNumOfImagesPageResults(self.ui.images_results_page_import_list)
 
     def evnDeleteSelectedImagesButtonClickedPagePredict(self):
         checked_items = []
@@ -348,7 +363,7 @@ class MainWindow(QMainWindow):
 
             for item in checked_items:
                 self.ui.images_results_page_import_list.takeItem(self.ui.images_results_page_import_list.row(item))
-                self.predictedImageListPathDict.pop(item.text())
+                self.PredictedImages.pop(item.text())
 
             self.sharedTermsPageResults()
 
@@ -374,16 +389,18 @@ class MainWindow(QMainWindow):
             self.updateNumOfImagesPagePredict(self.ui.images_predict_page_import_list)
 
     def evnClearImagesButtonClickedPageResults(self):
-        if self.predictedImageListPathDict and showDialog('Clear all images', 'Are you sure?'):
+        if self.PredictedImages and showDialog('Clear all images', 'Are you sure?'):
             self.ui.btn_results_page_clear_images.setEnabled(False)
             self.ui.images_results_page_import_list.clear()
-            self.predictedImageListPathDict = {}
+            self.PredictedImages = {}
             imageLabelFrame(self.ui.label_results_page_selected_picture)
             self.ui.label_results_page_selected_picture.setText("Please load and select image.")
-            changeButtonToDisableStyle(self.ui.btn_results_page_clear_images)
+            toggleButtonAndChangeStyle(self.ui.btn_results_page_clear_images, False)
             toggleButtonAndChangeStyle(self.ui.btn_results_page_uncheck_all, False)
             toggleButtonAndChangeStyle(self.ui.btn_results_page_check_all, False)
             toggleButtonAndChangeStyle(self.ui.btn_results_page_delete_selected_images, False)
+            toggleButtonAndChangeStyle(self.ui.btn_results_page_save_images, False)
+            toggleButtonAndChangeStyle(self.ui.btn_results_page_save_images_and_csvs, False)
             self.updateNumOfImagesPageResults(self.ui.images_results_page_import_list)
 
     def evnCheckAllButtonClickedPagePredict(self):
@@ -438,8 +455,6 @@ class MainWindow(QMainWindow):
     def updateNumOfImagesPageResults(self, widget_list):
         self.ui.label_results_page_images.setText(
             f"Images: {widget_list.count()} Checked: {numOfCheckedItems(widget_list)}")
-
-    # def renderPredictedImages(self,pixmap_list, path_list):
 
 
 if __name__ == "__main__":
