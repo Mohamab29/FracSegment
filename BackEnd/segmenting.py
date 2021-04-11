@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 
 # a global size that we want to resize images to
 DESIRED_SIZE = 1024
-MODEL_NAME = "model_18-22_20-Mar-2021"
+MODEL_NAME = "model_20-08_09-Apr-2021"
 
 
 def display(img, title, cmap='gray'):
@@ -162,15 +162,19 @@ def segment(paths: list) -> Union[np.ndarray, list]:
         return original_images
 
     # we load the trained model
-    # model = load_model(f'../assets/models/{MODEL_NAME}.h5')
+    model = load_model(f'../assets/models/{MODEL_NAME}.h5')
 
     # the masks of each image will be contained in this varible
     predicted_masks = []
     for img in original_images:
-        # patches, original_shape = split_to_patches(img)
-        # prediction = model.predict(x=patches, verbose=1, use_multiprocessing=True)
-        # patched_img = patch_back(prediction, original_shape)
-        # predicted_masks.append(clean_mask(img))
-        predicted_masks.append(img)
+        patches, original_shape = split_to_patches(img)
+        prediction = model.predict(x=patches, verbose=1, use_multiprocessing=True)
+        patched_img = patch_back(prediction, original_shape)
+        predicted_masks.append(clean_mask(patched_img))
+
+#############################################
+    # for img in original_images:
+    #     predicted_masks.append(img)
+#############################################
 
     return predicted_masks
