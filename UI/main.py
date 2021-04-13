@@ -64,7 +64,6 @@ def showDialog(title, message, icon):
     qr.moveCenter(cp)
     msg_box.move(qr.center())
 
-
     return_value = msg_box.exec()
     if return_value == QMessageBox.Ok:
         return True
@@ -121,10 +120,9 @@ def evnImageListItemDoubleClickedPageResults(dic, item):
         pil_im.show()
 
 
-# ==============> added code
 def convertCvImage2QtImage(img):
     """
-    Converting an image to a pix map.  from a numpy array to and image object to a Pixmap
+    Converting an image to a pix map. from a numpy array to and image object to a Pixmap
 
     :returns: a Pixmap object
     """
@@ -183,15 +181,18 @@ class MainWindow(QMainWindow):
 
     def evnPredictButtonClicked(self):
         checked_items = []
+        import_list = self.ui.images_predict_page_import_list
 
-        for index in range(self.ui.images_predict_page_import_list.count()):
-            if self.ui.images_predict_page_import_list.item(index).checkState() == 2:
-                list_item = self.ui.images_predict_page_import_list.item(index)
+        for index in range(import_list.count()):
+            if import_list.item(index).checkState() == 2:
+                list_item = import_list.item(index)
                 checked_items.append(self.imageListPathDict[list_item.text()])
 
         segmented_images = segment(checked_items)
-        if segmented_images.__len__() != 0:
-            for img in range(segmented_images.__len__()):
+        segmented_images_size = segmented_images.__len__()
+
+        if segmented_images_size:
+            for img in range(segmented_images_size):
                 segmented_image = segmented_images[img]
                 splited_image_name = checked_items[img].split('/')[-1].split('.')
                 image_name = f"{splited_image_name[0]}_predicted.{splited_image_name[1]}"
@@ -203,11 +204,14 @@ class MainWindow(QMainWindow):
             toggleButtonAndChangeStyle(self.ui.btn_results_page_delete_selected_images, True)
             toggleButtonAndChangeStyle(self.ui.btn_results_page_save_images, True)
 
-            if len(self.ui.images_results_page_import_list.selectedItems()) == 0:
+            import_list = self.ui.images_results_page_import_list
+            result_list_size = len(import_list.selectedItems())
+
+            if not result_list_size:
                 label = self.ui.label_results_page_selected_picture
                 imageLabelFrame(label, 0, 0, 0)
                 label.setText("Please select image to view on the screen.")
-            self.updateNumOfImagesPageResults(self.ui.images_results_page_import_list)
+            self.updateNumOfImagesPageResults(import_list)
 
     def addPredictedImagesToPredictedImageList(self, image_name):
         list_item = QtWidgets.QListWidgetItem()
@@ -326,8 +330,7 @@ class MainWindow(QMainWindow):
             self.animation.start()
 
     def evnLoadImagesButtonClicked(self):
-        file_to_open = "Image Files (*.png *.jpg *.bmp)"
-        # QFileDialog also have getSaveFileName,getSaveFileNames (with s) and more...
+        file_to_open = "Image Files (*.png *.jpg *.bmp *.tiff)"
         res = QFileDialog.getOpenFileNames(None, "Open File", "/", file_to_open)
 
         if len(res[0]) > 0:
