@@ -230,7 +230,7 @@ class MainWindow(QMainWindow):
         if res and checked_items:
             print(res)
             for image_name in checked_items:
-                checked_items[image_name].save(f"{res}{image_name}", image_name.split('.')[-1])
+                checked_items[image_name].save(f"{res}/{image_name}", image_name.split('.')[-1])
                 # pil_im.save('./name.png')
 
     def evnCurrentItemChangedPagePredict(self, label, item):
