@@ -173,7 +173,7 @@ class MainWindow(QMainWindow):
         self.ui.btn_results_page_uncheck_all.clicked.connect(self.evnUncheckAllButtonClickedPageResults)
         self.ui.btn_results_page_delete_selected_images.clicked.connect(
             self.evnDeleteSelectedImagesButtonClickedPageResults)
-        self.ui.btn_results_page_save_images.clicked.connect(self.SaveData)
+        self.ui.btn_results_page_save_images.clicked.connect(self.evnSaveSelectedImagesButtonClickedPageResults)
 
         self.ui.images_results_page_import_list.itemClicked.connect(self.evnImageListItemClickedPageResults)
         self.ui.images_results_page_import_list.itemDoubleClicked.connect(
@@ -216,7 +216,12 @@ class MainWindow(QMainWindow):
         setListItemItemStyle(list_item)
         self.ui.images_results_page_import_list.addItem(list_item)
 
-    def SaveData(self):
+    def evnSaveSelectedImagesButtonClickedPageResults(self):
+
+        res = QFileDialog.getExistingDirectory(self, "Choose Folder")
+        if res:
+            print(res)
+
         checked_items = {}
 
         for index in range(self.ui.images_results_page_import_list.count()):
@@ -224,8 +229,8 @@ class MainWindow(QMainWindow):
                 list_item = self.ui.images_results_page_import_list.item(index)
                 checked_items[list_item.text()] = self.PredictedImages[list_item.text()]
 
-        for image_name in checked_items:
-            checked_items[image_name].save(image_name, "png")
+        # for image_name in checked_items:
+        #     checked_items[image_name].save(image_name, "png")
 
     def evnCurrentItemChangedPagePredict(self, label, item):
         if item:
