@@ -2,10 +2,12 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog, QMessageBox,
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
 from ui_main import Ui_MainWindow
-from PIL import Image
 from functools import partial
 from PIL.ImageQt import ImageQt
 from BackEnd.segmenting import segment
+import io
+from PIL import Image
+from PyQt5.QtCore import QBuffer
 
 
 def changeButtonToDisableStyle(btn):
@@ -105,9 +107,18 @@ def imageLabelFrame(label, frame_shape=0, frame_shadow=0, line_width=0):
     label.setLineWidth(line_width)
 
 
-def evnImageListItemDoubleClicked(dic, item):
+def evnImageListItemDoubleClickedPagePredict(dic, item):
     if item:
         openImage(dic[item.text()])
+
+
+def evnImageListItemDoubleClickedPageResults(dic, item):
+    if item:
+        buffer = QBuffer()
+        buffer.open(QBuffer.ReadWrite)
+        dic[item.text()].save(buffer, "PNG")
+        pil_im = Image.open(io.BytesIO(buffer.data()))
+        pil_im.show()
 
 
 # ==============> added code
@@ -153,7 +164,7 @@ class MainWindow(QMainWindow):
 
         self.ui.images_predict_page_import_list.itemClicked.connect(self.evnImageListItemClickedPagePredict)
         self.ui.images_predict_page_import_list.itemDoubleClicked.connect(
-            partial(evnImageListItemDoubleClicked, self.imageListPathDict))
+            partial(evnImageListItemDoubleClickedPagePredict, self.imageListPathDict))
         self.ui.images_predict_page_import_list.currentItemChanged.connect(
             partial(self.evnCurrentItemChangedPagePredict, self.ui.label_predict_page_selected_picture))
 
@@ -165,8 +176,8 @@ class MainWindow(QMainWindow):
         self.ui.btn_results_page_save_images.clicked.connect(self.SaveData)
 
         self.ui.images_results_page_import_list.itemClicked.connect(self.evnImageListItemClickedPageResults)
-        # self.ui.images_results_page_import_list.itemDoubleClicked.connect(
-        #     partial(evnImageListItemDoubleClicked, self.PredictedImages))
+        self.ui.images_results_page_import_list.itemDoubleClicked.connect(
+            partial(evnImageListItemDoubleClickedPageResults, self.PredictedImages))
         self.ui.images_results_page_import_list.currentItemChanged.connect(
             partial(self.evnCurrentItemChangedPageResults, self.ui.label_results_page_selected_picture))
 
@@ -272,8 +283,6 @@ class MainWindow(QMainWindow):
             toggleButtonAndChangeStyle(self.ui.btn_results_page_save_images, False)
         else:
             toggleButtonAndChangeStyle(self.ui.btn_results_page_save_images, True)
-
-
 
     def evnImageListItemClickedPagePredict(self):
         self.sharedTermsPagePredict()
