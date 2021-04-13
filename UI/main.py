@@ -218,10 +218,6 @@ class MainWindow(QMainWindow):
 
     def evnSaveSelectedImagesButtonClickedPageResults(self):
 
-        res = QFileDialog.getExistingDirectory(self, "Choose Folder")
-        if res:
-            print(res)
-
         checked_items = {}
 
         for index in range(self.ui.images_results_page_import_list.count()):
@@ -229,8 +225,13 @@ class MainWindow(QMainWindow):
                 list_item = self.ui.images_results_page_import_list.item(index)
                 checked_items[list_item.text()] = self.PredictedImages[list_item.text()]
 
-        # for image_name in checked_items:
-        #     checked_items[image_name].save(image_name, "png")
+        res = QFileDialog.getExistingDirectory(self, "Choose Folder")
+
+        if res and checked_items:
+            print(res)
+            for image_name in checked_items:
+                checked_items[image_name].save(f"{res}{image_name}", image_name.split('.')[-1])
+                # pil_im.save('./name.png')
 
     def evnCurrentItemChangedPagePredict(self, label, item):
         if item:
