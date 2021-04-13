@@ -52,10 +52,9 @@ def openImage(path):
     image.show()
 
 
-def showDialog(title, message):
+def showDialog(title, message, icon):
     msg_box = QMessageBox()
-
-    msg_box.setIcon(QMessageBox.Information)
+    msg_box.setIcon(icon)
     msg_box.setText(message)
     msg_box.setWindowTitle(title)
     msg_box.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
@@ -64,6 +63,7 @@ def showDialog(title, message):
     cp = QDesktopWidget().availableGeometry().center()
     qr.moveCenter(cp)
     msg_box.move(qr.center())
+
 
     return_value = msg_box.exec()
     if return_value == QMessageBox.Ok:
@@ -116,7 +116,7 @@ def evnImageListItemDoubleClickedPageResults(dic, item):
     if item:
         buffer = QBuffer()
         buffer.open(QBuffer.ReadWrite)
-        dic[item.text()].save(buffer, "PNG")
+        dic[item.text()].save(buffer, item.text().split('.')[-1])
         pil_im = Image.open(io.BytesIO(buffer.data()))
         pil_im.show()
 
@@ -356,7 +356,7 @@ class MainWindow(QMainWindow):
     def evnDeleteSelectedImagesButtonClickedPagePredict(self):
         checked_items = []
 
-        if showDialog('Delete the selected images', 'Are you sure?'):
+        if showDialog('Delete the selected images', 'Are you sure?', QMessageBox.Information):
             for index in range(self.ui.images_predict_page_import_list.count()):
                 if self.ui.images_predict_page_import_list.item(index).checkState() == 2:
                     list_item = self.ui.images_predict_page_import_list.item(index)
@@ -377,7 +377,7 @@ class MainWindow(QMainWindow):
     def evnDeleteSelectedImagesButtonClickedPageResults(self):
         checked_items = []
 
-        if showDialog('Delete the selected images', 'Are you sure?'):
+        if showDialog('Delete the selected images', 'Are you sure?', QMessageBox.Information):
             for index in range(self.ui.images_results_page_import_list.count()):
                 if self.ui.images_results_page_import_list.item(index).checkState() == 2:
                     list_item = self.ui.images_results_page_import_list.item(index)
@@ -396,7 +396,7 @@ class MainWindow(QMainWindow):
                 toggleButtonAndChangeStyle(self.ui.btn_results_page_clear_images, False)
 
     def evnClearImagesButtonClickedPagePredict(self):
-        if self.imageListPathDict and showDialog('Clear all images', 'Are you sure?'):
+        if self.imageListPathDict and showDialog('Clear all images', 'Are you sure?', QMessageBox.Information):
             btn = self.ui.btn_predict_page_clear_images
             btn.setEnabled(False)
             self.ui.images_predict_page_import_list.clear()
@@ -411,7 +411,7 @@ class MainWindow(QMainWindow):
             self.updateNumOfImagesPagePredict(self.ui.images_predict_page_import_list)
 
     def evnClearImagesButtonClickedPageResults(self):
-        if self.PredictedImages and showDialog('Clear all images', 'Are you sure?'):
+        if self.PredictedImages and showDialog('Clear all images', 'Are you sure?', QMessageBox.Information):
             self.ui.btn_results_page_clear_images.setEnabled(False)
             self.ui.images_results_page_import_list.clear()
             self.PredictedImages = {}
@@ -426,7 +426,7 @@ class MainWindow(QMainWindow):
             self.updateNumOfImagesPageResults(self.ui.images_results_page_import_list)
 
     def evnCheckAllButtonClickedPagePredict(self):
-        if showDialog('Check all images', 'Are you sure?'):
+        if showDialog('Check all images', 'Are you sure?', QMessageBox.Information):
             for index in range(self.ui.images_predict_page_import_list.count()):
                 if self.ui.images_predict_page_import_list.item(index).checkState() == 0:
                     self.ui.images_predict_page_import_list.item(index).setCheckState(2)
@@ -438,7 +438,7 @@ class MainWindow(QMainWindow):
             self.updateNumOfImagesPagePredict(self.ui.images_predict_page_import_list)
 
     def evnUncheckAllButtonClickedPagePredict(self):
-        if showDialog('Uncheck all images', 'Are you sure?'):
+        if showDialog('Uncheck all images', 'Are you sure?', QMessageBox.Information):
             for index in range(self.ui.images_predict_page_import_list.count()):
                 if self.ui.images_predict_page_import_list.item(index).checkState() == 2:
                     self.ui.images_predict_page_import_list.item(index).setCheckState(0)
@@ -450,7 +450,7 @@ class MainWindow(QMainWindow):
             self.updateNumOfImagesPagePredict(self.ui.images_predict_page_import_list)
 
     def evnCheckAllButtonClickedPageResults(self):
-        if showDialog('Check all images', 'Are you sure?'):
+        if showDialog('Check all images', 'Are you sure?', QMessageBox.Information):
             for index in range(self.ui.images_results_page_import_list.count()):
                 if self.ui.images_results_page_import_list.item(index).checkState() == 0:
                     self.ui.images_results_page_import_list.item(index).setCheckState(2)
@@ -461,7 +461,7 @@ class MainWindow(QMainWindow):
             self.updateNumOfImagesPageResults(self.ui.images_results_page_import_list)
 
     def evnUncheckAllButtonClickedPageResults(self):
-        if showDialog('Uncheck all images', 'Are you sure?'):
+        if showDialog('Uncheck all images', 'Are you sure?', QMessageBox.Information):
             for index in range(self.ui.images_results_page_import_list.count()):
                 if self.ui.images_results_page_import_list.item(index).checkState() == 2:
                     self.ui.images_results_page_import_list.item(index).setCheckState(0)
