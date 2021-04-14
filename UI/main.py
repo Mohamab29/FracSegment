@@ -188,6 +188,7 @@ class MainWindow(QMainWindow):
 
         for index in range(import_list.count()):
             if import_list.item(index).checkState() == 2:
+                # add check if the image already predicted.
                 list_item = import_list.item(index)
                 checked_items.append(self.imageListPathDict[list_item.text()])
 
