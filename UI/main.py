@@ -28,16 +28,7 @@ def changeButtonToEnableStyle(btn):
                       "}")
 
 
-def toggleButtonAndChangeStyle(btn, term):
-    if not term:
-        btn.setEnabled(False)
-        changeButtonToDisableStyle(btn)
-    elif term:
-        btn.setEnabled(True)
-        changeButtonToEnableStyle(btn)
-
-
-def toggleButtonAndChangeStyle2(pair):
+def toggleButtonAndChangeStyle(pair):
     for p in pair:
         btn = p[0]
         term = p[1]
@@ -217,7 +208,7 @@ class MainWindow(QMainWindow):
                              (self.ui.btn_results_page_delete_selected_images, True),
                              (self.ui.btn_results_page_save_images, True)]
 
-            toggleButtonAndChangeStyle2(buttons_tuple)
+            toggleButtonAndChangeStyle(buttons_tuple)
             import_list = self.ui.images_results_page_import_list
             selected_result_list_size = len(import_list.selectedItems())
 
@@ -271,21 +262,21 @@ class MainWindow(QMainWindow):
         self.updateNumOfImagesPagePredict(widget_list)
 
         if not isAtLeastOneItemChecked(widget_list):
-            toggleButtonAndChangeStyle2([(self.ui.btn_predict_page_uncheck_all, False)])
+            toggleButtonAndChangeStyle([(self.ui.btn_predict_page_uncheck_all, False)])
         else:
-            toggleButtonAndChangeStyle2([(self.ui.btn_predict_page_uncheck_all, True)])
+            toggleButtonAndChangeStyle([(self.ui.btn_predict_page_uncheck_all, True)])
 
         if isAtLeastOneItemNotChecked(widget_list):
-            toggleButtonAndChangeStyle2([(self.ui.btn_predict_page_check_all, True)])
+            toggleButtonAndChangeStyle([(self.ui.btn_predict_page_check_all, True)])
         else:
-            toggleButtonAndChangeStyle2([(self.ui.btn_predict_page_check_all, False)])
+            toggleButtonAndChangeStyle([(self.ui.btn_predict_page_check_all, False)])
 
         if numOfCheckedItems(widget_list):
-            toggleButtonAndChangeStyle2([(self.ui.btn_predict_page_predict, True)])
-            toggleButtonAndChangeStyle2([(self.ui.btn_predict_page_delete_selected_images, True)])
+            toggleButtonAndChangeStyle([(self.ui.btn_predict_page_predict, True)])
+            toggleButtonAndChangeStyle([(self.ui.btn_predict_page_delete_selected_images, True)])
         else:
-            toggleButtonAndChangeStyle2([(self.ui.btn_predict_page_predict, False)])
-            toggleButtonAndChangeStyle2([(self.ui.btn_predict_page_delete_selected_images, False)])
+            toggleButtonAndChangeStyle([(self.ui.btn_predict_page_predict, False)])
+            toggleButtonAndChangeStyle([(self.ui.btn_predict_page_delete_selected_images, False)])
 
     def sharedTermsPageResults(self):
         widget_list = self.ui.images_results_page_import_list
@@ -293,24 +284,24 @@ class MainWindow(QMainWindow):
         self.updateNumOfImagesPageResults(widget_list)
 
         if not isAtLeastOneItemChecked(widget_list):
-            toggleButtonAndChangeStyle2([(self.ui.btn_results_page_uncheck_all, False)])
+            toggleButtonAndChangeStyle([(self.ui.btn_results_page_uncheck_all, False)])
         else:
-            toggleButtonAndChangeStyle2([(self.ui.btn_results_page_uncheck_all, True)])
+            toggleButtonAndChangeStyle([(self.ui.btn_results_page_uncheck_all, True)])
 
         if isAtLeastOneItemNotChecked(widget_list):
-            toggleButtonAndChangeStyle2([(self.ui.btn_results_page_check_all, True)])
+            toggleButtonAndChangeStyle([(self.ui.btn_results_page_check_all, True)])
         else:
-            toggleButtonAndChangeStyle2([(self.ui.btn_results_page_check_all, False)])
+            toggleButtonAndChangeStyle([(self.ui.btn_results_page_check_all, False)])
 
         if numOfCheckedItems(widget_list):
-            toggleButtonAndChangeStyle2([(self.ui.btn_results_page_delete_selected_images, True)])
+            toggleButtonAndChangeStyle([(self.ui.btn_results_page_delete_selected_images, True)])
         else:
-            toggleButtonAndChangeStyle2([(self.ui.btn_results_page_delete_selected_images, False)])
+            toggleButtonAndChangeStyle([(self.ui.btn_results_page_delete_selected_images, False)])
 
         if not numOfCheckedItems(widget_list):
-            toggleButtonAndChangeStyle2([(self.ui.btn_results_page_save_images, False)])
+            toggleButtonAndChangeStyle([(self.ui.btn_results_page_save_images, False)])
         else:
-            toggleButtonAndChangeStyle2([(self.ui.btn_results_page_save_images, True)])
+            toggleButtonAndChangeStyle([(self.ui.btn_results_page_save_images, True)])
 
     def evnImageListItemClickedPagePredict(self):
         self.sharedTermsPagePredict()
@@ -327,11 +318,11 @@ class MainWindow(QMainWindow):
     def evnBtnToggleClicked(self):
         self.toggleMenu(250, True)
 
-    def toggleMenu(self, maxWidth, enable):
+    def toggleMenu(self, max_width, enable):
         if enable:
             # GET WIDTH
             width = self.ui.frame_left_menu.width()
-            max_extend = maxWidth
+            max_extend = max_width
             standard = 100
 
             # SET MAX WIDTH
@@ -355,8 +346,10 @@ class MainWindow(QMainWindow):
             self.renderInputPictureList(res[0])
 
     def renderInputPictureList(self, pictures_input_path):
+        new_image_flag = False
         for i in range(len(pictures_input_path)):
             if pictures_input_path[i].split('/')[-1] not in self.imageListPathDict:
+                new_image_flag = True
                 self.imageListPathDict[pictures_input_path[i].split('/')[-1]] = pictures_input_path[i]
                 list_item = QtWidgets.QListWidgetItem()
                 list_item.setCheckState(QtCore.Qt.Checked)
@@ -364,12 +357,12 @@ class MainWindow(QMainWindow):
                 setListItemItemStyle(list_item)
                 self.ui.images_predict_page_import_list.addItem(list_item)
 
-                buttons_tuple = [(self.ui.btn_predict_page_predict, True),
-                                 (self.ui.btn_predict_page_clear_images, True),
-                                 (self.ui.btn_predict_page_uncheck_all, True),
-                                 (self.ui.btn_predict_page_delete_selected_images, True)]
-
-                toggleButtonAndChangeStyle2(buttons_tuple)
+        if new_image_flag:
+            buttons_tuple = [(self.ui.btn_predict_page_predict, True),
+                             (self.ui.btn_predict_page_clear_images, True),
+                             (self.ui.btn_predict_page_uncheck_all, True),
+                             (self.ui.btn_predict_page_delete_selected_images, True)]
+            toggleButtonAndChangeStyle(buttons_tuple)
 
         # if len(self.ui.images_predict_page_import_list.selectedItems()) == 0:
         # imageLabelFrame(label, 0, 0, 0)
@@ -400,7 +393,7 @@ class MainWindow(QMainWindow):
                 label = self.ui.label_predict_page_selected_picture
                 label.setText("Please load and select image.")
                 imageLabelFrame(label, 0, 0, 0)
-                toggleButtonAndChangeStyle(self.ui.btn_predict_page_clear_images, False)
+                toggleButtonAndChangeStyle([(self.ui.btn_predict_page_clear_images, False)])
 
     def evnDeleteSelectedImagesButtonClickedPageResults(self):
         checked_items = []
@@ -421,7 +414,7 @@ class MainWindow(QMainWindow):
                 label = self.ui.label_results_page_selected_picture
                 label.setText("Please predict images first.")
                 imageLabelFrame(label, 0, 0, 0)
-                toggleButtonAndChangeStyle(self.ui.btn_results_page_clear_images, False)
+                toggleButtonAndChangeStyle([(self.ui.btn_results_page_clear_images, False)])
 
     def evnClearImagesButtonClickedPagePredict(self):
         if self.imageListPathDict and showDialog('Clear all images', 'Are you sure?', QMessageBox.Information):
@@ -436,7 +429,7 @@ class MainWindow(QMainWindow):
                              (self.ui.btn_predict_page_delete_selected_images, False),
                              (self.ui.btn_predict_page_clear_images, False)]
 
-            toggleButtonAndChangeStyle2(buttons_tuple)
+            toggleButtonAndChangeStyle(buttons_tuple)
             self.updateNumOfImagesPagePredict(self.ui.images_predict_page_import_list)
 
     def evnClearImagesButtonClickedPageResults(self):
@@ -454,7 +447,7 @@ class MainWindow(QMainWindow):
                              (self.ui.btn_results_page_save_images, False),
                              (self.ui.btn_results_page_save_images_and_csvs, False)]
 
-            toggleButtonAndChangeStyle2(buttons_tuple)
+            toggleButtonAndChangeStyle(buttons_tuple)
             self.updateNumOfImagesPageResults(self.ui.images_results_page_import_list)
 
     def evnCheckAllButtonClickedPagePredict(self):
@@ -468,7 +461,7 @@ class MainWindow(QMainWindow):
                              (self.ui.btn_predict_page_predict, True),
                              (self.ui.btn_predict_page_delete_selected_images, True)]
 
-            toggleButtonAndChangeStyle2(buttons_tuple)
+            toggleButtonAndChangeStyle(buttons_tuple)
             self.updateNumOfImagesPagePredict(self.ui.images_predict_page_import_list)
 
     def evnUncheckAllButtonClickedPagePredict(self):
@@ -482,7 +475,7 @@ class MainWindow(QMainWindow):
                              (self.ui.btn_predict_page_predict, False),
                              (self.ui.btn_predict_page_delete_selected_images, False)]
 
-            toggleButtonAndChangeStyle2(buttons_tuple)
+            toggleButtonAndChangeStyle(buttons_tuple)
             self.updateNumOfImagesPagePredict(self.ui.images_predict_page_import_list)
 
     def evnCheckAllButtonClickedPageResults(self):
@@ -491,12 +484,12 @@ class MainWindow(QMainWindow):
                 if self.ui.images_results_page_import_list.item(index).checkState() == 0:
                     self.ui.images_results_page_import_list.item(index).setCheckState(2)
 
-                    buttons_tuple = [(self.ui.btn_results_page_check_all, False),
-                                     (self.ui.btn_results_page_uncheck_all, True),
-                                     (self.ui.btn_results_page_delete_selected_images, True),
-                                     (self.ui.btn_results_page_save_images, True)]
+            buttons_tuple = [(self.ui.btn_results_page_check_all, False),
+                             (self.ui.btn_results_page_uncheck_all, True),
+                             (self.ui.btn_results_page_delete_selected_images, True),
+                             (self.ui.btn_results_page_save_images, True)]
 
-                    toggleButtonAndChangeStyle2(buttons_tuple)
+            toggleButtonAndChangeStyle(buttons_tuple)
             self.updateNumOfImagesPageResults(self.ui.images_results_page_import_list)
 
     def evnUncheckAllButtonClickedPageResults(self):
@@ -505,12 +498,12 @@ class MainWindow(QMainWindow):
                 if self.ui.images_results_page_import_list.item(index).checkState() == 2:
                     self.ui.images_results_page_import_list.item(index).setCheckState(0)
 
-            buttons_tuple = [(self.ui.btn_results_page_check_all, False),
-                             (self.ui.btn_results_page_uncheck_all, True),
-                             (self.ui.btn_results_page_delete_selected_images, True),
-                             (self.ui.btn_results_page_save_images, True)]
+            buttons_tuple = [(self.ui.btn_results_page_check_all, True),
+                             (self.ui.btn_results_page_uncheck_all, False),
+                             (self.ui.btn_results_page_delete_selected_images, False),
+                             (self.ui.btn_results_page_save_images, False)]
 
-            toggleButtonAndChangeStyle2(buttons_tuple)
+            toggleButtonAndChangeStyle(buttons_tuple)
             self.updateNumOfImagesPageResults(self.ui.images_results_page_import_list)
 
     def updateNumOfImagesPagePredict(self, widget_list):
