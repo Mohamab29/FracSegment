@@ -1,5 +1,4 @@
 from typing import Union, Tuple, Optional
-
 import cv2
 import numpy as np
 from tqdm import tqdm
@@ -161,17 +160,16 @@ def segment(paths: list) -> Union[np.ndarray, list]:
     if original_images.__len__() == 0:
         return original_images
 
-    print(original_images)
-    # # we load the trained model
-    #
-    # model = load_model(f'../assets/models/{MODEL_NAME}.h5')
-    #
-    # # the masks of each image will be contained in this varible
-    # predicted_masks = []
-    # for img in original_images:
-    #     patches, original_shape = split_to_patches(img)
-    #     prediction = model.predict(x=patches, verbose=1, use_multiprocessing=True)
-    #     patched_img = patch_back(prediction, original_shape)
-    #     predicted_masks.append(clean_mask(patched_img))
-    #
-    return original_images
+    # we load the trained model
+    print('here')
+    model = load_model(f'../assets/models/{MODEL_NAME}.h5')
+
+    # the masks of each image will be contained in this varible
+    predicted_masks = []
+    for img in original_images:
+        patches, original_shape = split_to_patches(img)
+        prediction = model.predict(x=patches, verbose=1, use_multiprocessing=True)
+        patched_img = patch_back(prediction, original_shape)
+        predicted_masks.append(clean_mask(patched_img))
+
+    return predicted_masks
