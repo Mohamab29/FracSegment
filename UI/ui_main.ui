@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1000</width>
-    <height>717</height>
+    <height>529</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -19,8 +19,16 @@
   <property name="windowTitle">
    <string>FractureArea</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normalon>:/assets/icons/app-icon.png</normalon>
+   </iconset>
+  </property>
   <property name="styleSheet">
    <string notr="true">background-color: rgb(45, 45, 45);</string>
+  </property>
+  <property name="toolButtonStyle">
+   <enum>Qt::ToolButtonIconOnly</enum>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -406,8 +414,20 @@ QPushButton:hover {
                     <enum>QFrame::Raised</enum>
                    </property>
                    <layout class="QGridLayout" name="gridLayout">
+                    <property name="leftMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="topMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>0</number>
+                    </property>
                     <property name="bottomMargin">
-                     <number>7</number>
+                     <number>0</number>
+                    </property>
+                    <property name="spacing">
+                     <number>0</number>
                     </property>
                     <item row="0" column="0" alignment="Qt::AlignHCenter">
                      <widget class="QLabel" name="label_predict_page_selected_picture">
@@ -703,6 +723,9 @@ QPushButton:hover {
                       <property name="enabled">
                        <bool>false</bool>
                       </property>
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
                       <property name="styleSheet">
                        <string notr="true">QPushButton {
 	color: rgb(100, 100, 100);
@@ -720,6 +743,9 @@ QPushButton:hover {
                      <widget class="QPushButton" name="pushButton_3">
                       <property name="enabled">
                        <bool>false</bool>
+                      </property>
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
                       </property>
                       <property name="styleSheet">
                        <string notr="true">QPushButton {
@@ -813,10 +839,7 @@ QPushButton:hover {
                     <property name="bottomMargin">
                      <number>0</number>
                     </property>
-                    <property name="horizontalSpacing">
-                     <number>4</number>
-                    </property>
-                    <property name="verticalSpacing">
+                    <property name="spacing">
                      <number>0</number>
                     </property>
                     <item row="0" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
@@ -938,6 +961,9 @@ QPushButton:hover {
                       <property name="enabled">
                        <bool>false</bool>
                       </property>
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
                       <property name="styleSheet">
                        <string notr="true">QPushButton {
 	color: rgb(100, 100, 100);
@@ -955,6 +981,9 @@ QPushButton:hover {
                      <widget class="QPushButton" name="btn_results_page_clear_images">
                       <property name="enabled">
                        <bool>false</bool>
+                      </property>
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
                       </property>
                       <property name="styleSheet">
                        <string notr="true">QPushButton {
@@ -986,6 +1015,9 @@ QPushButton:hover {
                       <property name="enabled">
                        <bool>false</bool>
                       </property>
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
                       <property name="styleSheet">
                        <string notr="true">QPushButton {
 	color: rgb(100, 100, 100);
@@ -1003,6 +1035,9 @@ QPushButton:hover {
                      <widget class="QPushButton" name="btn_results_page_save_csvs">
                       <property name="enabled">
                        <bool>false</bool>
+                      </property>
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
                       </property>
                       <property name="styleSheet">
                        <string notr="true">QPushButton {
@@ -1034,6 +1069,9 @@ QPushButton:hover {
                       <property name="enabled">
                        <bool>false</bool>
                       </property>
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
                       <property name="styleSheet">
                        <string notr="true">QPushButton {
 	color: rgb(100, 100, 100);
@@ -1051,6 +1089,9 @@ QPushButton:hover {
                      <widget class="QPushButton" name="btn_results_page_uncheck_all">
                       <property name="enabled">
                        <bool>false</bool>
+                      </property>
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
                       </property>
                       <property name="styleSheet">
                        <string notr="true">QPushButton {
@@ -1082,6 +1123,9 @@ QPushButton:hover {
                       <property name="enabled">
                        <bool>false</bool>
                       </property>
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
                       <property name="styleSheet">
                        <string notr="true">QPushButton {
 	color: rgb(100, 100, 100);
@@ -1099,6 +1143,9 @@ QPushButton:hover {
                      <widget class="QPushButton" name="pushButton_8">
                       <property name="enabled">
                        <bool>false</bool>
+                      </property>
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
                       </property>
                       <property name="styleSheet">
                        <string notr="true">QPushButton {
@@ -1154,6 +1201,8 @@ QPushButton:hover {
    </layout>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="icons.qrc"/>
+ </resources>
  <connections/>
 </ui>
