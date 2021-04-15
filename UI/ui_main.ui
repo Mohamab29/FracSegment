@@ -25,7 +25,8 @@
    </iconset>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(45, 45, 45);</string>
+   <string notr="true">background-color: rgb(40, 44, 52);
+</string>
   </property>
   <property name="toolButtonStyle">
    <enum>Qt::ToolButtonIconOnly</enum>
@@ -89,7 +90,7 @@
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-color: rgb(85, 170, 255);</string>
+          <string notr="true">background-color: rgb(31, 35, 40);</string>
          </property>
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
@@ -122,8 +123,13 @@
              </sizepolicy>
             </property>
             <property name="styleSheet">
-             <string notr="true">color: rgb(255, 255, 255);
-border: 0px solid;</string>
+             <string notr="true">QPushButton {
+	color: rgb(255, 255, 255);
+	border: 0px solid;
+}
+QPushButton:hover {
+	background-color: rgb(27, 30, 34);
+}</string>
             </property>
             <property name="text">
              <string/>
@@ -134,8 +140,8 @@ border: 0px solid;</string>
             </property>
             <property name="iconSize">
              <size>
-              <width>32</width>
-              <height>32</height>
+              <width>24</width>
+              <height>24</height>
              </size>
             </property>
            </widget>
@@ -150,6 +156,9 @@ border: 0px solid;</string>
            <width>0</width>
            <height>70</height>
           </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(33, 37, 43);</string>
          </property>
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
@@ -201,7 +210,7 @@ border: 0px solid;</string>
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-color: rgb(35, 35, 35);</string>
+          <string notr="true">background-color: rgb(33, 37, 43);</string>
          </property>
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
@@ -266,17 +275,26 @@ border: 0px solid;</string>
                <property name="styleSheet">
                 <string notr="true">QPushButton {
 	color: rgb(200, 200, 200);
-	background-color: rgb(35, 35, 35);
+	background-color: rgb(33, 37, 43);
 	border: 0px solid;
 }
 QPushButton:hover {
-	color: rgb(85, 170, 255);
-	background-color: rgb(55, 55, 55);
-}
-</string>
+	color: rgb(85, 150, 186);
+	background-color: rgb(50, 56, 68);
+}</string>
                </property>
                <property name="text">
                 <string>Predict</string>
+               </property>
+               <property name="icon">
+                <iconset resource="icons.qrc">
+                 <normaloff>:/assets/icons/upload-icon.png</normaloff>:/assets/icons/upload-icon.png</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>16</width>
+                 <height>16</height>
+                </size>
                </property>
                <property name="autoRepeat">
                 <bool>false</bool>
@@ -303,17 +321,26 @@ QPushButton:hover {
                <property name="styleSheet">
                 <string notr="true">QPushButton {
 	color: rgb(200, 200, 200);
-	background-color: rgb(35, 35, 35);
+	background-color: rgb(33, 37, 43);
 	border: 0px solid;
 }
 QPushButton:hover {
-	color: rgb(85, 170, 255);
-	background-color: rgb(55, 55, 55);
-}
-</string>
+	color: rgb(85, 150, 186);
+	background-color: rgb(50, 56, 68);
+}</string>
                </property>
                <property name="text">
                 <string>Results</string>
+               </property>
+               <property name="icon">
+                <iconset resource="icons.qrc">
+                 <normaloff>:/assets/icons/results-icon.png</normaloff>:/assets/icons/results-icon.png</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>16</width>
+                 <height>16</height>
+                </size>
                </property>
               </widget>
              </item>
@@ -364,17 +391,29 @@ QPushButton:hover {
                <property name="styleSheet">
                 <string notr="true">QPushButton {
 	color: rgb(200, 200, 200);
-	background-color: rgb(35, 35, 35);
+	background-color: rgb(33, 37, 43);
 	border: 0px solid;
 }
 QPushButton:hover {
-	color: rgb(85, 170, 255);
-	background-color: rgb(55, 55, 55);
-}
-</string>
+	color: rgb(85, 150, 186);
+	background-color: rgb(50, 56, 68);
+}</string>
                </property>
                <property name="text">
                 <string>Help</string>
+               </property>
+               <property name="icon">
+                <iconset resource="icons.qrc">
+                 <normaloff>:/assets/icons/info-icon.png</normaloff>:/assets/icons/info-icon.png</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>16</width>
+                 <height>16</height>
+                </size>
+               </property>
+               <property name="shortcut">
+                <string/>
                </property>
               </widget>
              </item>
@@ -513,7 +552,7 @@ QPushButton:hover {
                        </font>
                       </property>
                       <property name="styleSheet">
-                       <string notr="true">QLabel {color: rgb(255, 255, 255)}</string>
+                       <string notr="true">QLabel {color: rgb(200, 200, 200)}</string>
                       </property>
                       <property name="text">
                        <string>Images: 0 Checked: 0</string>
@@ -529,7 +568,7 @@ QPushButton:hover {
                        </size>
                       </property>
                       <property name="styleSheet">
-                       <string notr="true">background-color: rgb(43, 43, 43);</string>
+                       <string notr="true">background-color: rgb(33, 37, 43);</string>
                       </property>
                       <property name="frameShape">
                        <enum>QFrame::Panel</enum>
@@ -807,6 +846,12 @@ QPushButton:hover {
                       <property name="text">
                        <string>Predict</string>
                       </property>
+                      <property name="icon">
+                       <iconset resource="icons.qrc">
+                        <normaloff>:/assets/icons/play-icon.png</normaloff>
+                        <disabledoff>:/assets/icons/play-icon-disable.png</disabledoff>
+                        <disabledon>:/assets/icons/play-icon-disable.png</disabledon>:/assets/icons/play-icon.png</iconset>
+                      </property>
                      </widget>
                     </item>
                    </layout>
@@ -919,7 +964,7 @@ QPushButton:hover {
                        </font>
                       </property>
                       <property name="styleSheet">
-                       <string notr="true">QLabel {color: rgb(255, 255, 255)}</string>
+                       <string notr="true">QLabel {color: rgb(200, 200, 200)}</string>
                       </property>
                       <property name="text">
                        <string>Images: 0 Checked: 0</string>
@@ -929,7 +974,7 @@ QPushButton:hover {
                     <item>
                      <widget class="QListWidget" name="images_results_page_import_list">
                       <property name="styleSheet">
-                       <string notr="true">background-color: rgb(43, 43, 43);</string>
+                       <string notr="true">background-color: rgb(33, 37, 43);</string>
                       </property>
                       <property name="frameShape">
                        <enum>QFrame::Panel</enum>

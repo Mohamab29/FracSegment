@@ -2,5 +2,27 @@
 <qresource>
     <file>assets/icons/app-icon.png</file>
     <file>assets/icons/menu-icon.png</file>
+    <file>assets/icons/close_icon.svg</file>
+    <file>assets/icons/home_icon.svg</file>
+    <file>assets/icons/icon_app_top.svg</file>
+    <file>assets/icons/maximize_icon.svg</file>
+    <file>assets/icons/minimize_icon.svg</file>
+    <file>assets/icons/open_icon.svg</file>
+    <file>assets/icons/resize_icon.svg</file>
+    <file>assets/icons/restore_icon.svg</file>
+    <file>assets/icons/restore-window.svg</file>
+    <file>assets/icons/results-icon.svg</file>
+    <file>assets/icons/run-button.svg</file>
+    <file>assets/icons/save_icon.svg</file>
+    <file>assets/icons/settings_icon.svg</file>
+    <file>assets/icons/toggle_icon.svg</file>
+    <file>assets/icons/upload-icon.svg</file>
+    <file>assets/icons/info-icon.png</file>
+    <file>assets/icons/upload-icon.png</file>
+    <file>assets/icons/results-icon.png</file>
+    <file>assets/icons/play-icon.png</file>
+    <file>assets/icons/play-icon-disable.png</file>
+
+
 </qresource>
 </RCC>

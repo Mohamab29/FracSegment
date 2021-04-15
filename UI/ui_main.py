@@ -16,7 +16,8 @@ class Ui_MainWindow(object):
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/assets/icons/app-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
         MainWindow.setWindowIcon(icon)
-        MainWindow.setStyleSheet("background-color: rgb(45, 45, 45);")
+        MainWindow.setStyleSheet("background-color: rgb(40, 44, 52);\n"
+"")
         MainWindow.setToolButtonStyle(QtCore.Qt.ToolButtonIconOnly)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -36,7 +37,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.frame_toggle = QtWidgets.QFrame(self.Top_Bar)
         self.frame_toggle.setMaximumSize(QtCore.QSize(100, 40))
-        self.frame_toggle.setStyleSheet("background-color: rgb(85, 170, 255);")
+        self.frame_toggle.setStyleSheet("background-color: rgb(31, 35, 40);")
         self.frame_toggle.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_toggle.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_toggle.setObjectName("frame_toggle")
@@ -50,18 +51,24 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.btn_toggle.sizePolicy().hasHeightForWidth())
         self.btn_toggle.setSizePolicy(sizePolicy)
-        self.btn_toggle.setStyleSheet("color: rgb(255, 255, 255);\n"
-"border: 0px solid;")
+        self.btn_toggle.setStyleSheet("QPushButton {\n"
+"    color: rgb(255, 255, 255);\n"
+"    border: 0px solid;\n"
+"}\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(27, 30, 34);\n"
+"}")
         self.btn_toggle.setText("")
         icon1 = QtGui.QIcon()
         icon1.addPixmap(QtGui.QPixmap(":/assets/icons/menu-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.btn_toggle.setIcon(icon1)
-        self.btn_toggle.setIconSize(QtCore.QSize(32, 32))
+        self.btn_toggle.setIconSize(QtCore.QSize(24, 24))
         self.btn_toggle.setObjectName("btn_toggle")
         self.verticalLayout_2.addWidget(self.btn_toggle)
         self.horizontalLayout.addWidget(self.frame_toggle)
         self.frame_top = QtWidgets.QFrame(self.Top_Bar)
         self.frame_top.setMinimumSize(QtCore.QSize(0, 70))
+        self.frame_top.setStyleSheet("background-color: rgb(33, 37, 43);")
         self.frame_top.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_top.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_top.setObjectName("frame_top")
@@ -78,7 +85,7 @@ class Ui_MainWindow(object):
         self.frame_left_menu = QtWidgets.QFrame(self.Content)
         self.frame_left_menu.setMinimumSize(QtCore.QSize(100, 0))
         self.frame_left_menu.setMaximumSize(QtCore.QSize(70, 16777215))
-        self.frame_left_menu.setStyleSheet("background-color: rgb(35, 35, 35);")
+        self.frame_left_menu.setStyleSheet("background-color: rgb(33, 37, 43);")
         self.frame_left_menu.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_left_menu.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_left_menu.setObjectName("frame_left_menu")
@@ -102,14 +109,17 @@ class Ui_MainWindow(object):
         self.btn_page_predict.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btn_page_predict.setStyleSheet("QPushButton {\n"
 "    color: rgb(200, 200, 200);\n"
-"    background-color: rgb(35, 35, 35);\n"
+"    background-color: rgb(33, 37, 43);\n"
 "    border: 0px solid;\n"
 "}\n"
 "QPushButton:hover {\n"
-"    color: rgb(85, 170, 255);\n"
-"    background-color: rgb(55, 55, 55);\n"
-"}\n"
-"")
+"    color: rgb(85, 150, 186);\n"
+"    background-color: rgb(50, 56, 68);\n"
+"}")
+        icon2 = QtGui.QIcon()
+        icon2.addPixmap(QtGui.QPixmap(":/assets/icons/upload-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.btn_page_predict.setIcon(icon2)
+        self.btn_page_predict.setIconSize(QtCore.QSize(16, 16))
         self.btn_page_predict.setAutoRepeat(False)
         self.btn_page_predict.setObjectName("btn_page_predict")
         self.verticalLayout_4.addWidget(self.btn_page_predict)
@@ -122,14 +132,17 @@ class Ui_MainWindow(object):
         self.btn_page_results.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btn_page_results.setStyleSheet("QPushButton {\n"
 "    color: rgb(200, 200, 200);\n"
-"    background-color: rgb(35, 35, 35);\n"
+"    background-color: rgb(33, 37, 43);\n"
 "    border: 0px solid;\n"
 "}\n"
 "QPushButton:hover {\n"
-"    color: rgb(85, 170, 255);\n"
-"    background-color: rgb(55, 55, 55);\n"
-"}\n"
-"")
+"    color: rgb(85, 150, 186);\n"
+"    background-color: rgb(50, 56, 68);\n"
+"}")
+        icon3 = QtGui.QIcon()
+        icon3.addPixmap(QtGui.QPixmap(":/assets/icons/results-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.btn_page_results.setIcon(icon3)
+        self.btn_page_results.setIconSize(QtCore.QSize(16, 16))
         self.btn_page_results.setObjectName("btn_page_results")
         self.verticalLayout_4.addWidget(self.btn_page_results)
         self.verticalLayout_3.addWidget(self.frame_top_menus, 0, QtCore.Qt.AlignTop)
@@ -150,14 +163,18 @@ class Ui_MainWindow(object):
         self.btn_page_help.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btn_page_help.setStyleSheet("QPushButton {\n"
 "    color: rgb(200, 200, 200);\n"
-"    background-color: rgb(35, 35, 35);\n"
+"    background-color: rgb(33, 37, 43);\n"
 "    border: 0px solid;\n"
 "}\n"
 "QPushButton:hover {\n"
-"    color: rgb(85, 170, 255);\n"
-"    background-color: rgb(55, 55, 55);\n"
-"}\n"
-"")
+"    color: rgb(85, 150, 186);\n"
+"    background-color: rgb(50, 56, 68);\n"
+"}")
+        icon4 = QtGui.QIcon()
+        icon4.addPixmap(QtGui.QPixmap(":/assets/icons/info-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.btn_page_help.setIcon(icon4)
+        self.btn_page_help.setIconSize(QtCore.QSize(16, 16))
+        self.btn_page_help.setShortcut("")
         self.btn_page_help.setObjectName("btn_page_help")
         self.verticalLayout_15.addWidget(self.btn_page_help)
         self.verticalLayout_3.addWidget(self.frame_bottom_menus, 0, QtCore.Qt.AlignBottom)
@@ -216,12 +233,12 @@ class Ui_MainWindow(object):
         font.setStrikeOut(False)
         font.setKerning(True)
         self.label_predict_page_images.setFont(font)
-        self.label_predict_page_images.setStyleSheet("QLabel {color: rgb(255, 255, 255)}")
+        self.label_predict_page_images.setStyleSheet("QLabel {color: rgb(200, 200, 200)}")
         self.label_predict_page_images.setObjectName("label_predict_page_images")
         self.verticalLayout_11.addWidget(self.label_predict_page_images, 0, QtCore.Qt.AlignHCenter)
         self.images_predict_page_import_list = QtWidgets.QListWidget(self.frame_predict_page_up_list)
         self.images_predict_page_import_list.setMinimumSize(QtCore.QSize(150, 0))
-        self.images_predict_page_import_list.setStyleSheet("background-color: rgb(43, 43, 43);")
+        self.images_predict_page_import_list.setStyleSheet("background-color: rgb(33, 37, 43);")
         self.images_predict_page_import_list.setFrameShape(QtWidgets.QFrame.Panel)
         self.images_predict_page_import_list.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.images_predict_page_import_list.setLineWidth(1)
@@ -354,6 +371,11 @@ class Ui_MainWindow(object):
 "QPushButton:hover {\n"
 "    color: rgb(85, 170, 255);\n"
 "}")
+        icon5 = QtGui.QIcon()
+        icon5.addPixmap(QtGui.QPixmap(":/assets/icons/play-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon5.addPixmap(QtGui.QPixmap(":/assets/icons/play-icon-disable.png"), QtGui.QIcon.Disabled, QtGui.QIcon.Off)
+        icon5.addPixmap(QtGui.QPixmap(":/assets/icons/play-icon-disable.png"), QtGui.QIcon.Disabled, QtGui.QIcon.On)
+        self.btn_predict_page_predict.setIcon(icon5)
         self.btn_predict_page_predict.setObjectName("btn_predict_page_predict")
         self.verticalLayout_13.addWidget(self.btn_predict_page_predict)
         self.horizontalLayout_8.addWidget(self.frame_predict_page_buttons_predict_button)
@@ -399,11 +421,11 @@ class Ui_MainWindow(object):
         font.setBold(True)
         font.setWeight(75)
         self.label_results_page_images.setFont(font)
-        self.label_results_page_images.setStyleSheet("QLabel {color: rgb(255, 255, 255)}")
+        self.label_results_page_images.setStyleSheet("QLabel {color: rgb(200, 200, 200)}")
         self.label_results_page_images.setObjectName("label_results_page_images")
         self.verticalLayout_9.addWidget(self.label_results_page_images, 0, QtCore.Qt.AlignHCenter)
         self.images_results_page_import_list = QtWidgets.QListWidget(self.frame_results_page_up_list)
-        self.images_results_page_import_list.setStyleSheet("background-color: rgb(43, 43, 43);")
+        self.images_results_page_import_list.setStyleSheet("background-color: rgb(33, 37, 43);")
         self.images_results_page_import_list.setFrameShape(QtWidgets.QFrame.Panel)
         self.images_results_page_import_list.setObjectName("images_results_page_import_list")
         self.verticalLayout_9.addWidget(self.images_results_page_import_list)
