@@ -1,5 +1,6 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource>
     <file>assets/icons/app-icon.png</file>
+    <file>assets/icons/menu-icon.png</file>
 </qresource>
 </RCC>

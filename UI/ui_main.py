@@ -52,6 +52,11 @@ class Ui_MainWindow(object):
         self.btn_toggle.setSizePolicy(sizePolicy)
         self.btn_toggle.setStyleSheet("color: rgb(255, 255, 255);\n"
 "border: 0px solid;")
+        self.btn_toggle.setText("")
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap(":/assets/icons/menu-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.btn_toggle.setIcon(icon1)
+        self.btn_toggle.setIconSize(QtCore.QSize(32, 32))
         self.btn_toggle.setObjectName("btn_toggle")
         self.verticalLayout_2.addWidget(self.btn_toggle)
         self.horizontalLayout.addWidget(self.frame_toggle)
@@ -554,7 +559,6 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "FractureArea"))
-        self.btn_toggle.setText(_translate("MainWindow", "TOGGLE"))
         self.btn_page_predict.setText(_translate("MainWindow", "Predict"))
         self.btn_page_results.setText(_translate("MainWindow", "Results"))
         self.btn_page_help.setText(_translate("MainWindow", "Help"))
