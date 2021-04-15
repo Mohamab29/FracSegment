@@ -141,6 +141,7 @@ class MainWindow(QMainWindow):
         self.imageListPathDict = {}
         self.PredictedImages = {}
 
+
         self.setActions()
         self.center()
 
@@ -317,20 +318,27 @@ class MainWindow(QMainWindow):
         self.ui.stackedWidget.setCurrentWidget(self.ui.frame_results_page)
 
     def evnBtnToggleClicked(self):
-        self.toggleMenu(250, True)
+        self.toggleMenu(150, True)
 
     def toggleMenu(self, max_width, enable):
         if enable:
             # GET WIDTH
             width = self.ui.frame_left_menu.width()
             max_extend = max_width
-            standard = 100
+            standard = 50
 
             # SET MAX WIDTH
-            if width == 100:
+            if width == 50:
                 width_extended = max_extend
+                self.ui.btn_page_predict.setText('Predict')
+                self.ui.btn_page_results.setText('Results')
+                self.ui.btn_page_help.setText('Help')
+
             else:
                 width_extended = standard
+                self.ui.btn_page_predict.setText('')
+                self.ui.btn_page_results.setText('')
+                self.ui.btn_page_help.setText('')
 
             # ANIMATION
             self.animation.setDuration(400)
@@ -338,6 +346,7 @@ class MainWindow(QMainWindow):
             self.animation.setEndValue(width_extended)
             self.animation.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
             self.animation.start()
+
 
     def evnLoadImagesButtonClicked(self):
         file_to_open = "Image Files (*.png *.jpg *.bmp *.tiff)"

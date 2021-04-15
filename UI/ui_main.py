@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1000, 529)
+        MainWindow.resize(1000, 583)
         MainWindow.setMinimumSize(QtCore.QSize(1000, 500))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/assets/icons/app-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
@@ -36,7 +36,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout.setSpacing(0)
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.frame_toggle = QtWidgets.QFrame(self.Top_Bar)
-        self.frame_toggle.setMaximumSize(QtCore.QSize(100, 40))
+        self.frame_toggle.setMaximumSize(QtCore.QSize(50, 40))
         self.frame_toggle.setStyleSheet("background-color: rgb(31, 35, 40);")
         self.frame_toggle.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_toggle.setFrameShadow(QtWidgets.QFrame.Raised)
@@ -83,7 +83,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_2.setSpacing(0)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.frame_left_menu = QtWidgets.QFrame(self.Content)
-        self.frame_left_menu.setMinimumSize(QtCore.QSize(100, 0))
+        self.frame_left_menu.setMinimumSize(QtCore.QSize(50, 0))
         self.frame_left_menu.setMaximumSize(QtCore.QSize(70, 16777215))
         self.frame_left_menu.setStyleSheet("background-color: rgb(33, 37, 43);")
         self.frame_left_menu.setFrameShape(QtWidgets.QFrame.StyledPanel)
@@ -116,10 +116,11 @@ class Ui_MainWindow(object):
 "    color: rgb(85, 150, 186);\n"
 "    background-color: rgb(50, 56, 68);\n"
 "}")
+        self.btn_page_predict.setText("")
         icon2 = QtGui.QIcon()
         icon2.addPixmap(QtGui.QPixmap(":/assets/icons/upload-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.btn_page_predict.setIcon(icon2)
-        self.btn_page_predict.setIconSize(QtCore.QSize(16, 16))
+        self.btn_page_predict.setIconSize(QtCore.QSize(24, 32))
         self.btn_page_predict.setAutoRepeat(False)
         self.btn_page_predict.setObjectName("btn_page_predict")
         self.verticalLayout_4.addWidget(self.btn_page_predict)
@@ -139,10 +140,11 @@ class Ui_MainWindow(object):
 "    color: rgb(85, 150, 186);\n"
 "    background-color: rgb(50, 56, 68);\n"
 "}")
+        self.btn_page_results.setText("")
         icon3 = QtGui.QIcon()
         icon3.addPixmap(QtGui.QPixmap(":/assets/icons/results-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.btn_page_results.setIcon(icon3)
-        self.btn_page_results.setIconSize(QtCore.QSize(16, 16))
+        self.btn_page_results.setIconSize(QtCore.QSize(32, 24))
         self.btn_page_results.setObjectName("btn_page_results")
         self.verticalLayout_4.addWidget(self.btn_page_results)
         self.verticalLayout_3.addWidget(self.frame_top_menus, 0, QtCore.Qt.AlignTop)
@@ -170,10 +172,11 @@ class Ui_MainWindow(object):
 "    color: rgb(85, 150, 186);\n"
 "    background-color: rgb(50, 56, 68);\n"
 "}")
+        self.btn_page_help.setText("")
         icon4 = QtGui.QIcon()
         icon4.addPixmap(QtGui.QPixmap(":/assets/icons/info-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.btn_page_help.setIcon(icon4)
-        self.btn_page_help.setIconSize(QtCore.QSize(16, 16))
+        self.btn_page_help.setIconSize(QtCore.QSize(24, 24))
         self.btn_page_help.setShortcut("")
         self.btn_page_help.setObjectName("btn_page_help")
         self.verticalLayout_15.addWidget(self.btn_page_help)
@@ -581,9 +584,6 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "FractureArea"))
-        self.btn_page_predict.setText(_translate("MainWindow", "Predict"))
-        self.btn_page_results.setText(_translate("MainWindow", "Results"))
-        self.btn_page_help.setText(_translate("MainWindow", "Help"))
         self.label_predict_page_selected_picture.setText(_translate("MainWindow", "Please load and select image."))
         self.label_predict_page_images.setText(_translate("MainWindow", "Images: 0 Checked: 0"))
         self.btn_predict_page_load_images.setText(_translate("MainWindow", "Load Images"))
