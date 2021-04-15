@@ -341,7 +341,7 @@ class MainWindow(QMainWindow):
                 self.ui.btn_page_help.setText('')
 
             # ANIMATION
-            self.animation.setDuration(400)
+            self.animation.setDuration(10)
             self.animation.setStartValue(width)
             self.animation.setEndValue(width_extended)
             self.animation.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
