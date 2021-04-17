@@ -12,7 +12,10 @@ from PyQt5.QtCore import QBuffer
 
 def changeButtonToDisableStyle(btn):
     btn.setStyleSheet("QPushButton {\n"
-                      "    color: rgb(100, 100, 100);\n"
+                      "    color: rgb(43, 49, 56);\n"
+                      "    background-color: rgb(33, 37, 43);\n"
+                      "    border: 2px outset rgb(37, 40, 45);\n"
+                      "    border-radius: 3px;\n"
                       "}\n"
                       "QPushButton:hover {\n"
                       "    color: rgb(85, 170, 255);\n"
@@ -21,10 +24,14 @@ def changeButtonToDisableStyle(btn):
 
 def changeButtonToEnableStyle(btn):
     btn.setStyleSheet("QPushButton {\n"
-                      "    color: rgb(200, 200, 200);\n"
+                      "    color: rgb(140, 166, 179);\n"
+                      "    background-color: rgb(33, 37, 43);\n"
+                      "    border: 2px outset rgb(70, 76, 85);\n"
+                      "    border-radius: 3px;\n"
                       "}\n"
                       "QPushButton:hover {\n"
                       "    color: rgb(85, 170, 255);\n"
+                      "    background-color: rgb(42, 47, 54);\n"
                       "}")
 
 
@@ -141,7 +148,6 @@ class MainWindow(QMainWindow):
         self.imageListPathDict = {}
         self.PredictedImages = {}
 
-
         self.setActions()
         self.center()
 
@@ -152,10 +158,10 @@ class MainWindow(QMainWindow):
         self.move(qr.topLeft())
 
     def setActions(self):
-        self.ui.btn_page_predict.clicked.connect(self.evnPage1BtnClicked)
+        self.ui.btn_page_predict.clicked.connect(self.evnPagePredictClicked)
         self.ui.btn_page_results.clicked.connect(self.evnPageResultsClicked)
+        self.ui.btn_page_help.clicked.connect(self.evnPageHelpClicked)
         self.ui.btn_toggle.clicked.connect(self.evnBtnToggleClicked)
-
         self.ui.btn_predict_page_load_images.clicked.connect(self.evnLoadImagesButtonClicked)
         self.ui.btn_predict_page_clear_images.clicked.connect(self.evnClearImagesButtonClickedPagePredict)
         self.ui.btn_predict_page_check_all.clicked.connect(self.evnCheckAllButtonClickedPagePredict)
@@ -311,11 +317,14 @@ class MainWindow(QMainWindow):
     def evnImageListItemClickedPageResults(self):
         self.sharedTermsPageResults()
 
-    def evnPage1BtnClicked(self):
+    def evnPagePredictClicked(self):
         self.ui.stackedWidget.setCurrentWidget(self.ui.frame_predict_page)
 
     def evnPageResultsClicked(self):
         self.ui.stackedWidget.setCurrentWidget(self.ui.frame_results_page)
+
+    def evnPageHelpClicked(self):
+        self.ui.stackedWidget.setCurrentWidget(self.ui.frame_help_page)
 
     def evnBtnToggleClicked(self):
         self.toggleMenu(150, True)
@@ -346,7 +355,6 @@ class MainWindow(QMainWindow):
             self.animation.setEndValue(width_extended)
             self.animation.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
             self.animation.start()
-
 
     def evnLoadImagesButtonClicked(self):
         file_to_open = "Image Files (*.png *.jpg *.bmp *.tiff)"

@@ -22,6 +22,17 @@
     <file>assets/icons/results-icon.png</file>
     <file>assets/icons/play-icon.png</file>
     <file>assets/icons/play-icon-disable.png</file>
+    <file>assets/icons/check-all-icon.png</file>
+    <file>assets/icons/load-icon.png</file>
+    <file>assets/icons/delete-icon.png</file>
+    <file>assets/icons/uncheck-all-icon.png</file>
+    <file>assets/icons/clear-icon.png</file>
+    <file>assets/icons/save-csv-icon.png</file>
+    <file>assets/icons/save-images-icon.png</file>
+    <file>assets/icons/save-icon.png</file>
+
+
+
 
 
 </qresource>
