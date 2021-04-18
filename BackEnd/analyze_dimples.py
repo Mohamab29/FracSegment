@@ -1,6 +1,6 @@
 import os
-from typing import Tuple, List
-
+from typing import Tuple, List, Dict
+from segmenting import display
 import numpy as np
 import cv2
 import random
@@ -58,113 +58,213 @@ def calcCentroid(cnt: np.ndarray) -> Tuple[int, int]:
 
 def findIntervals(areas: list, num_of_bins: int) -> List[pd.Interval]:
     """
-    :param areas: a list of contour ares.
+    :param areas: a list of contour areas.
     :param num_of_bins: the number of intervals.
     :return: a list containing Intervals of class pd.Intervals, The number may be less than num_of_bins because
     of duplicated intervals.
     """
-    return list(dict(pd.qcut(areas, num_of_bins, duplicates="drop").value_counts()).keys())
+    return list(dict(pd.qcut(areas, num_of_bins, duplicates="drop", precision=4).value_counts()).keys())
 
 
-def analyze_default(images: List[np.ndarray], file_names: List[str]):
+def fitToIntervals(areas: list, num_of_bins: int):
     """
-    In this function we quantify each dimple (internal and external) in each image and save the results for
-    each image separately.
+    fitting the area of each contour to the suitable interval.
 
-    :param images: list of 2D numpy arrays (predictions).
-    :param file_names: the name of the image, it will be used for the name of the csv file,example: image_analysis.csv
+    :param areas: a list of contour areas.
+    :param num_of_bins: the number of intervals.
+    :return: a list containing each suitable interval for a given area.
+    """
+    intervals = findIntervals(areas=areas, num_of_bins=num_of_bins)
+    interval_ranges = []
+    for area in areas:
+        interval_ranges.append(
+            str([interval for interval in intervals if area in interval][0]))
+    return interval_ranges
+
+
+def saveAnalysisToCSV(image_analysis: Dict, file_name: str):
+    """
+
+    :param image_analysis:
+    :param file_name: the name of the image, it will be used for the name of the csv file,example: image_analysis.csv
     :return:
     """
-    assert images.__len__() != 0, "Function received empty images list."
-    min_limit = 300  # filtering contours with area less than minimum limit.
-    num_of_bins = 10
-    pixel_to_um = 5
-    for index in range(images.__len__()):
-        image_analysis = {
-            "contour_index": [],
-            "contour_type": [],
-            "area": [],
-            "centroid": [],
-            "interval_range": []
-        }
+    df = pd.DataFrame(image_analysis)
+    if not os.path.exists("csv_files/"):
+        os.makedirs("csv_files/")
+    df = df.sort_values(by='area', ascending=False)
+    df.to_csv(f"csv_files/{file_name}_analysis.csv", index=False)
 
-        contours, hierarchy = cv2.findContours(images[index], cv2.RETR_CCOMP, cv2.CHAIN_APPROX_NONE)
-        contours_areas = list(map(lambda x: cv2.contourArea(x), contours))
-        max_limit = max(contours_areas)
-        _, bin_edges = np.histogram(contours_areas, bins=num_of_bins, range=(min_limit, max_limit))
-        for i in range(len(contours)):
-            hier = hierarchy[0][i][3]
-            cnt = contours[i]
-            cnt_area = cv2.contourArea(cnt)
-            if min_limit < cnt_area < max_limit:
-                image_analysis["contour_index"].append(i)
-                if hier == -1:
-                    image_analysis["contour_type"].append("external")
-                else:
-                    image_analysis["contour_type"].append("internal")
-                image_analysis["area"].append(cnt_area / pixel_to_um)
-                image_analysis["centroid"].append(calcCentroid(cnt))
 
-        intervals = findIntervals(areas=image_analysis["area"], num_of_bins=num_of_bins)
+def saveImagesAnalysisToCSV(images_analysis: list, file_names: list):
+    """
 
-        for area in image_analysis["area"]:
-            image_analysis["interval_range"].append(
-                str([interval for interval in intervals if area in interval][0]))
-
-        df = pd.DataFrame(image_analysis)
-        if not os.path.exists("csv_files/"):
-            os.makedirs("csv_files/")
+    :param images_analysis:
+    :param file_names:
+    :return:
+    """
+    for index in range(images_analysis.__len__()):
         file_name = file_names[index].split('.')[0]
-        df = df.sort_values(by='area', ascending=False)
-        df.to_csv(f"csv_files/{file_name}_analysis.csv", index=False)
+        saveAnalysisToCSV(images_analysis[index], file_name)
 
 
-# def analyze(images: list
-#             , show_ex_contours=True
-#             , show_in_contours=True
-#             , calc_centroid=True
-#             , number_of_bins=10
-#             , min_limit=300
-#             , max_limit=1000000):
+# def analyze_default(images: List[np.ndarray]
+#                     , file_names: List[str]
+#                     , num_of_bins=10
+#                     , min_limit=300
+#                     , max_limit=100000
+#                     , ret_images=False):
 #     """
-#     This function takes 2D numpy arrays which are black and white images, and finds contours in these images
-#     and calculates different properties for each contour
+#     In this function we quantify each dimple (internal and external) in each image and save the results for
+#     each image separately.
 #
-#     :param images: 2D numpy array (black and white image).
-#     :param show_ex_contours: boolean, if the user wants to quantify the external contours.
-#     :param show_in_contours: boolean, if the user wants to quantify the internal contours.
-#     :param calc_centroid: boolean, if the user wants to calculate the centroid.
-#     :param number_of_bins: the number of intervals.
-#     :param min_limit: minimum area in an image.
-#     :param max_limit: maximum area in an image.
+#     :param images: list of 2D numpy arrays (predictions).
+#     :param file_names: the name of the image, it will be used for the name of the csv file,example: image_analysis.csv
+#     :param num_of_bins: the number of intervals.
+#     :param min_limit: minimum area in an image and filtering contours with area bigger than minimum limit.
+#     :param max_limit: maximum area in an image and filtering contours with area less than maximum limit.
+#     :param ret_images: if want to return the images with drawn contours, and each contour (ex/in) is colored randomly.
+#     :return:
 #     """
 #     assert images.__len__() != 0, "Function received empty images list."
-#     for image in images:
-#         if show_ex_contours and show_in_contours:
-#             contours, hierarchy = cv2.findContours(image, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_NONE)
-#             out_p = np.zeros(image.shape + (3,), dtype=np.uint8)
+#
+#     pixel_to_um = 5
+#     for index in range(images.__len__()):
+#         image_analysis = {
+#             "contour_index": [],
+#             "contour_type": [],
+#             "area": [],
+#             "centroid": [],
+#             "interval_range": []
+#         }
+#
+#         contours, hierarchy = cv2.findContours(images[index], cv2.RETR_CCOMP, cv2.CHAIN_APPROX_NONE)
+#
 #         for i in range(len(contours)):
-#             hier = hierarchy[0][i][3]
-#             cnt_color = random_color()
 #             cnt = contours[i]
+#             hier = hierarchy[0][i][3]
 #             cnt_area = cv2.contourArea(cnt)
 #             if min_limit < cnt_area < max_limit:
+#                 image_analysis["contour_index"].append(i)
 #                 if hier == -1:
-#                     # if hier == -1:
-#                     cv2.drawContours(external_contours, [cnt], -1, cnt_color, 2)
-#                     if calc_centroid:
-#                         cx, cy = calcCentroid(cnt)
-#                         external_contours = cv2.circle(
-#                             external_contours, (cx, cy), radius=3,
-#                             color=cnt_color, thickness=-1)
+#                     image_analysis["contour_type"].append("external")
 #                 else:
-#                     cx, cy = calcCentroid(cnt)
-#                     cv2.drawContours(internal_contours, [cnt], -1, cnt_color, 2)
-#                     internal_contours = cv2.circle(
-#                         internal_contours, (cx, cy), radius=3,
-#                         color=cnt_color, thickness=-1)
+#                     image_analysis["contour_type"].append("internal")
+#                 image_analysis["area"].append(cnt_area / pixel_to_um)
+#                 image_analysis["centroid"].append(calcCentroid(cnt))
+#
+#         image_analysis["interval_range"] = fitToIntervals(areas=image_analysis["area"], num_of_bins=num_of_bins)
+#         file_name = file_names[index].split('.')[0]
+#         saveAnalysisToCSV(image_analysis, file_name)
+
+
+def analyze(images: List[np.ndarray]
+            , show_ex_contours=True
+            , show_in_contours=True
+            , calc_centroid=True
+            , num_of_bins=10
+            , min_limit=300
+            , max_limit=1000000) -> Tuple[list, list]:
+    """
+    This function takes 2D numpy arrays which are black and white images, and finds contours in these images
+    and calculates different properties for each contour
+
+    :param images: 2D numpy array (black and white image).
+    :param show_ex_contours: boolean, if the user wants to quantify the external contours.
+    :param show_in_contours: boolean, if the user wants to quantify the internal contours.
+    :param calc_centroid: boolean, if the user wants to calculate the centroid.
+    :param num_of_bins: the number of intervals.
+    :param min_limit: minimum area in an image.
+    :param max_limit: maximum area in an image.
+    :returns: two lists, the first list contains the drawn images based on the given options and the second list
+     contains image analysis for each given image.
+    """
+
+    assert images.__len__() != 0, "Function received empty images list."
+    # if show_ex_contours and show_in_contours and calc_centroid and save_to_csv:
+    #     analyze_default(images,
+    #                     file_names,
+    #                     number_of_bins,
+    #                     min_limit,
+    #                     max_limit)
+    images_analysis = []
+    image_analysis = {}
+    drawn_images = []
+    pixel_to_um = 5
+    for index in range(images.__len__()):
+        contours, hierarchy = cv2.findContours(images[index], cv2.RETR_CCOMP, cv2.CHAIN_APPROX_NONE)
+
+        drawn_image = np.zeros(images[index].shape + (3,), dtype=np.uint8)
+
+        image_analysis["contour_index"] = []
+        image_analysis["contour_type"] = []
+        image_analysis["area"] = []
+        if calc_centroid:
+            image_analysis["centroid"] = []
+        image_analysis["interval_range"] = []
+
+        for i in range(len(contours)):
+            cnt = contours[i]
+            hier = hierarchy[0][i][3]
+            cnt_area = cv2.contourArea(cnt)
+            cnt_color = random_color()
+            if min_limit < cnt_area < max_limit:
+                if show_in_contours and show_ex_contours:
+                    image_analysis["contour_index"].append(i)
+                    cv2.drawContours(drawn_image, [cnt], -1, cnt_color, 2)
+                    if hier == -1:
+                        image_analysis["contour_type"].append("external")
+                    else:
+                        image_analysis["contour_type"].append("internal")
+                    if calc_centroid:
+                        cx, cy = calcCentroid(cnt)
+                        image_analysis["centroid"].append((cx, cy))
+                        drawn_image = cv2.circle(
+                            drawn_image, (cx, cy), radius=3,
+                            color=cnt_color, thickness=-1)
+                    image_analysis["area"].append(cnt_area / pixel_to_um)
+
+                elif show_in_contours and not show_ex_contours:
+                    if hier != -1:
+                        image_analysis["contour_index"].append(i)
+                        cv2.drawContours(drawn_image, [cnt], -1, cnt_color, 2)
+                        image_analysis["contour_type"].append("internal")
+                        if calc_centroid:
+                            cx, cy = calcCentroid(cnt)
+                            image_analysis["centroid"].append((cx, cy))
+                            drawn_image = cv2.circle(
+                                drawn_image, (cx, cy), radius=3,
+                                color=cnt_color, thickness=-1)
+
+                        image_analysis["area"].append(cnt_area / pixel_to_um)
+
+                elif show_ex_contours and not show_in_contours:
+                    if hier == -1:
+                        image_analysis["contour_index"].append(i)
+                        cv2.drawContours(drawn_image, [cnt], -1, cnt_color, 2)
+                        image_analysis["contour_type"].append("external")
+
+                        if calc_centroid:
+                            cx, cy = calcCentroid(cnt)
+                            image_analysis["centroid"].append((cx, cy))
+                            drawn_image = cv2.circle(
+                                drawn_image, (cx, cy), radius=3,
+                                color=cnt_color, thickness=-1)
+                        image_analysis["area"].append(cnt_area / pixel_to_um)
+                else:
+                    continue
+
+        if show_in_contours or show_ex_contours:
+            image_analysis["interval_range"] = fitToIntervals(areas=image_analysis["area"], num_of_bins=num_of_bins)
+
+        drawn_images.append(drawn_image)
+        images_analysis.append(image_analysis)
+
+    return drawn_images, images_analysis
 
 
 if __name__ == "__main__":
     mask = cv2.imread("mask.png", 0)
-    analyze_default([mask], ["mask.png"])
+    drawn_imgs, analysis = analyze([mask], show_in_contours=False, calc_centroid=False)
+    display(drawn_imgs[0], "Contours")
+    saveImagesAnalysisToCSV(images_analysis=analysis, file_names=["mask.png"])
