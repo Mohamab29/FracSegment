@@ -498,7 +498,13 @@ class Ui_MainWindow(object):
         self.label_results_page_images.setObjectName("label_results_page_images")
         self.verticalLayout_9.addWidget(self.label_results_page_images, 0, QtCore.Qt.AlignHCenter)
         self.images_results_page_import_list = QtWidgets.QListWidget(self.frame_results_page_up_list)
-        self.images_results_page_import_list.setStyleSheet("background-color: rgb(33, 37, 43);")
+        self.images_results_page_import_list.setStyleSheet("QListWidget {\n"
+"    background-color: rgb(33, 37, 43);\n"
+"}\n"
+"\n"
+"QListWidget::item {\n"
+"    color: rgb(255, 255, 255);\n"
+"}")
         self.images_results_page_import_list.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.images_results_page_import_list.setFrameShadow(QtWidgets.QFrame.Plain)
         self.images_results_page_import_list.setLineWidth(2)
@@ -658,11 +664,10 @@ class Ui_MainWindow(object):
         self.btn_results_page_delete_selected_images.setIcon(icon10)
         self.btn_results_page_delete_selected_images.setObjectName("btn_results_page_delete_selected_images")
         self.verticalLayout_16.addWidget(self.btn_results_page_delete_selected_images)
-        self.pushButton_8 = QtWidgets.QPushButton(self.frame_results_page_buttons_delete)
-        self.pushButton_8.setEnabled(False)
-        self.pushButton_8.setMinimumSize(QtCore.QSize(0, 20))
-        self.pushButton_8.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.pushButton_8.setStyleSheet("QPushButton {\n"
+        self.pushButton = QtWidgets.QPushButton(self.frame_results_page_buttons_delete)
+        self.pushButton.setEnabled(False)
+        self.pushButton.setMinimumSize(QtCore.QSize(0, 20))
+        self.pushButton.setStyleSheet("QPushButton {\n"
 "    color: rgb(43, 49, 56);\n"
 "    background-color: rgb(33, 37, 43);\n"
 "    border: 2px outset rgb(37, 40, 45);\n"
@@ -671,9 +676,32 @@ class Ui_MainWindow(object):
 "QPushButton:hover {\n"
 "    color: rgb(85, 170, 255);\n"
 "}")
-        self.pushButton_8.setObjectName("pushButton_8")
-        self.verticalLayout_16.addWidget(self.pushButton_8)
+        self.pushButton.setObjectName("pushButton")
+        self.verticalLayout_16.addWidget(self.pushButton)
         self.horizontalLayout_5.addWidget(self.frame_results_page_buttons_delete)
+        self.frame = QtWidgets.QFrame(self.frame_results_page_buttons)
+        self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame.setObjectName("frame")
+        self.btn_results_page_custom_calculation = QtWidgets.QPushButton(self.frame)
+        self.btn_results_page_custom_calculation.setEnabled(False)
+        self.btn_results_page_custom_calculation.setGeometry(QtCore.QRect(0, 10, 156, 45))
+        self.btn_results_page_custom_calculation.setMinimumSize(QtCore.QSize(0, 45))
+        self.btn_results_page_custom_calculation.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.btn_results_page_custom_calculation.setStyleSheet("QPushButton {\n"
+"    color: rgb(43, 49, 56);\n"
+"    background-color: rgb(33, 37, 43);\n"
+"    border: 2px outset rgb(37, 40, 45);\n"
+"    border-radius: 3px;\n"
+"}\n"
+"QPushButton:hover {\n"
+"    color: rgb(85, 170, 255);\n"
+"}")
+        icon15 = QtGui.QIcon()
+        icon15.addPixmap(QtGui.QPixmap(":/assets/icons/calc-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.btn_results_page_custom_calculation.setIcon(icon15)
+        self.btn_results_page_custom_calculation.setObjectName("btn_results_page_custom_calculation")
+        self.horizontalLayout_5.addWidget(self.frame)
         self.verticalLayout_6.addWidget(self.frame_results_page_buttons)
         self.stackedWidget.addWidget(self.frame_results_page)
         self.frame_help_page = QtWidgets.QWidget()
@@ -705,12 +733,10 @@ class Ui_MainWindow(object):
         self.frame_calculate_page_up_image.setObjectName("frame_calculate_page_up_image")
         self.gridLayout_2 = QtWidgets.QGridLayout(self.frame_calculate_page_up_image)
         self.gridLayout_2.setObjectName("gridLayout_2")
-        self.label_2 = QtWidgets.QLabel(self.frame_calculate_page_up_image)
-        self.label_2.setStyleSheet("QLabel {color: rgb(130, 130, 130)}")
-        self.label_2.setText("")
-        self.label_2.setPixmap(QtGui.QPixmap("assets/images/conture.jpeg"))
-        self.label_2.setObjectName("label_2")
-        self.gridLayout_2.addWidget(self.label_2, 0, 0, 1, 1, QtCore.Qt.AlignHCenter)
+        self.label_calculate_page_selected_picture = QtWidgets.QLabel(self.frame_calculate_page_up_image)
+        self.label_calculate_page_selected_picture.setStyleSheet("QLabel {color: rgb(130, 130, 130)}")
+        self.label_calculate_page_selected_picture.setObjectName("label_calculate_page_selected_picture")
+        self.gridLayout_2.addWidget(self.label_calculate_page_selected_picture, 0, 0, 1, 1, QtCore.Qt.AlignHCenter)
         self.horizontalLayout_4.addWidget(self.frame_calculate_page_up_image)
         self.frame_calculate_page_up_list = QtWidgets.QFrame(self.frame_calculate_page_up)
         self.frame_calculate_page_up_list.setMinimumSize(QtCore.QSize(250, 0))
@@ -722,15 +748,15 @@ class Ui_MainWindow(object):
         self.verticalLayout_21.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_21.setSpacing(0)
         self.verticalLayout_21.setObjectName("verticalLayout_21")
-        self.frame_2 = QtWidgets.QFrame(self.frame_calculate_page_up_list)
-        self.frame_2.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frame_2.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_2.setObjectName("frame_2")
-        self.verticalLayout_22 = QtWidgets.QVBoxLayout(self.frame_2)
+        self.frame_calculation_page_up_list = QtWidgets.QFrame(self.frame_calculate_page_up_list)
+        self.frame_calculation_page_up_list.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_calculation_page_up_list.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_calculation_page_up_list.setObjectName("frame_calculation_page_up_list")
+        self.verticalLayout_22 = QtWidgets.QVBoxLayout(self.frame_calculation_page_up_list)
         self.verticalLayout_22.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_22.setSpacing(0)
         self.verticalLayout_22.setObjectName("verticalLayout_22")
-        self.label_calculate_page_images = QtWidgets.QLabel(self.frame_2)
+        self.label_calculate_page_images = QtWidgets.QLabel(self.frame_calculation_page_up_list)
         self.label_calculate_page_images.setMinimumSize(QtCore.QSize(0, 30))
         font = QtGui.QFont()
         font.setBold(True)
@@ -739,114 +765,106 @@ class Ui_MainWindow(object):
         self.label_calculate_page_images.setStyleSheet("QLabel {color: rgb(200, 200, 200)}")
         self.label_calculate_page_images.setObjectName("label_calculate_page_images")
         self.verticalLayout_22.addWidget(self.label_calculate_page_images, 0, QtCore.Qt.AlignHCenter)
-        self.listWidget = QtWidgets.QListWidget(self.frame_2)
-        self.listWidget.setMinimumSize(QtCore.QSize(150, 0))
+        self.images_calculation_page_import_list = QtWidgets.QListWidget(self.frame_calculation_page_up_list)
+        self.images_calculation_page_import_list.setMinimumSize(QtCore.QSize(150, 0))
         font = QtGui.QFont()
         font.setBold(True)
         font.setWeight(75)
-        self.listWidget.setFont(font)
-        self.listWidget.setStyleSheet("QListWidget {\n"
+        self.images_calculation_page_import_list.setFont(font)
+        self.images_calculation_page_import_list.setStyleSheet("QListWidget {\n"
 "    background-color: rgb(33, 37, 43);\n"
 "}\n"
 "\n"
-"QListWidgetItem {\n"
-"   color: rgb(255, 255, 255);\n"
+"QListWidget::item {\n"
+"    color: rgb(255, 255, 255);\n"
 "}")
-        self.listWidget.setFrameShadow(QtWidgets.QFrame.Plain)
-        self.listWidget.setLineWidth(2)
-        self.listWidget.setObjectName("listWidget")
-        item = QtWidgets.QListWidgetItem()
-        font = QtGui.QFont()
-        font.setBold(True)
-        font.setWeight(75)
-        item.setFont(font)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
-        brush.setStyle(QtCore.Qt.NoBrush)
-        item.setBackground(brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
-        brush.setStyle(QtCore.Qt.NoBrush)
-        item.setForeground(brush)
-        item.setCheckState(QtCore.Qt.Checked)
-        self.listWidget.addItem(item)
-        self.verticalLayout_22.addWidget(self.listWidget)
-        self.verticalLayout_21.addWidget(self.frame_2)
-        self.frame = QtWidgets.QFrame(self.frame_calculate_page_up_list)
-        self.frame.setFrameShape(QtWidgets.QFrame.NoFrame)
-        self.frame.setFrameShadow(QtWidgets.QFrame.Plain)
-        self.frame.setObjectName("frame")
-        self.verticalLayout_23 = QtWidgets.QVBoxLayout(self.frame)
+        self.images_calculation_page_import_list.setFrameShadow(QtWidgets.QFrame.Plain)
+        self.images_calculation_page_import_list.setLineWidth(2)
+        self.images_calculation_page_import_list.setObjectName("images_calculation_page_import_list")
+        self.verticalLayout_22.addWidget(self.images_calculation_page_import_list)
+        self.verticalLayout_21.addWidget(self.frame_calculation_page_up_list)
+        self.frame_calculation_page_modifications = QtWidgets.QFrame(self.frame_calculate_page_up_list)
+        self.frame_calculation_page_modifications.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.frame_calculation_page_modifications.setFrameShadow(QtWidgets.QFrame.Plain)
+        self.frame_calculation_page_modifications.setObjectName("frame_calculation_page_modifications")
+        self.verticalLayout_23 = QtWidgets.QVBoxLayout(self.frame_calculation_page_modifications)
         self.verticalLayout_23.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_23.setSpacing(0)
         self.verticalLayout_23.setObjectName("verticalLayout_23")
-        self.label_5 = QtWidgets.QLabel(self.frame)
-        self.label_5.setMinimumSize(QtCore.QSize(0, 30))
+        self.label_calculate_page_modifications = QtWidgets.QLabel(self.frame_calculation_page_modifications)
+        self.label_calculate_page_modifications.setMinimumSize(QtCore.QSize(0, 30))
         font = QtGui.QFont()
         font.setBold(True)
         font.setWeight(75)
-        self.label_5.setFont(font)
-        self.label_5.setStyleSheet("QLabel {color: rgb(200, 200, 200)}")
-        self.label_5.setObjectName("label_5")
-        self.verticalLayout_23.addWidget(self.label_5, 0, QtCore.Qt.AlignHCenter)
-        self.frame_9 = QtWidgets.QFrame(self.frame)
-        self.frame_9.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frame_9.setFrameShadow(QtWidgets.QFrame.Plain)
-        self.frame_9.setLineWidth(2)
-        self.frame_9.setObjectName("frame_9")
-        self.verticalLayout_27 = QtWidgets.QVBoxLayout(self.frame_9)
+        self.label_calculate_page_modifications.setFont(font)
+        self.label_calculate_page_modifications.setStyleSheet("QLabel {color: rgb(200, 200, 200)}")
+        self.label_calculate_page_modifications.setObjectName("label_calculate_page_modifications")
+        self.verticalLayout_23.addWidget(self.label_calculate_page_modifications, 0, QtCore.Qt.AlignHCenter)
+        self.frame_calculation_page_modifications_options = QtWidgets.QFrame(self.frame_calculation_page_modifications)
+        self.frame_calculation_page_modifications_options.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_calculation_page_modifications_options.setFrameShadow(QtWidgets.QFrame.Plain)
+        self.frame_calculation_page_modifications_options.setLineWidth(2)
+        self.frame_calculation_page_modifications_options.setObjectName("frame_calculation_page_modifications_options")
+        self.verticalLayout_27 = QtWidgets.QVBoxLayout(self.frame_calculation_page_modifications_options)
         self.verticalLayout_27.setObjectName("verticalLayout_27")
-        self.checkBox = QtWidgets.QCheckBox(self.frame_9)
-        self.checkBox.setStyleSheet("color: rgb(130, 130, 130)")
-        self.checkBox.setChecked(True)
-        self.checkBox.setObjectName("checkBox")
-        self.verticalLayout_27.addWidget(self.checkBox)
-        self.checkBox_2 = QtWidgets.QCheckBox(self.frame_9)
-        self.checkBox_2.setStyleSheet("color: rgb(130, 130, 130)")
-        self.checkBox_2.setObjectName("checkBox_2")
-        self.verticalLayout_27.addWidget(self.checkBox_2)
-        self.checkBox_3 = QtWidgets.QCheckBox(self.frame_9)
-        self.checkBox_3.setStyleSheet("color: rgb(130, 130, 130)")
-        self.checkBox_3.setObjectName("checkBox_3")
-        self.verticalLayout_27.addWidget(self.checkBox_3)
-        self.checkBox_4 = QtWidgets.QCheckBox(self.frame_9)
-        self.checkBox_4.setStyleSheet("color: rgb(130, 130, 130)")
-        self.checkBox_4.setChecked(True)
-        self.checkBox_4.setObjectName("checkBox_4")
-        self.verticalLayout_27.addWidget(self.checkBox_4)
-        self.frame_3 = QtWidgets.QFrame(self.frame_9)
-        self.frame_3.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frame_3.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_3.setObjectName("frame_3")
-        self.horizontalLayout_9 = QtWidgets.QHBoxLayout(self.frame_3)
+        self.check_box_show_centroid = QtWidgets.QCheckBox(self.frame_calculation_page_modifications_options)
+        self.check_box_show_centroid.setEnabled(False)
+        self.check_box_show_centroid.setStyleSheet("color: rgb(56, 61, 70);")
+        self.check_box_show_centroid.setChecked(False)
+        self.check_box_show_centroid.setObjectName("check_box_show_centroid")
+        self.verticalLayout_27.addWidget(self.check_box_show_centroid)
+        self.check_box_show_internal_contures = QtWidgets.QCheckBox(self.frame_calculation_page_modifications_options)
+        self.check_box_show_internal_contures.setEnabled(False)
+        self.check_box_show_internal_contures.setStyleSheet("color: rgb(56, 61, 70);")
+        self.check_box_show_internal_contures.setObjectName("check_box_show_internal_contures")
+        self.verticalLayout_27.addWidget(self.check_box_show_internal_contures)
+        self.check_box_show_external_contures = QtWidgets.QCheckBox(self.frame_calculation_page_modifications_options)
+        self.check_box_show_external_contures.setEnabled(False)
+        self.check_box_show_external_contures.setStyleSheet("color: rgb(56, 61, 70);")
+        self.check_box_show_external_contures.setChecked(False)
+        self.check_box_show_external_contures.setObjectName("check_box_show_external_contures")
+        self.verticalLayout_27.addWidget(self.check_box_show_external_contures)
+        self.check_box_show_diemeters = QtWidgets.QCheckBox(self.frame_calculation_page_modifications_options)
+        self.check_box_show_diemeters.setEnabled(False)
+        self.check_box_show_diemeters.setStyleSheet("color: rgb(56, 61, 70);")
+        self.check_box_show_diemeters.setObjectName("check_box_show_diemeters")
+        self.verticalLayout_27.addWidget(self.check_box_show_diemeters)
+        self.frame_calculation_page_modifications_options_slider = QtWidgets.QFrame(self.frame_calculation_page_modifications_options)
+        self.frame_calculation_page_modifications_options_slider.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_calculation_page_modifications_options_slider.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_calculation_page_modifications_options_slider.setObjectName("frame_calculation_page_modifications_options_slider")
+        self.horizontalLayout_9 = QtWidgets.QHBoxLayout(self.frame_calculation_page_modifications_options_slider)
         self.horizontalLayout_9.setObjectName("horizontalLayout_9")
-        self.label_4 = QtWidgets.QLabel(self.frame_3)
-        self.label_4.setStyleSheet("color: rgb(130, 130, 130)")
-        self.label_4.setObjectName("label_4")
-        self.horizontalLayout_9.addWidget(self.label_4)
-        self.horizontalSlider = QtWidgets.QSlider(self.frame_3)
-        self.horizontalSlider.setProperty("value", 30)
-        self.horizontalSlider.setOrientation(QtCore.Qt.Horizontal)
-        self.horizontalSlider.setObjectName("horizontalSlider")
-        self.horizontalLayout_9.addWidget(self.horizontalSlider)
-        self.label_3 = QtWidgets.QLabel(self.frame_3)
-        self.label_3.setStyleSheet("color: rgb(130, 130, 130)")
-        self.label_3.setObjectName("label_3")
-        self.horizontalLayout_9.addWidget(self.label_3)
-        self.verticalLayout_27.addWidget(self.frame_3)
-        self.pushButton_4 = QtWidgets.QPushButton(self.frame_9)
-        self.pushButton_4.setStyleSheet("QPushButton {\n"
-"    color: rgb(140, 166, 179);\n"
+        self.min_value = QtWidgets.QLabel(self.frame_calculation_page_modifications_options_slider)
+        self.min_value.setStyleSheet("color: rgb(130, 130, 130)")
+        self.min_value.setObjectName("min_value")
+        self.horizontalLayout_9.addWidget(self.min_value)
+        self.slider = QtWidgets.QSlider(self.frame_calculation_page_modifications_options_slider)
+        self.slider.setEnabled(False)
+        self.slider.setProperty("value", 0)
+        self.slider.setOrientation(QtCore.Qt.Horizontal)
+        self.slider.setObjectName("slider")
+        self.horizontalLayout_9.addWidget(self.slider)
+        self.max_value = QtWidgets.QLabel(self.frame_calculation_page_modifications_options_slider)
+        self.max_value.setStyleSheet("color: rgb(130, 130, 130)")
+        self.max_value.setObjectName("max_value")
+        self.horizontalLayout_9.addWidget(self.max_value)
+        self.verticalLayout_27.addWidget(self.frame_calculation_page_modifications_options_slider)
+        self.btn_calculation_page_send = QtWidgets.QPushButton(self.frame_calculation_page_modifications_options)
+        self.btn_calculation_page_send.setEnabled(False)
+        self.btn_calculation_page_send.setStyleSheet("QPushButton {\n"
+"    color: rgb(43, 49, 56);\n"
 "    background-color: rgb(33, 37, 43);\n"
-"    border: 2px outset rgb(70, 76, 85);\n"
+"    border: 2px outset rgb(37, 40, 45);\n"
 "    border-radius: 3px;\n"
 "}\n"
 "QPushButton:hover {\n"
 "    color: rgb(85, 170, 255);\n"
-"    background-color: rgb(42, 47, 54);\n"
 "}")
-        self.pushButton_4.setObjectName("pushButton_4")
-        self.verticalLayout_27.addWidget(self.pushButton_4)
-        self.verticalLayout_23.addWidget(self.frame_9)
-        self.verticalLayout_21.addWidget(self.frame)
+        self.btn_calculation_page_send.setObjectName("btn_calculation_page_send")
+        self.verticalLayout_27.addWidget(self.btn_calculation_page_send)
+        self.verticalLayout_23.addWidget(self.frame_calculation_page_modifications_options)
+        self.verticalLayout_21.addWidget(self.frame_calculation_page_modifications)
         self.horizontalLayout_4.addWidget(self.frame_calculate_page_up_list)
         self.verticalLayout_20.addWidget(self.frame_calculate_page_up)
         self.frame_calculate_page_buttons = QtWidgets.QFrame(self.frame_calculation_page)
@@ -857,111 +875,111 @@ class Ui_MainWindow(object):
         self.frame_calculate_page_buttons.setObjectName("frame_calculate_page_buttons")
         self.horizontalLayout_7 = QtWidgets.QHBoxLayout(self.frame_calculate_page_buttons)
         self.horizontalLayout_7.setObjectName("horizontalLayout_7")
-        self.frame_6 = QtWidgets.QFrame(self.frame_calculate_page_buttons)
-        self.frame_6.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frame_6.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_6.setObjectName("frame_6")
-        self.verticalLayout_24 = QtWidgets.QVBoxLayout(self.frame_6)
+        self.frame_calculation_page_buttons_save_images_csvs = QtWidgets.QFrame(self.frame_calculate_page_buttons)
+        self.frame_calculation_page_buttons_save_images_csvs.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_calculation_page_buttons_save_images_csvs.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_calculation_page_buttons_save_images_csvs.setObjectName("frame_calculation_page_buttons_save_images_csvs")
+        self.verticalLayout_24 = QtWidgets.QVBoxLayout(self.frame_calculation_page_buttons_save_images_csvs)
         self.verticalLayout_24.setObjectName("verticalLayout_24")
-        self.pushButton = QtWidgets.QPushButton(self.frame_6)
-        self.pushButton.setStyleSheet("QPushButton {\n"
-"    color: rgb(140, 166, 179);\n"
+        self.btn_calculation_page_save_images = QtWidgets.QPushButton(self.frame_calculation_page_buttons_save_images_csvs)
+        self.btn_calculation_page_save_images.setEnabled(False)
+        self.btn_calculation_page_save_images.setStyleSheet("QPushButton {\n"
+"    color: rgb(43, 49, 56);\n"
 "    background-color: rgb(33, 37, 43);\n"
-"    border: 2px outset rgb(70, 76, 85);\n"
+"    border: 2px outset rgb(37, 40, 45);\n"
 "    border-radius: 3px;\n"
 "}\n"
 "QPushButton:hover {\n"
 "    color: rgb(85, 170, 255);\n"
-"    background-color: rgb(42, 47, 54);\n"
 "}")
-        self.pushButton.setIcon(icon13)
-        self.pushButton.setObjectName("pushButton")
-        self.verticalLayout_24.addWidget(self.pushButton)
-        self.pushButton_2 = QtWidgets.QPushButton(self.frame_6)
-        self.pushButton_2.setStyleSheet("QPushButton {\n"
-"    color: rgb(140, 166, 179);\n"
+        self.btn_calculation_page_save_images.setIcon(icon13)
+        self.btn_calculation_page_save_images.setObjectName("btn_calculation_page_save_images")
+        self.verticalLayout_24.addWidget(self.btn_calculation_page_save_images)
+        self.btn_calculation_page_save_csvs = QtWidgets.QPushButton(self.frame_calculation_page_buttons_save_images_csvs)
+        self.btn_calculation_page_save_csvs.setEnabled(False)
+        self.btn_calculation_page_save_csvs.setStyleSheet("QPushButton {\n"
+"    color: rgb(43, 49, 56);\n"
 "    background-color: rgb(33, 37, 43);\n"
-"    border: 2px outset rgb(70, 76, 85);\n"
+"    border: 2px outset rgb(37, 40, 45);\n"
 "    border-radius: 3px;\n"
 "}\n"
 "QPushButton:hover {\n"
 "    color: rgb(85, 170, 255);\n"
-"    background-color: rgb(42, 47, 54);\n"
 "}")
-        self.pushButton_2.setIcon(icon14)
-        self.pushButton_2.setObjectName("pushButton_2")
-        self.verticalLayout_24.addWidget(self.pushButton_2)
-        self.horizontalLayout_7.addWidget(self.frame_6)
-        self.frame_5 = QtWidgets.QFrame(self.frame_calculate_page_buttons)
-        self.frame_5.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frame_5.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_5.setObjectName("frame_5")
-        self.verticalLayout_25 = QtWidgets.QVBoxLayout(self.frame_5)
+        self.btn_calculation_page_save_csvs.setIcon(icon14)
+        self.btn_calculation_page_save_csvs.setObjectName("btn_calculation_page_save_csvs")
+        self.verticalLayout_24.addWidget(self.btn_calculation_page_save_csvs)
+        self.horizontalLayout_7.addWidget(self.frame_calculation_page_buttons_save_images_csvs)
+        self.frame_calculation_page_buttons_delete_clear_images = QtWidgets.QFrame(self.frame_calculate_page_buttons)
+        self.frame_calculation_page_buttons_delete_clear_images.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_calculation_page_buttons_delete_clear_images.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_calculation_page_buttons_delete_clear_images.setObjectName("frame_calculation_page_buttons_delete_clear_images")
+        self.verticalLayout_25 = QtWidgets.QVBoxLayout(self.frame_calculation_page_buttons_delete_clear_images)
         self.verticalLayout_25.setObjectName("verticalLayout_25")
-        self.pushButton_6 = QtWidgets.QPushButton(self.frame_5)
-        self.pushButton_6.setStyleSheet("QPushButton {\n"
-"    color: rgb(140, 166, 179);\n"
+        self.btn_calculation_page_delete_selected_images = QtWidgets.QPushButton(self.frame_calculation_page_buttons_delete_clear_images)
+        self.btn_calculation_page_delete_selected_images.setEnabled(False)
+        self.btn_calculation_page_delete_selected_images.setStyleSheet("QPushButton {\n"
+"    color: rgb(43, 49, 56);\n"
 "    background-color: rgb(33, 37, 43);\n"
-"    border: 2px outset rgb(70, 76, 85);\n"
+"    border: 2px outset rgb(37, 40, 45);\n"
 "    border-radius: 3px;\n"
 "}\n"
 "QPushButton:hover {\n"
 "    color: rgb(85, 170, 255);\n"
-"    background-color: rgb(42, 47, 54);\n"
 "}")
-        self.pushButton_6.setIcon(icon10)
-        self.pushButton_6.setObjectName("pushButton_6")
-        self.verticalLayout_25.addWidget(self.pushButton_6)
-        self.pushButton_5 = QtWidgets.QPushButton(self.frame_5)
-        self.pushButton_5.setStyleSheet("QPushButton {\n"
-"    color: rgb(140, 166, 179);\n"
+        self.btn_calculation_page_delete_selected_images.setIcon(icon10)
+        self.btn_calculation_page_delete_selected_images.setObjectName("btn_calculation_page_delete_selected_images")
+        self.verticalLayout_25.addWidget(self.btn_calculation_page_delete_selected_images)
+        self.btn_calculation_page_clear_images = QtWidgets.QPushButton(self.frame_calculation_page_buttons_delete_clear_images)
+        self.btn_calculation_page_clear_images.setEnabled(False)
+        self.btn_calculation_page_clear_images.setStyleSheet("QPushButton {\n"
+"    color: rgb(43, 49, 56);\n"
 "    background-color: rgb(33, 37, 43);\n"
-"    border: 2px outset rgb(70, 76, 85);\n"
+"    border: 2px outset rgb(37, 40, 45);\n"
 "    border-radius: 3px;\n"
 "}\n"
 "QPushButton:hover {\n"
 "    color: rgb(85, 170, 255);\n"
-"    background-color: rgb(42, 47, 54);\n"
 "}")
-        self.pushButton_5.setIcon(icon7)
-        self.pushButton_5.setObjectName("pushButton_5")
-        self.verticalLayout_25.addWidget(self.pushButton_5)
-        self.horizontalLayout_7.addWidget(self.frame_5)
-        self.frame_4 = QtWidgets.QFrame(self.frame_calculate_page_buttons)
-        self.frame_4.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frame_4.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_4.setObjectName("frame_4")
-        self.verticalLayout_26 = QtWidgets.QVBoxLayout(self.frame_4)
+        self.btn_calculation_page_clear_images.setIcon(icon7)
+        self.btn_calculation_page_clear_images.setObjectName("btn_calculation_page_clear_images")
+        self.verticalLayout_25.addWidget(self.btn_calculation_page_clear_images)
+        self.horizontalLayout_7.addWidget(self.frame_calculation_page_buttons_delete_clear_images)
+        self.frame_calculation_page_buttons_check_uncheck_images = QtWidgets.QFrame(self.frame_calculate_page_buttons)
+        self.frame_calculation_page_buttons_check_uncheck_images.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_calculation_page_buttons_check_uncheck_images.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_calculation_page_buttons_check_uncheck_images.setObjectName("frame_calculation_page_buttons_check_uncheck_images")
+        self.verticalLayout_26 = QtWidgets.QVBoxLayout(self.frame_calculation_page_buttons_check_uncheck_images)
         self.verticalLayout_26.setObjectName("verticalLayout_26")
-        self.pushButton_7 = QtWidgets.QPushButton(self.frame_4)
-        self.pushButton_7.setStyleSheet("QPushButton {\n"
-"    color: rgb(140, 166, 179);\n"
+        self.btn_calculation_page_check_all = QtWidgets.QPushButton(self.frame_calculation_page_buttons_check_uncheck_images)
+        self.btn_calculation_page_check_all.setEnabled(False)
+        self.btn_calculation_page_check_all.setStyleSheet("QPushButton {\n"
+"    color: rgb(43, 49, 56);\n"
 "    background-color: rgb(33, 37, 43);\n"
-"    border: 2px outset rgb(70, 76, 85);\n"
+"    border: 2px outset rgb(37, 40, 45);\n"
 "    border-radius: 3px;\n"
 "}\n"
 "QPushButton:hover {\n"
 "    color: rgb(85, 170, 255);\n"
-"    background-color: rgb(42, 47, 54);\n"
 "}")
-        self.pushButton_7.setIcon(icon8)
-        self.pushButton_7.setObjectName("pushButton_7")
-        self.verticalLayout_26.addWidget(self.pushButton_7)
-        self.pushButton_9 = QtWidgets.QPushButton(self.frame_4)
-        self.pushButton_9.setStyleSheet("QPushButton {\n"
-"    color: rgb(140, 166, 179);\n"
+        self.btn_calculation_page_check_all.setIcon(icon8)
+        self.btn_calculation_page_check_all.setObjectName("btn_calculation_page_check_all")
+        self.verticalLayout_26.addWidget(self.btn_calculation_page_check_all)
+        self.btn_calculation_page_uncheck_all = QtWidgets.QPushButton(self.frame_calculation_page_buttons_check_uncheck_images)
+        self.btn_calculation_page_uncheck_all.setEnabled(False)
+        self.btn_calculation_page_uncheck_all.setStyleSheet("QPushButton {\n"
+"    color: rgb(43, 49, 56);\n"
 "    background-color: rgb(33, 37, 43);\n"
-"    border: 2px outset rgb(70, 76, 85);\n"
+"    border: 2px outset rgb(37, 40, 45);\n"
 "    border-radius: 3px;\n"
 "}\n"
 "QPushButton:hover {\n"
 "    color: rgb(85, 170, 255);\n"
-"    background-color: rgb(42, 47, 54);\n"
 "}")
-        self.pushButton_9.setIcon(icon9)
-        self.pushButton_9.setObjectName("pushButton_9")
-        self.verticalLayout_26.addWidget(self.pushButton_9)
-        self.horizontalLayout_7.addWidget(self.frame_4)
+        self.btn_calculation_page_uncheck_all.setIcon(icon9)
+        self.btn_calculation_page_uncheck_all.setObjectName("btn_calculation_page_uncheck_all")
+        self.verticalLayout_26.addWidget(self.btn_calculation_page_uncheck_all)
+        self.horizontalLayout_7.addWidget(self.frame_calculation_page_buttons_check_uncheck_images)
         self.frame_7 = QtWidgets.QFrame(self.frame_calculate_page_buttons)
         self.frame_7.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_7.setFrameShadow(QtWidgets.QFrame.Raised)
@@ -975,7 +993,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(3)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -999,28 +1017,25 @@ class Ui_MainWindow(object):
         self.btn_results_page_check_all.setText(_translate("MainWindow", "Check All"))
         self.btn_results_page_uncheck_all.setText(_translate("MainWindow", "Uncheck All"))
         self.btn_results_page_delete_selected_images.setText(_translate("MainWindow", "Delete selected Images"))
-        self.pushButton_8.setText(_translate("MainWindow", "Button"))
+        self.pushButton.setText(_translate("MainWindow", "Button"))
+        self.btn_results_page_custom_calculation.setText(_translate("MainWindow", "Custom calculation"))
         self.label.setText(_translate("MainWindow", "Help Page"))
-        self.label_calculate_page_images.setText(_translate("MainWindow", "Images: 1 Checked: 1"))
-        __sortingEnabled = self.listWidget.isSortingEnabled()
-        self.listWidget.setSortingEnabled(False)
-        item = self.listWidget.item(0)
-        item.setText(_translate("MainWindow", "image.png"))
-        self.listWidget.setSortingEnabled(__sortingEnabled)
-        self.label_5.setText(_translate("MainWindow", "Modifications"))
-        self.checkBox.setText(_translate("MainWindow", "Show Centroid"))
-        self.checkBox_2.setText(_translate("MainWindow", "Show Internal Contours"))
-        self.checkBox_3.setText(_translate("MainWindow", "Show Diameters"))
-        self.checkBox_4.setText(_translate("MainWindow", "Show External Contours"))
-        self.label_4.setText(_translate("MainWindow", "Min"))
-        self.label_3.setText(_translate("MainWindow", "Max"))
-        self.pushButton_4.setText(_translate("MainWindow", "Send"))
-        self.pushButton.setText(_translate("MainWindow", "Save Images"))
-        self.pushButton_2.setText(_translate("MainWindow", "Save to csvs"))
-        self.pushButton_6.setText(_translate("MainWindow", "Delete selected Images"))
-        self.pushButton_5.setText(_translate("MainWindow", "Clear Image list"))
-        self.pushButton_7.setText(_translate("MainWindow", "Check All"))
-        self.pushButton_9.setText(_translate("MainWindow", "Uncheck All"))
+        self.label_calculate_page_selected_picture.setText(_translate("MainWindow", "No results"))
+        self.label_calculate_page_images.setText(_translate("MainWindow", "Images: 0 Checked: 0"))
+        self.label_calculate_page_modifications.setText(_translate("MainWindow", "Modifications"))
+        self.check_box_show_centroid.setText(_translate("MainWindow", "Show Centroid"))
+        self.check_box_show_internal_contures.setText(_translate("MainWindow", "Show Internal Contours"))
+        self.check_box_show_external_contures.setText(_translate("MainWindow", "Show External Contours"))
+        self.check_box_show_diemeters.setText(_translate("MainWindow", "Show Diameters"))
+        self.min_value.setText(_translate("MainWindow", "Min"))
+        self.max_value.setText(_translate("MainWindow", "Max"))
+        self.btn_calculation_page_send.setText(_translate("MainWindow", "Send"))
+        self.btn_calculation_page_save_images.setText(_translate("MainWindow", "Save Images"))
+        self.btn_calculation_page_save_csvs.setText(_translate("MainWindow", "Save to csvs"))
+        self.btn_calculation_page_delete_selected_images.setText(_translate("MainWindow", "Delete selected Images"))
+        self.btn_calculation_page_clear_images.setText(_translate("MainWindow", "Clear Image list"))
+        self.btn_calculation_page_check_all.setText(_translate("MainWindow", "Check All"))
+        self.btn_calculation_page_uncheck_all.setText(_translate("MainWindow", "Uncheck All"))
 
 import icons_rc
 
