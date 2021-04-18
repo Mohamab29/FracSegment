@@ -115,6 +115,7 @@ def analyze_default(images: List[np.ndarray], file_names: List[str]):
         if not os.path.exists("csv_files/"):
             os.makedirs("csv_files/")
         file_name = file_names[index].split('.')[0]
+        df = df.sort_values(by='area', ascending=False)
         df.to_csv(f"csv_files/{file_name}_analysis.csv", index=False)
 
 
