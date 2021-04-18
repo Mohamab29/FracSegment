@@ -161,6 +161,7 @@ class MainWindow(QMainWindow):
         self.ui.btn_page_predict.clicked.connect(self.evnPagePredictClicked)
         self.ui.btn_page_results.clicked.connect(self.evnPageResultsClicked)
         self.ui.btn_page_help.clicked.connect(self.evnPageHelpClicked)
+        self.ui.btn_page_calculation.clicked.connect(self.evnPageCalculationClicked)
         self.ui.btn_toggle.clicked.connect(self.evnBtnToggleClicked)
         self.ui.btn_predict_page_load_images.clicked.connect(self.evnLoadImagesButtonClicked)
         self.ui.btn_predict_page_clear_images.clicked.connect(self.evnClearImagesButtonClickedPagePredict)
@@ -326,6 +327,9 @@ class MainWindow(QMainWindow):
     def evnPageHelpClicked(self):
         self.ui.stackedWidget.setCurrentWidget(self.ui.frame_help_page)
 
+    def evnPageCalculationClicked(self):
+        self.ui.stackedWidget.setCurrentWidget(self.ui.frame_calculation_page)
+
     def evnBtnToggleClicked(self):
         self.toggleMenu(150, True)
 
@@ -341,12 +345,14 @@ class MainWindow(QMainWindow):
                 width_extended = max_extend
                 self.ui.btn_page_predict.setText('Predict')
                 self.ui.btn_page_results.setText('Results')
+                self.ui.btn_page_calculation.setText('Calculation')
                 self.ui.btn_page_help.setText('Help')
 
             else:
                 width_extended = standard
                 self.ui.btn_page_predict.setText('')
                 self.ui.btn_page_results.setText('')
+                self.ui.btn_page_calculation.setText('')
                 self.ui.btn_page_help.setText('')
 
             # ANIMATION
