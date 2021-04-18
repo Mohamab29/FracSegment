@@ -478,7 +478,7 @@ QPushButton:hover {
           <item>
            <widget class="QStackedWidget" name="stackedWidget">
             <property name="currentIndex">
-             <number>0</number>
+             <number>3</number>
             </property>
             <widget class="QWidget" name="frame_predict_page">
              <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -611,7 +611,13 @@ QPushButton:hover {
                        </size>
                       </property>
                       <property name="styleSheet">
-                       <string notr="true">background-color: rgb(33, 37, 43);</string>
+                       <string notr="true">QListWidget {
+    background-color: rgb(33, 37, 43);
+}
+
+QListWidget::item {
+    color: rgb(255, 255, 255);
+}</string>
                       </property>
                       <property name="frameShape">
                        <enum>QFrame::StyledPanel</enum>
@@ -1093,7 +1099,13 @@ QPushButton:hover {
                     <item>
                      <widget class="QListWidget" name="images_results_page_import_list">
                       <property name="styleSheet">
-                       <string notr="true">background-color: rgb(33, 37, 43);</string>
+                       <string notr="true">QListWidget {
+    background-color: rgb(33, 37, 43);
+}
+
+QListWidget::item {
+    color: rgb(255, 255, 255);
+}</string>
                       </property>
                       <property name="frameShape">
                        <enum>QFrame::StyledPanel</enum>
@@ -1607,8 +1619,8 @@ QPushButton:hover {
     background-color: rgb(33, 37, 43);
 }
 
-QListWidgetItem {
-   color: rgb(255, 255, 255);
+QListWidget::item {
+    color: rgb(255, 255, 255);
 }</string>
                          </property>
                          <property name="frameShadow">

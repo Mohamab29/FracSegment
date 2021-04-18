@@ -52,9 +52,6 @@ def setListItemItemStyle(item):
     font.setBold(True)
     font.setWeight(75)
     item.setFont(font)
-    brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
-    brush.setStyle(QtCore.Qt.NoBrush)
-    item.setForeground(brush)
 
 
 def openImage(path):

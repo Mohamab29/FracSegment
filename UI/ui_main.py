@@ -264,7 +264,13 @@ class Ui_MainWindow(object):
         self.verticalLayout_11.addWidget(self.label_predict_page_images, 0, QtCore.Qt.AlignHCenter)
         self.images_predict_page_import_list = QtWidgets.QListWidget(self.frame_predict_page_up_list)
         self.images_predict_page_import_list.setMinimumSize(QtCore.QSize(150, 0))
-        self.images_predict_page_import_list.setStyleSheet("background-color: rgb(33, 37, 43);")
+        self.images_predict_page_import_list.setStyleSheet("QListWidget {\n"
+"    background-color: rgb(33, 37, 43);\n"
+"}\n"
+"\n"
+"QListWidget::item {\n"
+"    color: rgb(255, 255, 255);\n"
+"}")
         self.images_predict_page_import_list.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.images_predict_page_import_list.setFrameShadow(QtWidgets.QFrame.Plain)
         self.images_predict_page_import_list.setLineWidth(2)
