@@ -1499,7 +1499,7 @@ QPushButton:hover {
                        <string/>
                       </property>
                       <property name="pixmap">
-                       <pixmap>../../../Desktop/WhatsApp Image 2021-04-18 at 14.02.44.jpeg</pixmap>
+                       <pixmap>assets/images/conture.jpeg</pixmap>
                       </property>
                      </widget>
                     </item>

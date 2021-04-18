@@ -702,7 +702,7 @@ class Ui_MainWindow(object):
         self.label_2 = QtWidgets.QLabel(self.frame_calculate_page_up_image)
         self.label_2.setStyleSheet("QLabel {color: rgb(130, 130, 130)}")
         self.label_2.setText("")
-        self.label_2.setPixmap(QtGui.QPixmap("../../../Desktop/WhatsApp Image 2021-04-18 at 14.02.44.jpeg"))
+        self.label_2.setPixmap(QtGui.QPixmap("assets/images/conture.jpeg"))
         self.label_2.setObjectName("label_2")
         self.gridLayout_2.addWidget(self.label_2, 0, 0, 1, 1, QtCore.Qt.AlignHCenter)
         self.horizontalLayout_4.addWidget(self.frame_calculate_page_up_image)
