@@ -995,7 +995,7 @@ class Ui_MainWindow(object):
         self.btn_results_page_delete_selected_images.setText(_translate("MainWindow", "Delete selected Images"))
         self.pushButton_8.setText(_translate("MainWindow", "Button"))
         self.label.setText(_translate("MainWindow", "Help Page"))
-        self.label_calculate_page_images.setText(_translate("MainWindow", "Images: 0 Checked: 0"))
+        self.label_calculate_page_images.setText(_translate("MainWindow", "Images: 1 Checked: 1"))
         __sortingEnabled = self.listWidget.isSortingEnabled()
         self.listWidget.setSortingEnabled(False)
         item = self.listWidget.item(0)
