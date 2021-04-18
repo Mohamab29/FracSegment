@@ -84,10 +84,10 @@ def fitToIntervals(areas: list, num_of_bins: int):
 
 def saveAnalysisToCSV(image_analysis: Dict, file_name: str):
     """
+    Saving the given dictionary into a csv file with the given file name.
 
-    :param image_analysis:
+    :param image_analysis: a dictionary containing the properties we wanted to analyze in a prediction.
     :param file_name: the name of the image, it will be used for the name of the csv file,example: image_analysis.csv
-    :return:
     """
     df = pd.DataFrame(image_analysis)
     if not os.path.exists("csv_files/"):
@@ -98,64 +98,14 @@ def saveAnalysisToCSV(image_analysis: Dict, file_name: str):
 
 def saveImagesAnalysisToCSV(images_analysis: list, file_names: list):
     """
+    If given a list of dictionaries then we save each image analysis with the corresponding file name into csv files.
 
-    :param images_analysis:
-    :param file_names:
-    :return:
+    :param images_analysis: a list of dictionaries containing the properties we wanted to analyze in a prediction.
+    :param file_names: a list of file name that correspond to the given images analysis
     """
     for index in range(images_analysis.__len__()):
         file_name = file_names[index].split('.')[0]
         saveAnalysisToCSV(images_analysis[index], file_name)
-
-
-# def analyze_default(images: List[np.ndarray]
-#                     , file_names: List[str]
-#                     , num_of_bins=10
-#                     , min_limit=300
-#                     , max_limit=100000
-#                     , ret_images=False):
-#     """
-#     In this function we quantify each dimple (internal and external) in each image and save the results for
-#     each image separately.
-#
-#     :param images: list of 2D numpy arrays (predictions).
-#     :param file_names: the name of the image, it will be used for the name of the csv file,example: image_analysis.csv
-#     :param num_of_bins: the number of intervals.
-#     :param min_limit: minimum area in an image and filtering contours with area bigger than minimum limit.
-#     :param max_limit: maximum area in an image and filtering contours with area less than maximum limit.
-#     :param ret_images: if want to return the images with drawn contours, and each contour (ex/in) is colored randomly.
-#     :return:
-#     """
-#     assert images.__len__() != 0, "Function received empty images list."
-#
-#     pixel_to_um = 5
-#     for index in range(images.__len__()):
-#         image_analysis = {
-#             "contour_index": [],
-#             "contour_type": [],
-#             "area": [],
-#             "centroid": [],
-#             "interval_range": []
-#         }
-#
-#         contours, hierarchy = cv2.findContours(images[index], cv2.RETR_CCOMP, cv2.CHAIN_APPROX_NONE)
-#
-#         for i in range(len(contours)):
-#             cnt = contours[i]
-#             hier = hierarchy[0][i][3]
-#             cnt_area = cv2.contourArea(cnt)
-#             if min_limit < cnt_area < max_limit:
-#                 image_analysis["contour_index"].append(i)
-#                 if hier == -1:
-#                     image_analysis["contour_type"].append("external")
-#                 else:
-#                     image_analysis["contour_type"].append("internal")
-#                 image_analysis["area"].append(cnt_area / pixel_to_um)
-#                 image_analysis["centroid"].append(calcCentroid(cnt))
-#
-#         image_analysis["interval_range"] = fitToIntervals(areas=image_analysis["area"], num_of_bins=num_of_bins)
-#         file_name = file_names[index].split('.')[0]
-#         saveAnalysisToCSV(image_analysis, file_name)
 
 
 def analyze(images: List[np.ndarray]
