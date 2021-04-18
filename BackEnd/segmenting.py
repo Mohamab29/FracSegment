@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 
 # a global size that we want to resize images to
 DESIRED_SIZE = 1024
-MODEL_NAME = "model"
+MODEL_NAME = "model_18-22_20-Mar-2021"
 
 
 def display(img, title, cmap='gray'):
@@ -145,7 +145,7 @@ def load_images(paths: list) -> Union[np.ndarray, list]:
     for _, img_path in tqdm(enumerate(paths), total=len(paths)):
         image = cv2.imread(img_path, 0)  # converted to grayscale
         images.append(image.copy())
-        image = []
+        del image
     return images
 
 
@@ -161,8 +161,8 @@ def segment(paths: list) -> Union[np.ndarray, list]:
         return original_images
 
     # we load the trained model
-    print('here')
     model = load_model(f'../assets/models/{MODEL_NAME}.h5')
+    print('here')
 
     # the masks of each image will be contained in this varible
     predicted_masks = []
