@@ -63,7 +63,10 @@ def findIntervals(areas: list, num_of_bins: int) -> List[pd.Interval]:
     :return: a list containing Intervals of class pd.Intervals, The number may be less than num_of_bins because
     of duplicated intervals.
     """
-    return list(dict(pd.qcut(areas, num_of_bins, duplicates="drop", precision=4).value_counts()).keys())
+    intervals = list(dict(pd.qcut(areas, num_of_bins, duplicates="drop", precision=4).value_counts()).keys())
+    for i in range(intervals.__len__()):
+        intervals[i] = pd.Interval(round(intervals[i].left, 2), round(intervals[i].right, 2), closed="both")
+    return intervals
 
 
 def fitToIntervals(areas: list, num_of_bins: int):
@@ -215,6 +218,8 @@ def analyze(images: List[np.ndarray]
 
 if __name__ == "__main__":
     mask = cv2.imread("mask.png", 0)
-    drawn_imgs, analysis = analyze([mask], show_in_contours=False, calc_centroid=False)
+    drawn_imgs, analysis = analyze([mask], show_ex_contours=False, calc_centroid=False,
+                                   min_limit=1000,
+                                   max_limit=200000)
     display(drawn_imgs[0], "Contours")
     saveImagesAnalysisToCSV(images_analysis=analysis, file_names=["mask.png"])
