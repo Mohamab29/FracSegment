@@ -87,30 +87,32 @@ def fitToIntervals(areas: list, num_of_bins: int):
     return interval_ranges
 
 
-def saveAnalysisToCSV(image_analysis: Dict, file_name: str):
+def saveAnalysisToCSV(image_analysis: Dict, file_name: str, path: str):
     """
     Saving the given dictionary into a csv file with the given file name.
 
     :param image_analysis: a dictionary containing the properties we wanted to analyze in a prediction.
     :param file_name: the name of the image, it will be used for the name of the csv file,example: image_analysis.csv
+    :param path: folder path.
     """
     df = pd.DataFrame(image_analysis)
-    if not os.path.exists("csv_files/"):
-        os.makedirs("csv_files/")
+    if not os.path.exists(f"{path}/csv_files/"):
+        os.makedirs(f"{path}/csv_files/")
     df = df.sort_values(by='area', ascending=False)
-    df.to_csv(f"csv_files/{file_name}_analysis.csv", index=False)
+    df.to_csv(f"{path}/csv_files/{file_name}_analysis.csv", index=False)
 
 
-def saveImagesAnalysisToCSV(images_analysis: list, file_names: list):
+def saveImagesAnalysisToCSV(images_analysis: list, file_names: list, path: str):
     """
     If given a list of dictionaries then we save each image analysis with the corresponding file name into csv files.
 
     :param images_analysis: a list of dictionaries containing the properties we wanted to analyze in a prediction.
     :param file_names: a list of file name that correspond to the given images analysis
+    :param path: folder path.
     """
     for index in range(images_analysis.__len__()):
         file_name = file_names[index].split('.')[0]
-        saveAnalysisToCSV(images_analysis[index], file_name)
+        saveAnalysisToCSV(images_analysis[index], file_name, path)
 
 
 def createAndSaveHistPlot(image_analysis: dict, num_of_bins: int):
@@ -234,5 +236,3 @@ def analyze(images: List[np.ndarray]
         images_analysis.append(image_analysis)
 
     return drawn_images, images_analysis
-
-
