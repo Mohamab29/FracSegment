@@ -251,6 +251,8 @@ class MainWindow(QMainWindow):
 
         self.ui.frame_calculation_page_modifications_options_max_spin_box.valueChanged.connect(
             self.evnChangeMaxValuePageCalculation)
+        self.ui.frame_calculation_page_modifications_options_min_spin_box.valueChanged.connect(
+            self.evnChangeMinValuePageCalculation)
 
     def evnPredictButtonClicked(self):
         checked_items = []
@@ -307,9 +309,14 @@ class MainWindow(QMainWindow):
             if results_page_list.item(index).checkState() == 2:
                 list_item = results_page_list.item(index)
                 list_item_name = list_item.text()
-                self.imagesMaxValues[list_item_name.replace('_predicted', '_calculated')] = find_max_area(
+                list_item_calc_name = list_item_name.replace('_predicted', '_calculated')
+                self.imagesMaxValues[list_item_calc_name] = find_max_area(
                     self.PredictedImagesNpArray[list_item_name])
-                self.checkedImagesForCalculationNpArray[list_item_name.replace('_predicted', '_calculated')] = \
+                self.checkedImagesForCalculationNpArray[list_item_calc_name] = \
+                    self.PredictedImagesNpArray[list_item_name]
+
+                self.imagesMinValues[list_item_calc_name] = self.ui.frame_calculation_page_modifications_options_min_spin_box.value()
+                self.checkedImagesForCalculationNpArray[list_item_calc_name] = \
                     self.PredictedImagesNpArray[list_item_name]
 
         checked_calculated_items_size = self.checkedImagesForCalculationNpArray.__len__()
@@ -454,6 +461,11 @@ class MainWindow(QMainWindow):
             self.currentItemClickedNameCalcPage] = self.ui.frame_calculation_page_modifications_options_max_spin_box.value()
         self.ui.frame_calculation_page_modifications_options_max_spin_box.setValue(self.imagesMaxValues[
                                                                                        self.currentItemClickedNameCalcPage])
+    def evnChangeMinValuePageCalculation(self):
+        self.imagesMinValues[
+            self.currentItemClickedNameCalcPage] = self.ui.frame_calculation_page_modifications_options_min_spin_box.value()
+        self.ui.frame_calculation_page_modifications_options_min_spin_box.setValue(self.imagesMinValues[
+                                                                                       self.currentItemClickedNameCalcPage])
         # print(self.ui.frame_calculation_page_modifications_options_max_spin_box.value())
 
     def sharedTermsPagePredict(self):
@@ -581,6 +593,8 @@ class MainWindow(QMainWindow):
     def evnImageListItemClickedPageCalculation(self, item):
         self.ui.frame_calculation_page_modifications_options_max_spin_box.setValue(
             self.imagesMaxValues[item.text()])
+        self.ui.frame_calculation_page_modifications_options_min_spin_box.setValue(
+            self.imagesMinValues[item.text()])
         print(f'item.text(): {item.text()}')
         self.currentItemClickedNameCalcPage = item.text()
         self.sharedTermsPageCalculation()
