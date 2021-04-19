@@ -1,6 +1,5 @@
 import os
 from typing import Tuple, List, Dict
-from segmenting import display
 import numpy as np
 import cv2
 import random
@@ -237,10 +236,3 @@ def analyze(images: List[np.ndarray]
     return drawn_images, images_analysis
 
 
-if __name__ == "__main__":
-    mask = cv2.imread("mask.png", 0)
-    drawn_imgs, analysis = analyze([mask], show_ex_contours=False, show_in_contours=True, calc_centroid=False,
-                                   min_limit=1000,
-                                   max_limit=200000)
-    display(drawn_imgs[0], "Contours")
-    saveImagesAnalysisToCSV(images_analysis=analysis, file_names=["mask.png"])

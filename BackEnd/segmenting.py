@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 
 # a global size that we want to resize images to
 DESIRED_SIZE = 1024
-MODEL_NAME = "model_18-22_20-Mar-2021"
+MODEL_NAME = "model"
 
 
 def display(img, title, cmap='gray'):
