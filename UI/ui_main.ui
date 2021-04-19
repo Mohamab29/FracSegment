@@ -1737,7 +1737,7 @@ QListWidget::item {
                          </property>
                          <layout class="QVBoxLayout" name="verticalLayout_27">
                           <item>
-                           <widget class="QCheckBox" name="check_box_show_centroid">
+                           <widget class="QCheckBox" name="check_box_show_and_calculate_centroid">
                             <property name="enabled">
                              <bool>false</bool>
                             </property>
@@ -1745,7 +1745,7 @@ QListWidget::item {
                              <string notr="true">color: rgb(56, 61, 70);</string>
                             </property>
                             <property name="text">
-                             <string>Show Centroid</string>
+                             <string>Show and calculate centroid</string>
                             </property>
                             <property name="checked">
                              <bool>false</bool>
@@ -1804,7 +1804,7 @@ QListWidget::item {
                             </property>
                             <layout class="QHBoxLayout" name="horizontalLayout_9">
                              <item>
-                              <widget class="QLabel" name="min_value">
+                              <widget class="QLabel" name="label_min_value_page_calculation">
                                <property name="styleSheet">
                                 <string notr="true">color: rgb(130, 130, 130)</string>
                                </property>
@@ -1827,7 +1827,7 @@ QListWidget::item {
                               </widget>
                              </item>
                              <item>
-                              <widget class="QLabel" name="max_value">
+                              <widget class="QLabel" name="label_max_value_page_calculation">
                                <property name="styleSheet">
                                 <string notr="true">color: rgb(130, 130, 130)</string>
                                </property>

@@ -35,6 +35,26 @@ def changeButtonToEnableStyle(btn):
                       "}")
 
 
+def changeChackBoxToEnableStyle(check_box):
+    check_box.setStyleSheet("color: rgb(255, 255, 255);")
+
+
+def changeChackBoxToDisableStyle(check_box):
+    check_box.setStyleSheet("color: rgb(32, 35, 41);")
+
+
+def toggleCheckBoxAndChangeStyle(pair):
+    for p in pair:
+        check_box = p[0]
+        term = p[1]
+        if not term:
+            check_box.setEnabled(False)
+            changeChackBoxToDisableStyle(check_box)
+        else:
+            check_box.setEnabled(True)
+            changeChackBoxToEnableStyle(check_box)
+
+
 def toggleButtonAndChangeStyle(pair):
     for p in pair:
         btn = p[0]
@@ -196,6 +216,12 @@ class MainWindow(QMainWindow):
         # self.ui.btn_calculation_page_delete_selected_images.clicked.connect(
         #     self.evnDeleteSelectedImagesButtonClickedPageCalculation)
 
+        self.ui.images_calculation_page_import_list.itemClicked.connect(self.evnImageListItemClickedPageCalculation)
+        # self.ui.images_results_page_import_list.itemDoubleClicked.connect(
+        #     partial(evnImageListItemDoubleClickedPageResults, self.PredictedImages))
+        # self.ui.images_results_page_import_list.currentItemChanged.connect(
+        #     partial(self.evnCurrentItemChangedPageResults, self.ui.label_results_page_selected_picture))
+
     def evnPredictButtonClicked(self):
         checked_items = []
         import_list = self.ui.images_predict_page_import_list
@@ -265,14 +291,16 @@ class MainWindow(QMainWindow):
                 (self.ui.btn_calculation_page_clear_images, True),
                 (self.ui.btn_calculation_page_send, True),
                 (self.ui.btn_calculation_page_uncheck_all, True),
-                (self.ui.check_box_show_diemeters, True),
-                (self.ui.check_box_show_centroid, True),
-                (self.ui.check_box_show_external_contures, True),
-                (self.ui.check_box_show_internal_contures, True),
                 (self.ui.slider, True),
             ]
 
+            check_box_tuple = [(self.ui.check_box_show_diemeters, True),
+                               (self.ui.check_box_show_and_calculate_centroid, True),
+                               (self.ui.check_box_show_external_contures, True),
+                               (self.ui.check_box_show_internal_contures, True)]
+
             toggleButtonAndChangeStyle(buttons_tuple)
+            toggleCheckBoxAndChangeStyle(check_box_tuple)
             import_list = self.ui.images_calculation_page_import_list
             # selected_result_list_size = len(import_list.selectedItems())
             #
@@ -369,11 +397,67 @@ class MainWindow(QMainWindow):
             toggleButtonAndChangeStyle([(self.ui.btn_results_page_custom_calculation, True)])
             toggleButtonAndChangeStyle([(self.ui.btn_results_page_save_images, True)])
 
+    def sharedTermsPageCalculation(self):
+        widget_list = self.ui.images_calculation_page_import_list
+
+        self.updateNumOfImagesPageCalculation(widget_list)
+
+        if not isAtLeastOneItemChecked(widget_list):
+            toggleButtonAndChangeStyle([(self.ui.btn_calculation_page_uncheck_all, False)])
+        else:
+            toggleButtonAndChangeStyle([(self.ui.btn_calculation_page_uncheck_all, True)])
+
+        if isAtLeastOneItemNotChecked(widget_list):
+            toggleButtonAndChangeStyle([(self.ui.btn_calculation_page_check_all, True)])
+        else:
+            toggleButtonAndChangeStyle([(self.ui.btn_calculation_page_check_all, False)])
+
+        if numOfCheckedItems(widget_list):
+            toggleButtonAndChangeStyle([(self.ui.btn_calculation_page_delete_selected_images, True)])
+
+
+        else:
+            toggleButtonAndChangeStyle([(self.ui.btn_calculation_page_delete_selected_images, False)])
+
+        if not numOfCheckedItems(widget_list):
+            buttons_tuple = [(self.ui.btn_calculation_page_clear_images, False),
+                             (self.ui.btn_calculation_page_save_images, False),
+                             (self.ui.btn_calculation_page_save_csvs, False),
+                             (self.ui.btn_calculation_page_send, False),
+                             (self.ui.slider, False),
+                             ]
+
+            check_box_tuple = [(self.ui.check_box_show_diemeters, False),
+                               (self.ui.check_box_show_and_calculate_centroid, False),
+                               (self.ui.check_box_show_external_contures, False),
+                               (self.ui.check_box_show_internal_contures, False)]
+
+            toggleButtonAndChangeStyle(buttons_tuple)
+            toggleCheckBoxAndChangeStyle(check_box_tuple)
+        else:
+            buttons_tuple = [(self.ui.btn_calculation_page_clear_images, True),
+                             (self.ui.btn_calculation_page_save_images, True),
+                             (self.ui.btn_calculation_page_save_csvs, True),
+                             (self.ui.btn_calculation_page_send, True),
+                             (self.ui.slider, True),
+                             ]
+
+            check_box_tuple = [(self.ui.check_box_show_diemeters, True),
+                               (self.ui.check_box_show_and_calculate_centroid, True),
+                               (self.ui.check_box_show_external_contures, True),
+                               (self.ui.check_box_show_internal_contures, True)]
+
+            toggleButtonAndChangeStyle(buttons_tuple)
+            toggleCheckBoxAndChangeStyle(check_box_tuple)
+
     def evnImageListItemClickedPagePredict(self):
         self.sharedTermsPagePredict()
 
     def evnImageListItemClickedPageResults(self):
         self.sharedTermsPageResults()
+
+    def evnImageListItemClickedPageCalculation(self):
+        self.sharedTermsPageCalculation()
 
     def evnPagePredictClicked(self):
         self.ui.stackedWidget.setCurrentWidget(self.ui.frame_predict_page)
@@ -544,14 +628,16 @@ class MainWindow(QMainWindow):
                              (self.ui.btn_calculation_page_save_images, False),
                              (self.ui.btn_calculation_page_save_csvs, False),
                              (self.ui.btn_calculation_page_send, False),
-                             (self.ui.check_box_show_diemeters, False),
-                             (self.ui.check_box_show_centroid, False),
-                             (self.ui.check_box_show_external_contures, False),
-                             (self.ui.check_box_show_internal_contures, False),
                              (self.ui.slider, False),
                              ]
 
+            check_box_tuple = [(self.ui.check_box_show_diemeters, False),
+                               (self.ui.check_box_show_and_calculate_centroid, False),
+                               (self.ui.check_box_show_external_contures, False),
+                               (self.ui.check_box_show_internal_contures, False)]
+
             toggleButtonAndChangeStyle(buttons_tuple)
+            toggleCheckBoxAndChangeStyle(check_box_tuple)
             self.updateNumOfImagesPageCalculation(self.ui.images_calculation_page_import_list)
 
     def evnCheckAllButtonClickedPagePredict(self):
@@ -609,14 +695,16 @@ class MainWindow(QMainWindow):
                              (self.ui.btn_calculation_page_save_csvs, True),
                              (self.ui.btn_calculation_page_save_images, True),
                              (self.ui.btn_calculation_page_send, True),
-                             (self.ui.check_box_show_diemeters, True),
-                             (self.ui.check_box_show_centroid, True),
-                             (self.ui.check_box_show_external_contures, True),
-                             (self.ui.check_box_show_internal_contures, True),
                              (self.ui.slider, True),
                              ]
 
+            check_box_tuple = [(self.ui.check_box_show_diemeters, True),
+                               (self.ui.check_box_show_and_calculate_centroid, True),
+                               (self.ui.check_box_show_external_contures, True),
+                               (self.ui.check_box_show_internal_contures, True)]
+
             toggleButtonAndChangeStyle(buttons_tuple)
+            toggleCheckBoxAndChangeStyle(check_box_tuple)
             self.updateNumOfImagesPageCalculation(self.ui.images_calculation_page_import_list)
 
     def evnUncheckAllButtonClickedPageResults(self):
@@ -646,14 +734,16 @@ class MainWindow(QMainWindow):
                              (self.ui.btn_calculation_page_save_images, False),
                              (self.ui.btn_calculation_page_save_csvs, False),
                              (self.ui.btn_calculation_page_send, False),
-                             (self.ui.check_box_show_diemeters, False),
-                             (self.ui.check_box_show_centroid, False),
-                             (self.ui.check_box_show_external_contures, False),
-                             (self.ui.check_box_show_internal_contures, False),
                              (self.ui.slider, False)
                              ]
 
+            check_box_tuple = [(self.ui.check_box_show_diemeters, False),
+                               (self.ui.check_box_show_and_calculate_centroid, False),
+                               (self.ui.check_box_show_external_contures, False),
+                               (self.ui.check_box_show_internal_contures, False)]
+
             toggleButtonAndChangeStyle(buttons_tuple)
+            toggleCheckBoxAndChangeStyle(check_box_tuple)
             self.updateNumOfImagesPageCalculation(self.ui.images_calculation_page_import_list)
 
     def updateNumOfImagesPagePredict(self, widget_list):
