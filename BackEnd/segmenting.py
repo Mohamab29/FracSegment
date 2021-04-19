@@ -2,7 +2,8 @@ from typing import Union, Tuple, Optional
 import cv2
 import numpy as np
 from tqdm import tqdm
-from keras.models import load_model
+# from keras.models import load_model
+from tensorflow import keras
 from skimage.util.shape import view_as_windows
 import matplotlib.pyplot as plt
 
@@ -161,7 +162,7 @@ def segment(paths: list) -> Union[np.ndarray, list]:
         return original_images
 
     # we load the trained model
-    model = load_model(f'../assets/models/{MODEL_NAME}.h5')
+    model = keras.models.load_model(f'../assets/models/{MODEL_NAME}.h5')
     print('here')
 
     # the masks of each image will be contained in this varible

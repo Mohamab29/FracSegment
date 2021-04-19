@@ -1,3 +1,5 @@
+import os
+
 from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog, QMessageBox, QDesktopWidget, QFrame
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -207,6 +209,7 @@ class MainWindow(QMainWindow):
         self.ui.btn_results_page_save_images.clicked.connect(self.evnSaveSelectedImagesButtonClickedPageResults)
         self.ui.btn_results_page_custom_calculation.clicked.connect(self.evnCustomCalculationButtonClicked)
         self.ui.btn_results_page_save_csvs.clicked.connect(self.evnSaveCsvsButtonClickedPageResults)
+        self.ui.btn_results_page_save_images_and_csvs.clicked.connect(self.evnSaveImageAndCsvsButtonClickedPageResults)
 
         self.ui.images_results_page_import_list.itemClicked.connect(self.evnImageListItemClickedPageResults)
         self.ui.images_results_page_import_list.itemDoubleClicked.connect(
@@ -256,7 +259,8 @@ class MainWindow(QMainWindow):
                 (self.ui.btn_results_page_delete_selected_images, True),
                 (self.ui.btn_results_page_save_images, True),
                 (self.ui.btn_results_page_custom_calculation, True),
-                (self.ui.btn_results_page_save_csvs, True)
+                (self.ui.btn_results_page_save_csvs, True),
+                (self.ui.btn_results_page_save_images_and_csvs, True)
             ]
 
             toggleButtonAndChangeStyle(buttons_tuple)
@@ -360,11 +364,45 @@ class MainWindow(QMainWindow):
         res = QFileDialog.getExistingDirectory(self, "Choose Folder")
 
         if res and checked_items:
+            if not os.path.exists(f"{res}/files/predicted_images/"):
+                os.makedirs(f"{res}/files/predicted_images/")
+
             for image_name in checked_items:
                 pixmap_image = checked_items[image_name]
-                image_path = f"{res}/{image_name}"
+                image_path = f"{res}/files/predicted_images/{image_name}"
                 image_type = image_name.split('.')[-1]
                 pixmap_image.save(image_path, image_type)
+
+    def evnSaveImageAndCsvsButtonClickedPageResults(self):
+        checked_items = {}
+        predicted_images_list_checked = []
+        image_names_list_checked = []
+
+        results_page_list = self.ui.images_results_page_import_list
+
+        for index in range(results_page_list.count()):
+            if results_page_list.item(index).checkState() == 2:
+                list_item = results_page_list.item(index)
+                list_item_name = list_item.text()
+                image_names_list_checked.append(list_item_name)
+                checked_items[list_item.text()] = self.PredictedImagesPixMap[list_item_name]
+                predicted_images_list_checked.append(self.PredictedImagesNpArray[list_item_name])
+
+        path = QFileDialog.getExistingDirectory(self, "Choose Folder")
+
+        if path and predicted_images_list_checked and checked_items:
+            _, images_analysis = analyze(predicted_images_list_checked)
+            saveImagesAnalysisToCSV(images_analysis, image_names_list_checked,path)
+
+            if not os.path.exists(f"{path}/files/predicted_images/"):
+                os.makedirs(f"{path}/files/predicted_images/")
+
+            for image_name in checked_items:
+                pixmap_image = checked_items[image_name]
+                image_path = f"{path}/files/predicted_images/{image_name}"
+                image_type = image_name.split('.')[-1]
+                pixmap_image.save(image_path, image_type)
+
 
     def evnCurrentItemChangedPagePredict(self, label, item):
         if item:
@@ -419,11 +457,21 @@ class MainWindow(QMainWindow):
             toggleButtonAndChangeStyle([(self.ui.btn_results_page_delete_selected_images, False)])
 
         if not numOfCheckedItems(widget_list):
-            toggleButtonAndChangeStyle([(self.ui.btn_results_page_custom_calculation, False)])
-            toggleButtonAndChangeStyle([(self.ui.btn_results_page_save_images, False)])
+            buttons_tuple = [(self.ui.btn_results_page_custom_calculation, False),
+                             (self.ui.btn_results_page_save_images, False),
+                             (self.ui.btn_results_page_save_csvs, False),
+                             (self.ui.btn_results_page_save_images_and_csvs, False),
+                             ]
+
+            toggleButtonAndChangeStyle(buttons_tuple)
         else:
-            toggleButtonAndChangeStyle([(self.ui.btn_results_page_custom_calculation, True)])
-            toggleButtonAndChangeStyle([(self.ui.btn_results_page_save_images, True)])
+            buttons_tuple = [(self.ui.btn_results_page_custom_calculation, True),
+                             (self.ui.btn_results_page_save_images, True),
+                             (self.ui.btn_results_page_save_csvs, True),
+                             (self.ui.btn_results_page_save_images_and_csvs, True),
+                             ]
+
+            toggleButtonAndChangeStyle(buttons_tuple)
 
     def sharedTermsPageCalculation(self):
         widget_list = self.ui.images_calculation_page_import_list
@@ -635,6 +683,7 @@ class MainWindow(QMainWindow):
                              (self.ui.btn_results_page_check_all, False),
                              (self.ui.btn_results_page_delete_selected_images, False),
                              (self.ui.btn_results_page_save_images, False),
+                             (self.ui.btn_results_page_save_csvs, False),
                              (self.ui.btn_results_page_save_images_and_csvs, False)]
 
             toggleButtonAndChangeStyle(buttons_tuple)
@@ -704,7 +753,10 @@ class MainWindow(QMainWindow):
                              (self.ui.btn_results_page_uncheck_all, True),
                              (self.ui.btn_results_page_delete_selected_images, True),
                              (self.ui.btn_results_page_custom_calculation, True),
-                             (self.ui.btn_results_page_save_images, True)]
+                             (self.ui.btn_results_page_save_images, True),
+                             (self.ui.btn_results_page_save_csvs, True),
+                             (self.ui.btn_results_page_save_images_and_csvs, True),
+                             ]
 
             toggleButtonAndChangeStyle(buttons_tuple)
             self.updateNumOfImagesPageResults(self.ui.images_results_page_import_list)
@@ -743,7 +795,10 @@ class MainWindow(QMainWindow):
                              (self.ui.btn_results_page_uncheck_all, False),
                              (self.ui.btn_results_page_delete_selected_images, False),
                              (self.ui.btn_results_page_custom_calculation, False),
-                             (self.ui.btn_results_page_save_images, False)]
+                             (self.ui.btn_results_page_save_images, False),
+                             (self.ui.btn_results_page_save_csvs, False),
+                             (self.ui.btn_results_page_save_images_and_csvs, False)
+                             ]
 
             toggleButtonAndChangeStyle(buttons_tuple)
             self.updateNumOfImagesPageResults(self.ui.images_results_page_import_list)

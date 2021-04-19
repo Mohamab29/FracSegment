@@ -96,10 +96,10 @@ def saveAnalysisToCSV(image_analysis: Dict, file_name: str, path: str):
     :param path: folder path.
     """
     df = pd.DataFrame(image_analysis)
-    if not os.path.exists(f"{path}/csv_files/"):
-        os.makedirs(f"{path}/csv_files/")
+    if not os.path.exists(f"{path}/files/csv_files/"):
+        os.makedirs(f"{path}/files/csv_files/")
     df = df.sort_values(by='area', ascending=False)
-    df.to_csv(f"{path}/csv_files/{file_name}_analysis.csv", index=False)
+    df.to_csv(f"{path}/files/csv_files/{file_name}_analysis.csv", index=False)
 
 
 def saveImagesAnalysisToCSV(images_analysis: list, file_names: list, path: str):
