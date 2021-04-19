@@ -1805,6 +1805,15 @@ QListWidget::item {
                                 <enum>QFrame::Raised</enum>
                                </property>
                                <layout class="QVBoxLayout" name="verticalLayout_29">
+                                <property name="leftMargin">
+                                 <number>0</number>
+                                </property>
+                                <property name="topMargin">
+                                 <number>0</number>
+                                </property>
+                                <property name="rightMargin">
+                                 <number>0</number>
+                                </property>
                                 <item alignment="Qt::AlignHCenter">
                                  <widget class="QLabel" name="frame_calculation_page_modifications_options_min_label">
                                   <property name="styleSheet">
@@ -1823,6 +1832,15 @@ QListWidget::item {
                                   <property name="styleSheet">
                                    <string notr="true">color: rgb(56, 61, 70);</string>
                                   </property>
+                                  <property name="minimum">
+                                   <double>300.000000000000000</double>
+                                  </property>
+                                  <property name="maximum">
+                                   <double>100000000.000000000000000</double>
+                                  </property>
+                                  <property name="value">
+                                   <double>300.000000000000000</double>
+                                  </property>
                                  </widget>
                                 </item>
                                </layout>
@@ -1837,6 +1855,15 @@ QListWidget::item {
                                 <enum>QFrame::Raised</enum>
                                </property>
                                <layout class="QVBoxLayout" name="verticalLayout_28">
+                                <property name="leftMargin">
+                                 <number>0</number>
+                                </property>
+                                <property name="topMargin">
+                                 <number>0</number>
+                                </property>
+                                <property name="rightMargin">
+                                 <number>0</number>
+                                </property>
                                 <item alignment="Qt::AlignHCenter">
                                  <widget class="QLabel" name="frame_calculation_page_modifications_options_max_label">
                                   <property name="styleSheet">
@@ -1854,6 +1881,15 @@ QListWidget::item {
                                   </property>
                                   <property name="styleSheet">
                                    <string notr="true">color: rgb(56, 61, 70);</string>
+                                  </property>
+                                  <property name="minimum">
+                                   <double>300.000000000000000</double>
+                                  </property>
+                                  <property name="maximum">
+                                   <double>1000000.000000000000000</double>
+                                  </property>
+                                  <property name="value">
+                                   <double>1000000.000000000000000</double>
                                   </property>
                                  </widget>
                                 </item>

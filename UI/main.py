@@ -6,8 +6,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from ui_main import Ui_MainWindow
 from functools import partial
 from PIL.ImageQt import ImageQt
-from BackEnd.segmenting import segment, display
-from BackEnd.analyze_dimples import analyze, saveImagesAnalysisToCSV
+from BackEnd.segmenting import segment
+from BackEnd.analyze_dimples import analyze, saveImagesAnalysisToCSV, find_max_area
 import cv2
 import io
 from PIL import Image
@@ -187,6 +187,9 @@ class MainWindow(QMainWindow):
         self.PredictedImagesNpArray = {}
         self.checkedImagesForCalculationNpArray = {}
         self.checkedImagesForCalculationPixMap = {}
+        self.imagesMaxValues = {}
+        self.imagesMinValues = {}
+        self.currentItemClickedNameCalcPage = ''
         self.setActions()
         self.center()
 
@@ -234,6 +237,7 @@ class MainWindow(QMainWindow):
             partial(self.evnCurrentItemChangedPageResults, self.ui.label_results_page_selected_picture))
 
         self.ui.btn_calculation_page_clear_images.clicked.connect(self.evnClearImagesButtonClickedPageCalculation)
+        self.ui.btn_calculation_page_send.clicked.connect(self.evnSendButtonClickedPageCalculation)
         self.ui.btn_calculation_page_check_all.clicked.connect(self.evnCheckAllButtonClickedPageCalculation)
         self.ui.btn_calculation_page_uncheck_all.clicked.connect(self.evnUncheckAllButtonClickedPageCalculation)
         self.ui.btn_calculation_page_delete_selected_images.clicked.connect(
@@ -244,6 +248,9 @@ class MainWindow(QMainWindow):
             partial(evnImageListItemDoubleClicked, self.checkedImagesForCalculationPixMap))
         self.ui.images_calculation_page_import_list.currentItemChanged.connect(
             partial(self.evnCurrentItemChangedPageCalculation, self.ui.label_calculate_page_selected_picture))
+
+        self.ui.frame_calculation_page_modifications_options_max_spin_box.valueChanged.connect(
+            self.evnChangeMaxValuePageCalculation)
 
     def evnPredictButtonClicked(self):
         checked_items = []
@@ -300,6 +307,8 @@ class MainWindow(QMainWindow):
             if results_page_list.item(index).checkState() == 2:
                 list_item = results_page_list.item(index)
                 list_item_name = list_item.text()
+                self.imagesMaxValues[list_item_name.replace('_predicted', '_calculated')] = find_max_area(
+                    self.PredictedImagesNpArray[list_item_name])
                 self.checkedImagesForCalculationNpArray[list_item_name.replace('_predicted', '_calculated')] = \
                     self.PredictedImagesNpArray[list_item_name]
 
@@ -338,13 +347,13 @@ class MainWindow(QMainWindow):
             toggleCheckBoxAndChangeStyle(check_box_tuple)
             import_list = self.ui.images_calculation_page_import_list
 
-            selected_result_list_size = len(import_list.selectedItems())
+            selected_calculation_list_size = len(import_list.selectedItems())
 
-            if not selected_result_list_size:
+            if not selected_calculation_list_size:
+                last_image = drawn_images[-1]
                 label = self.ui.label_calculate_page_selected_picture
-                label.setPixmap(QtGui.QPixmap(convertCvImage2QtImageRGB(drawn_images[-1].copy(), "RGB")))
+                label.setPixmap(QtGui.QPixmap(convertCvImage2QtImageRGB(last_image.copy(), "RGB")))
                 imageLabelFrame(label, QFrame.StyledPanel, QFrame.Sunken, 3)
-
             self.updateNumOfImagesPageCalculation(import_list)
 
     def evnSaveCsvsButtonClickedPageResults(self):
@@ -438,6 +447,14 @@ class MainWindow(QMainWindow):
         if item:
             label.setPixmap(self.checkedImagesForCalculationPixMap[item.text()])
             imageLabelFrame(label, QFrame.StyledPanel, QFrame.Sunken, 3)
+            self.currentItemClickedNameCalcPage = item.text()
+
+    def evnChangeMaxValuePageCalculation(self):
+        self.imagesMaxValues[
+            self.currentItemClickedNameCalcPage] = self.ui.frame_calculation_page_modifications_options_max_spin_box.value()
+        self.ui.frame_calculation_page_modifications_options_max_spin_box.setValue(self.imagesMaxValues[
+                                                                                       self.currentItemClickedNameCalcPage])
+        # print(self.ui.frame_calculation_page_modifications_options_max_spin_box.value())
 
     def sharedTermsPagePredict(self):
         widget_list = self.ui.images_predict_page_import_list
@@ -561,7 +578,11 @@ class MainWindow(QMainWindow):
     def evnImageListItemClickedPageResults(self):
         self.sharedTermsPageResults()
 
-    def evnImageListItemClickedPageCalculation(self):
+    def evnImageListItemClickedPageCalculation(self, item):
+        self.ui.frame_calculation_page_modifications_options_max_spin_box.setValue(
+            self.imagesMaxValues[item.text()])
+        print(f'item.text(): {item.text()}')
+        self.currentItemClickedNameCalcPage = item.text()
         self.sharedTermsPageCalculation()
 
     def evnPagePredictClicked(self):
@@ -774,6 +795,17 @@ class MainWindow(QMainWindow):
             toggleButtonAndChangeStyle(buttons_tuple)
             toggleCheckBoxAndChangeStyle(check_box_tuple)
             self.updateNumOfImagesPageCalculation(self.ui.images_calculation_page_import_list)
+
+    def evnSendButtonClickedPageCalculation(self):
+        show_external = self.ui.check_box_show_external_contures
+        show_and_calculate_centroid = self.ui.check_box_show_and_calculate_centroid
+        show_internal = self.ui.check_box_show_internal_contures
+
+        check_box_flags = {
+            'show_in_contours': show_internal.isChecked(),
+            'show_ex_contours': show_external.isChecked(),
+            'calc_centroid': show_and_calculate_centroid.isChecked()
+        }
 
     def evnCheckAllButtonClickedPagePredict(self):
         if showDialog('Check all images', 'Are you sure?', QMessageBox.Information):
