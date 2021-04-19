@@ -5,6 +5,8 @@ from ui_main import Ui_MainWindow
 from functools import partial
 from PIL.ImageQt import ImageQt
 from BackEnd.segmenting import segment
+from BackEnd.analyze_dimples import analyze, saveImagesAnalysisToCSV
+
 import io
 from PIL import Image
 from PyQt5.QtCore import QBuffer
@@ -163,7 +165,8 @@ class MainWindow(QMainWindow):
         self.ui.setupUi(self)
         self.animation = QtCore.QPropertyAnimation(self.ui.frame_left_menu, b"minimumWidth")
         self.imageListPathDict = {}
-        self.PredictedImages = {}
+        self.PredictedImagesPixMap = {}
+        self.PredictedImagesNpArray = {}
         self.CalculatedImages = {}
 
         self.setActions()
@@ -203,10 +206,11 @@ class MainWindow(QMainWindow):
             self.evnDeleteSelectedImagesButtonClickedPageResults)
         self.ui.btn_results_page_save_images.clicked.connect(self.evnSaveSelectedImagesButtonClickedPageResults)
         self.ui.btn_results_page_custom_calculation.clicked.connect(self.evnCustomCalculationButtonClicked)
+        self.ui.btn_results_page_save_csvs.clicked.connect(self.evnSaveCsvsButtonClickedPageResults)
 
         self.ui.images_results_page_import_list.itemClicked.connect(self.evnImageListItemClickedPageResults)
         self.ui.images_results_page_import_list.itemDoubleClicked.connect(
-            partial(evnImageListItemDoubleClickedPageResults, self.PredictedImages))
+            partial(evnImageListItemDoubleClickedPageResults, self.PredictedImagesPixMap))
         self.ui.images_results_page_import_list.currentItemChanged.connect(
             partial(self.evnCurrentItemChangedPageResults, self.ui.label_results_page_selected_picture))
 
@@ -218,7 +222,7 @@ class MainWindow(QMainWindow):
 
         self.ui.images_calculation_page_import_list.itemClicked.connect(self.evnImageListItemClickedPageCalculation)
         # self.ui.images_results_page_import_list.itemDoubleClicked.connect(
-        #     partial(evnImageListItemDoubleClickedPageResults, self.PredictedImages))
+        #     partial(evnImageListItemDoubleClickedPageResults, self.PredictedImagesPixMap))
         # self.ui.images_results_page_import_list.currentItemChanged.connect(
         #     partial(self.evnCurrentItemChangedPageResults, self.ui.label_results_page_selected_picture))
 
@@ -241,7 +245,9 @@ class MainWindow(QMainWindow):
                 splited_image_name = checked_items[img].split('/')[-1].split('.')
                 image_name = f"{splited_image_name[0]}_predicted.{splited_image_name[1]}"
 
-                self.PredictedImages[image_name] = convertCvImage2QtImage(segmented_image)
+                self.PredictedImagesPixMap[image_name] = convertCvImage2QtImage(segmented_image)
+                self.PredictedImagesNpArray[image_name] = segmented_image
+
                 self.addImageNameToList(image_name, self.ui.images_results_page_import_list)
 
             buttons_tuple = [
@@ -249,7 +255,8 @@ class MainWindow(QMainWindow):
                 (self.ui.btn_results_page_uncheck_all, True),
                 (self.ui.btn_results_page_delete_selected_images, True),
                 (self.ui.btn_results_page_save_images, True),
-                (self.ui.btn_results_page_custom_calculation, True)
+                (self.ui.btn_results_page_custom_calculation, True),
+                (self.ui.btn_results_page_save_csvs, True)
             ]
 
             toggleButtonAndChangeStyle(buttons_tuple)
@@ -313,6 +320,27 @@ class MainWindow(QMainWindow):
             # label.setText("Please select image to view on the screen.")
             self.updateNumOfImagesPageCalculation(import_list)
 
+    def evnSaveCsvsButtonClickedPageResults(self):
+        predicted_images_list_checked = []
+        image_names_list_checked = []
+
+        results_page_list = self.ui.images_results_page_import_list
+
+        for index in range(results_page_list.count()):
+            if results_page_list.item(index).checkState() == 2:
+                list_item = results_page_list.item(index)
+                list_item_name = list_item.text()
+                image_names_list_checked.append(list_item_name)
+                predicted_images_list_checked.append(self.PredictedImagesNpArray[list_item_name])
+
+        path = QFileDialog.getExistingDirectory(self, "Choose Folder")
+
+        if path and predicted_images_list_checked:
+            _, images_analysis = analyze(predicted_images_list_checked)
+            saveImagesAnalysisToCSV(images_analysis, image_names_list_checked,path)
+
+
+
     def addImageNameToList(self, image_name, list):
         list_item = QtWidgets.QListWidgetItem()
         list_item.setCheckState(QtCore.Qt.Checked)
@@ -327,7 +355,7 @@ class MainWindow(QMainWindow):
         for index in range(self.ui.images_results_page_import_list.count()):
             if self.ui.images_results_page_import_list.item(index).checkState() == 2:
                 list_item = self.ui.images_results_page_import_list.item(index)
-                checked_items[list_item.text()] = self.PredictedImages[list_item.text()]
+                checked_items[list_item.text()] = self.PredictedImagesPixMap[list_item.text()]
 
         res = QFileDialog.getExistingDirectory(self, "Choose Folder")
 
@@ -345,7 +373,7 @@ class MainWindow(QMainWindow):
 
     def evnCurrentItemChangedPageResults(self, label, item):
         if item:
-            label.setPixmap(self.PredictedImages[item.text()])
+            label.setPixmap(self.PredictedImagesPixMap[item.text()])
             imageLabelFrame(label, QFrame.StyledPanel, QFrame.Sunken, 3)
 
     def sharedTermsPagePredict(self):
@@ -414,8 +442,6 @@ class MainWindow(QMainWindow):
 
         if numOfCheckedItems(widget_list):
             toggleButtonAndChangeStyle([(self.ui.btn_calculation_page_delete_selected_images, True)])
-
-
         else:
             toggleButtonAndChangeStyle([(self.ui.btn_calculation_page_delete_selected_images, False)])
 
@@ -571,7 +597,7 @@ class MainWindow(QMainWindow):
 
             for item in checked_items:
                 self.ui.images_results_page_import_list.takeItem(self.ui.images_results_page_import_list.row(item))
-                self.PredictedImages.pop(item.text())
+                self.PredictedImagesPixMap.pop(item.text())
 
             self.sharedTermsPageResults()
 
@@ -598,9 +624,9 @@ class MainWindow(QMainWindow):
             self.updateNumOfImagesPagePredict(self.ui.images_predict_page_import_list)
 
     def evnClearImagesButtonClickedPageResults(self):
-        if self.PredictedImages and showDialog('Clear all images', 'Are you sure?', QMessageBox.Information):
+        if self.PredictedImagesPixMap and showDialog('Clear all images', 'Are you sure?', QMessageBox.Information):
             self.ui.images_results_page_import_list.clear()
-            self.PredictedImages = {}
+            self.PredictedImagesPixMap = {}
             imageLabelFrame(self.ui.label_results_page_selected_picture)
             self.ui.label_results_page_selected_picture.setText("Please predict images first.")
 
