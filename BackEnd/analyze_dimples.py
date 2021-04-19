@@ -5,6 +5,9 @@ import numpy as np
 import cv2
 import random
 import pandas as pd
+import matplotlib as plt
+from matplotlib import pyplot
+import seaborn as sns
 
 """
 When an image has it's mask predicted,A user can then click on the save csv file and the mask (or multiple masks) 
@@ -111,6 +114,27 @@ def saveImagesAnalysisToCSV(images_analysis: list, file_names: list):
         saveAnalysisToCSV(images_analysis[index], file_name)
 
 
+def createAndSaveHistPlot(image_analysis: dict, num_of_bins: int):
+    """
+    The function takes a dictionary of an image analysis that contains properties of a single image,
+    and makes a plot of the distribution based on the area.
+
+    :param image_analysis: a dictionary containing the properties we wanted to analyze in a prediction.
+    :param num_of_bins: the number of intervals.
+
+    """
+    intervals = findIntervals(image_analysis["area"], num_of_bins=num_of_bins)
+    df = pd.DataFrame({
+        "area": image_analysis["area"],
+        "intervals": image_analysis["interval_range"]
+    })
+    ax_dims = (13, 10)
+    fig, ax = pyplot.subplots(figsize=ax_dims)
+    ax = sns.countplot(ax=ax, data=df, x="intervals", palette="ch:s=.25,rot=-.25")
+    ax.xlabel(xlabel="Intervals in μm", labelpad=5.5)
+    ax.figure.savefig(f'csv_files/distribution_graph.png')
+
+
 # noinspection DuplicatedCode
 def analyze(images: List[np.ndarray]
             , show_ex_contours=True
@@ -118,7 +142,7 @@ def analyze(images: List[np.ndarray]
             , calc_centroid=True
             , num_of_bins=10
             , min_limit=300
-            , max_limit=1000000) -> Tuple[list, list]:
+            , max_limit=100000) -> Tuple[list, list]:
     """
     This function takes 2D numpy arrays which are black and white images, and finds contours in these images
     and calculates different properties for each contour
@@ -215,7 +239,7 @@ def analyze(images: List[np.ndarray]
 
 if __name__ == "__main__":
     mask = cv2.imread("mask.png", 0)
-    drawn_imgs, analysis = analyze([mask], show_ex_contours=False, show_in_contours=True, calc_centroid=True,
+    drawn_imgs, analysis = analyze([mask], show_ex_contours=False, show_in_contours=True, calc_centroid=False,
                                    min_limit=1000,
                                    max_limit=200000)
     display(drawn_imgs[0], "Contours")
