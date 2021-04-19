@@ -138,43 +138,43 @@ def createAndSaveHistPlot(image_analysis: dict, num_of_bins: int):
 
 
 # noinspection DuplicatedCode
-def analyze(images: List[np.ndarray]
-            , show_ex_contours=True
-            , show_in_contours=True
-            , calc_centroid=True
-            , num_of_bins=10
-            , min_limit=300
-            , max_limit=100000) -> Tuple[list, list]:
+def analyze(images: dict
+            , flags: dict
+            , min_max_values: dict
+            , num_of_bins=10) -> Tuple[dict, dict]:
     """
-    This function takes 2D numpy arrays which are black and white images, and finds contours in these images
+    Analyze black and white images, and finds contours in these images
     and calculates different properties for each contour
 
-    :param images: 2D numpy array (black and white image).
-    :param show_ex_contours: boolean, if the user wants to quantify the external contours.
-    :param show_in_contours: boolean, if the user wants to quantify the internal contours.
-    :param calc_centroid: boolean, if the user wants to calculate the centroid.
+    :param images: contains values as np.ndarray which are the images and the keys are the image names.
+    :param flags: a dictionary that contains the following flags:<br>
+        1- show_ex_contours: boolean, if the user wants to quantify the external contours.<br>
+        2- show_in_contours: boolean, if the user wants to quantify the internal contours.<br>
+        3- calc_centroid: boolean, if the user wants to calculate the centroid.<br>
+    :param min_max_values: a dictionary that contains requested min and max value for each image.
     :param num_of_bins: the number of intervals.
-    :param min_limit: minimum area in an image.
-    :param max_limit: maximum area in an image.
-    :returns: two lists, the first list contains the drawn images based on the given options and the second list
-     contains image analysis for each given image.
+    :returns: two dictionaries, the first dictionary values are the drawn images based on the given options and <br>
+        the second dictionary values are image analysis for each given image,the keys are image names.
     """
 
     assert images.__len__() != 0, "Function received empty images list."
 
-    images_analysis = []
-    drawn_images = []
-    pixel_to_um = 5
+    images_analysis = {}
+    drawn_images = {}
+    # pixel_to_um = 5
+    images_names = list(images.keys())
+    for name in images_names:
 
-    for index in range(images.__len__()):
-        contours, hierarchy = cv2.findContours(images[index], cv2.RETR_CCOMP, cv2.CHAIN_APPROX_NONE)
+        contours, hierarchy = cv2.findContours(images[name], cv2.RETR_CCOMP, cv2.CHAIN_APPROX_NONE)
 
-        drawn_image = np.zeros(images[index].shape + (3,), dtype=np.uint8)
+        drawn_image = np.zeros(images[name].shape + (3,), dtype=np.uint8)
 
         image_analysis = {"contour_index": [], "contour_type": [], "area": []}
-        if calc_centroid:
+        if flags["calc_centroid"]:
             image_analysis["centroid"] = []
         image_analysis["interval_range"] = []
+
+        min_limit, max_limit = min_max_values[name]
 
         for i in range(len(contours)):
             cnt = contours[i]
@@ -182,55 +182,56 @@ def analyze(images: List[np.ndarray]
             cnt_area = cv2.contourArea(cnt)
             cnt_color = random_color()
             if min_limit < cnt_area < max_limit:
-                if show_in_contours and show_ex_contours:
+
+                if flags["show_in_contours"] and flags["show_ex_contours"]:
                     image_analysis["contour_index"].append(i)
                     cv2.drawContours(drawn_image, [cnt], -1, cnt_color, 2)
                     if hier == -1:
                         image_analysis["contour_type"].append("external")
                     else:
                         image_analysis["contour_type"].append("internal")
-                    if calc_centroid:
+                    if flags["calc_centroid"]:
                         cx, cy = calcCentroid(cnt)
                         image_analysis["centroid"].append((cx, cy))
                         cv2.circle(
                             drawn_image, (cx, cy), radius=3,
                             color=cnt_color, thickness=-1)
-                    image_analysis["area"].append(cnt_area / pixel_to_um)
+                    image_analysis["area"].append(cnt_area)
 
-                elif show_in_contours and not show_ex_contours:
+                elif flags["show_in_contours"] and not flags["show_ex_contours"]:
                     if hier != -1:
                         image_analysis["contour_index"].append(i)
                         cv2.drawContours(drawn_image, [cnt], -1, cnt_color, 2)
                         image_analysis["contour_type"].append("internal")
-                        if calc_centroid:
+                        if flags["calc_centroid"]:
                             cx, cy = calcCentroid(cnt)
                             image_analysis["centroid"].append((cx, cy))
                             cv2.circle(
                                 drawn_image, (cx, cy), radius=3,
                                 color=cnt_color, thickness=-1)
 
-                        image_analysis["area"].append(cnt_area / pixel_to_um)
+                        image_analysis["area"].append(cnt_area)
 
-                elif show_ex_contours and not show_in_contours:
+                elif flags["show_ex_contours"] and not flags["show_in_contours"]:
                     if hier == -1:
                         image_analysis["contour_index"].append(i)
                         cv2.drawContours(drawn_image, [cnt], -1, cnt_color, 2)
                         image_analysis["contour_type"].append("external")
 
-                        if calc_centroid:
+                        if flags["calc_centroid"]:
                             cx, cy = calcCentroid(cnt)
                             image_analysis["centroid"].append((cx, cy))
                             cv2.circle(
                                 drawn_image, (cx, cy), radius=3,
                                 color=cnt_color, thickness=-1)
-                        image_analysis["area"].append(cnt_area / pixel_to_um)
+                        image_analysis["area"].append(cnt_area)
                 else:
                     continue
 
-        if show_in_contours or show_ex_contours:
+        if flags["show_in_contours"] or flags["show_ex_contours"]:
             image_analysis["interval_range"] = fitToIntervals(areas=image_analysis["area"], num_of_bins=num_of_bins)
 
-        drawn_images.append(drawn_image)
-        images_analysis.append(image_analysis)
+        drawn_images[name] = drawn_image
+        images_analysis[name] = image_analysis
 
     return drawn_images, images_analysis
