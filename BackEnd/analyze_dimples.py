@@ -23,13 +23,14 @@ This script in order to handle these options and print them out to a csv file.
 """
 
 
-def find_max_contour(contours: list) -> int:
+def find_max_area(image: np.ndarray) -> float:
     """
     the function finds contours,calculates area for each contour and returns the maximum value.
 
-    :param contours: list of contours.
+    :param image: image 2D array of contours.
     :return: value of the contour with maximum area.
     """
+    contours, hierarchy = cv2.findContours(image, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_NONE)
     return max(list(map(lambda x: cv2.contourArea(x), contours)))
 
 

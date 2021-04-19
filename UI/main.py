@@ -315,7 +315,8 @@ class MainWindow(QMainWindow):
                 self.checkedImagesForCalculationNpArray[list_item_calc_name] = \
                     self.PredictedImagesNpArray[list_item_name]
 
-                self.imagesMinValues[list_item_calc_name] = self.ui.frame_calculation_page_modifications_options_min_spin_box.value()
+                self.imagesMinValues[
+                    list_item_calc_name] = self.ui.frame_calculation_page_modifications_options_min_spin_box.value()
                 self.checkedImagesForCalculationNpArray[list_item_calc_name] = \
                     self.PredictedImagesNpArray[list_item_name]
 
@@ -461,12 +462,12 @@ class MainWindow(QMainWindow):
             self.currentItemClickedNameCalcPage] = self.ui.frame_calculation_page_modifications_options_max_spin_box.value()
         self.ui.frame_calculation_page_modifications_options_max_spin_box.setValue(self.imagesMaxValues[
                                                                                        self.currentItemClickedNameCalcPage])
+
     def evnChangeMinValuePageCalculation(self):
         self.imagesMinValues[
             self.currentItemClickedNameCalcPage] = self.ui.frame_calculation_page_modifications_options_min_spin_box.value()
         self.ui.frame_calculation_page_modifications_options_min_spin_box.setValue(self.imagesMinValues[
                                                                                        self.currentItemClickedNameCalcPage])
-        # print(self.ui.frame_calculation_page_modifications_options_max_spin_box.value())
 
     def sharedTermsPagePredict(self):
         widget_list = self.ui.images_predict_page_import_list
@@ -595,7 +596,6 @@ class MainWindow(QMainWindow):
             self.imagesMaxValues[item.text()])
         self.ui.frame_calculation_page_modifications_options_min_spin_box.setValue(
             self.imagesMinValues[item.text()])
-        print(f'item.text(): {item.text()}')
         self.currentItemClickedNameCalcPage = item.text()
         self.sharedTermsPageCalculation()
 
@@ -811,6 +811,11 @@ class MainWindow(QMainWindow):
             self.updateNumOfImagesPageCalculation(self.ui.images_calculation_page_import_list)
 
     def evnSendButtonClickedPageCalculation(self):
+
+        checked_calculate_items = {}
+        checked_min_max_values = {}
+
+        import_list = self.ui.images_calculation_page_import_list
         show_external = self.ui.check_box_show_external_contures
         show_and_calculate_centroid = self.ui.check_box_show_and_calculate_centroid
         show_internal = self.ui.check_box_show_internal_contures
@@ -820,6 +825,14 @@ class MainWindow(QMainWindow):
             'show_ex_contours': show_external.isChecked(),
             'calc_centroid': show_and_calculate_centroid.isChecked()
         }
+
+        for index in range(import_list.count()):
+            if import_list.item(index).checkState() == 2:
+                list_item = import_list.item(index)
+                list_item_name = list_item.text()
+                checked_calculate_items[list_item_name] = self.checkedImagesForCalculationNpArray[list_item_name]
+                checked_min_max_values[list_item_name] = (self.imagesMinValues[list_item_name],self.imagesMaxValues[list_item_name])
+
 
     def evnCheckAllButtonClickedPagePredict(self):
         if showDialog('Check all images', 'Are you sure?', QMessageBox.Information):
