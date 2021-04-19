@@ -162,7 +162,6 @@ def analyze(images: List[np.ndarray]
     assert images.__len__() != 0, "Function received empty images list."
 
     images_analysis = []
-    image_analysis = {}
     drawn_images = []
     pixel_to_um = 5
 
@@ -171,9 +170,7 @@ def analyze(images: List[np.ndarray]
 
         drawn_image = np.zeros(images[index].shape + (3,), dtype=np.uint8)
 
-        image_analysis["contour_index"] = []
-        image_analysis["contour_type"] = []
-        image_analysis["area"] = []
+        image_analysis = {"contour_index": [], "contour_type": [], "area": []}
         if calc_centroid:
             image_analysis["centroid"] = []
         image_analysis["interval_range"] = []
