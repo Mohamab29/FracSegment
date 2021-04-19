@@ -781,6 +781,82 @@ QPushButton:hover {
                   </widget>
                  </item>
                  <item>
+                  <widget class="QFrame" name="frame_predict_page_buttons_delete">
+                   <property name="frameShape">
+                    <enum>QFrame::NoFrame</enum>
+                   </property>
+                   <property name="frameShadow">
+                    <enum>QFrame::Raised</enum>
+                   </property>
+                   <layout class="QVBoxLayout" name="verticalLayout_14">
+                    <item>
+                     <widget class="QPushButton" name="btn_predict_page_delete_selected_images">
+                      <property name="enabled">
+                       <bool>false</bool>
+                      </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">QPushButton {
+	color: rgb(43, 49, 56);
+    background-color: rgb(33, 37, 43);
+	border: 2px outset rgb(37, 40, 45);
+	border-radius: 3px;
+}
+QPushButton:hover {
+	color: rgb(85, 170, 255);
+}</string>
+                      </property>
+                      <property name="text">
+                       <string>Delete selected Images</string>
+                      </property>
+                      <property name="icon">
+                       <iconset resource="icons.qrc">
+                        <normaloff>:/assets/icons/delete-icon.png</normaloff>:/assets/icons/delete-icon.png</iconset>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="pushButton_3">
+                      <property name="enabled">
+                       <bool>false</bool>
+                      </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">QPushButton {
+	color: rgb(43, 49, 56);
+    background-color: rgb(33, 37, 43);
+	border: 2px outset rgb(37, 40, 45);
+	border-radius: 3px;
+}
+QPushButton:hover {
+	color: rgb(85, 170, 255);
+}</string>
+                      </property>
+                      <property name="text">
+                       <string>Button</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item>
                   <widget class="QFrame" name="frame_predict_page_buttons_check_uncheck_images">
                    <property name="frameShape">
                     <enum>QFrame::NoFrame</enum>
@@ -854,82 +930,6 @@ QPushButton:hover {
                       <property name="icon">
                        <iconset resource="icons.qrc">
                         <normaloff>:/assets/icons/uncheck-all-icon.png</normaloff>:/assets/icons/uncheck-all-icon.png</iconset>
-                      </property>
-                     </widget>
-                    </item>
-                   </layout>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QFrame" name="frame_predict_page_buttons_delete">
-                   <property name="frameShape">
-                    <enum>QFrame::NoFrame</enum>
-                   </property>
-                   <property name="frameShadow">
-                    <enum>QFrame::Raised</enum>
-                   </property>
-                   <layout class="QVBoxLayout" name="verticalLayout_14">
-                    <item>
-                     <widget class="QPushButton" name="btn_predict_page_delete_selected_images">
-                      <property name="enabled">
-                       <bool>false</bool>
-                      </property>
-                      <property name="minimumSize">
-                       <size>
-                        <width>0</width>
-                        <height>20</height>
-                       </size>
-                      </property>
-                      <property name="cursor">
-                       <cursorShape>PointingHandCursor</cursorShape>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true">QPushButton {
-	color: rgb(43, 49, 56);
-    background-color: rgb(33, 37, 43);
-	border: 2px outset rgb(37, 40, 45);
-	border-radius: 3px;
-}
-QPushButton:hover {
-	color: rgb(85, 170, 255);
-}</string>
-                      </property>
-                      <property name="text">
-                       <string>Delete selected Images</string>
-                      </property>
-                      <property name="icon">
-                       <iconset resource="icons.qrc">
-                        <normaloff>:/assets/icons/delete-icon.png</normaloff>:/assets/icons/delete-icon.png</iconset>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QPushButton" name="pushButton_3">
-                      <property name="enabled">
-                       <bool>false</bool>
-                      </property>
-                      <property name="minimumSize">
-                       <size>
-                        <width>0</width>
-                        <height>20</height>
-                       </size>
-                      </property>
-                      <property name="cursor">
-                       <cursorShape>PointingHandCursor</cursorShape>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true">QPushButton {
-	color: rgb(43, 49, 56);
-    background-color: rgb(33, 37, 43);
-	border: 2px outset rgb(37, 40, 45);
-	border-radius: 3px;
-}
-QPushButton:hover {
-	color: rgb(85, 170, 255);
-}</string>
-                      </property>
-                      <property name="text">
-                       <string>Button</string>
                       </property>
                      </widget>
                     </item>
@@ -1557,6 +1557,9 @@ QPushButton:hover {
                       <property name="text">
                        <string>No results</string>
                       </property>
+                      <property name="scaledContents">
+                       <bool>true</bool>
+                      </property>
                      </widget>
                     </item>
                    </layout>
@@ -1785,7 +1788,7 @@ QListWidget::item {
                            </widget>
                           </item>
                           <item>
-                           <widget class="QFrame" name="frame_calculation_page_modifications_options_slider">
+                           <widget class="QFrame" name="frame_calculation_page_modifications_options_double_spin_box">
                             <property name="frameShape">
                              <enum>QFrame::StyledPanel</enum>
                             </property>
@@ -1794,36 +1797,67 @@ QListWidget::item {
                             </property>
                             <layout class="QHBoxLayout" name="horizontalLayout_9">
                              <item>
-                              <widget class="QLabel" name="label_min_value_page_calculation">
-                               <property name="styleSheet">
-                                <string notr="true">color: rgb(130, 130, 130)</string>
+                              <widget class="QFrame" name="frame_calculation_page_modifications_options_double_spin_box_min">
+                               <property name="frameShape">
+                                <enum>QFrame::StyledPanel</enum>
                                </property>
-                               <property name="text">
-                                <string>Min</string>
+                               <property name="frameShadow">
+                                <enum>QFrame::Raised</enum>
                                </property>
+                               <layout class="QVBoxLayout" name="verticalLayout_29">
+                                <item alignment="Qt::AlignHCenter">
+                                 <widget class="QLabel" name="frame_calculation_page_modifications_options_min_label">
+                                  <property name="styleSheet">
+                                   <string notr="true">color: rgb(56, 61, 70);</string>
+                                  </property>
+                                  <property name="text">
+                                   <string>Min</string>
+                                  </property>
+                                 </widget>
+                                </item>
+                                <item>
+                                 <widget class="QDoubleSpinBox" name="frame_calculation_page_modifications_options_min_spin_box">
+                                  <property name="enabled">
+                                   <bool>false</bool>
+                                  </property>
+                                  <property name="styleSheet">
+                                   <string notr="true">color: rgb(56, 61, 70);</string>
+                                  </property>
+                                 </widget>
+                                </item>
+                               </layout>
                               </widget>
                              </item>
                              <item>
-                              <widget class="QSlider" name="slider">
-                               <property name="enabled">
-                                <bool>false</bool>
+                              <widget class="QFrame" name="frame_calculation_page_modifications_options_double_spin_box_max">
+                               <property name="frameShape">
+                                <enum>QFrame::StyledPanel</enum>
                                </property>
-                               <property name="value">
-                                <number>0</number>
+                               <property name="frameShadow">
+                                <enum>QFrame::Raised</enum>
                                </property>
-                               <property name="orientation">
-                                <enum>Qt::Horizontal</enum>
-                               </property>
-                              </widget>
-                             </item>
-                             <item>
-                              <widget class="QLabel" name="label_max_value_page_calculation">
-                               <property name="styleSheet">
-                                <string notr="true">color: rgb(130, 130, 130)</string>
-                               </property>
-                               <property name="text">
-                                <string>Max</string>
-                               </property>
+                               <layout class="QVBoxLayout" name="verticalLayout_28">
+                                <item alignment="Qt::AlignHCenter">
+                                 <widget class="QLabel" name="frame_calculation_page_modifications_options_max_label">
+                                  <property name="styleSheet">
+                                   <string notr="true">color: rgb(56, 61, 70);</string>
+                                  </property>
+                                  <property name="text">
+                                   <string>Max</string>
+                                  </property>
+                                 </widget>
+                                </item>
+                                <item>
+                                 <widget class="QDoubleSpinBox" name="frame_calculation_page_modifications_options_max_spin_box">
+                                  <property name="enabled">
+                                   <bool>false</bool>
+                                  </property>
+                                  <property name="styleSheet">
+                                   <string notr="true">color: rgb(56, 61, 70);</string>
+                                  </property>
+                                 </widget>
+                                </item>
+                               </layout>
                               </widget>
                              </item>
                             </layout>

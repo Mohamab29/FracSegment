@@ -6,9 +6,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from ui_main import Ui_MainWindow
 from functools import partial
 from PIL.ImageQt import ImageQt
-from BackEnd.segmenting import segment
+from BackEnd.segmenting import segment, display
 from BackEnd.analyze_dimples import analyze, saveImagesAnalysisToCSV
-
+import cv2
 import io
 from PIL import Image
 from PyQt5.QtCore import QBuffer
@@ -142,7 +142,7 @@ def evnImageListItemDoubleClickedPagePredict(dic, item):
         openImage(dic[item.text()])
 
 
-def evnImageListItemDoubleClickedPageResults(dic, item):
+def evnImageListItemDoubleClicked(dic, item):
     if item:
         buffer = QBuffer()
         buffer.open(QBuffer.ReadWrite)
@@ -157,12 +157,28 @@ def convertCvImage2QtImage(img, mode):
 
     :returns: a Pixmap object
     """
+    if mode == "RGB":
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     return QtGui.QPixmap.fromImage(ImageQt(Image.fromarray(img).convert(mode)))
+
+
+def convertCvImage2QtImageRGB(img, mode):
+    """
+    Converting an image to a pix map. from a numpy array to and image object to a Pixmap
+
+    :returns: a Pixmap object
+    """
+    if mode == "RGB":
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    image = QtGui.QImage(img, img.shape[1], img.shape[0], img.shape[1] * 3, QtGui.QImage.Format_RGB888)
+    pix = QtGui.QPixmap(image.copy())
+    return pix
 
 
 class MainWindow(QMainWindow):
     def __init__(self):
         QMainWindow.__init__(self)
+
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.animation = QtCore.QPropertyAnimation(self.ui.frame_left_menu, b"minimumWidth")
@@ -171,7 +187,6 @@ class MainWindow(QMainWindow):
         self.PredictedImagesNpArray = {}
         self.checkedImagesForCalculationNpArray = {}
         self.checkedImagesForCalculationPixMap = {}
-
         self.setActions()
         self.center()
 
@@ -214,21 +229,21 @@ class MainWindow(QMainWindow):
 
         self.ui.images_results_page_import_list.itemClicked.connect(self.evnImageListItemClickedPageResults)
         self.ui.images_results_page_import_list.itemDoubleClicked.connect(
-            partial(evnImageListItemDoubleClickedPageResults, self.PredictedImagesPixMap))
+            partial(evnImageListItemDoubleClicked, self.PredictedImagesPixMap))
         self.ui.images_results_page_import_list.currentItemChanged.connect(
             partial(self.evnCurrentItemChangedPageResults, self.ui.label_results_page_selected_picture))
 
         self.ui.btn_calculation_page_clear_images.clicked.connect(self.evnClearImagesButtonClickedPageCalculation)
         self.ui.btn_calculation_page_check_all.clicked.connect(self.evnCheckAllButtonClickedPageCalculation)
         self.ui.btn_calculation_page_uncheck_all.clicked.connect(self.evnUncheckAllButtonClickedPageCalculation)
-        # self.ui.btn_calculation_page_delete_selected_images.clicked.connect(
-        #     self.evnDeleteSelectedImagesButtonClickedPageCalculation)
+        self.ui.btn_calculation_page_delete_selected_images.clicked.connect(
+            self.evnDeleteSelectedImagesButtonClickedPageCalculation)
 
         self.ui.images_calculation_page_import_list.itemClicked.connect(self.evnImageListItemClickedPageCalculation)
-        # self.ui.images_results_page_import_list.itemDoubleClicked.connect(
-        #     partial(evnImageListItemDoubleClickedPageResults, self.PredictedImagesPixMap))
-        # self.ui.images_results_page_import_list.currentItemChanged.connect(
-        #     partial(self.evnCurrentItemChangedPageResults, self.ui.label_results_page_selected_picture))
+        self.ui.images_calculation_page_import_list.itemDoubleClicked.connect(
+            partial(evnImageListItemDoubleClicked, self.checkedImagesForCalculationPixMap))
+        self.ui.images_calculation_page_import_list.currentItemChanged.connect(
+            partial(self.evnCurrentItemChangedPageCalculation, self.ui.label_calculate_page_selected_picture))
 
     def evnPredictButtonClicked(self):
         checked_items = []
@@ -278,7 +293,6 @@ class MainWindow(QMainWindow):
             self.updateNumOfImagesPageResults(import_list)
 
     def evnCustomCalculationButtonClicked(self):
-        calculated_images_list_checked = []
 
         results_page_list = self.ui.images_results_page_import_list
 
@@ -296,8 +310,10 @@ class MainWindow(QMainWindow):
 
             index = 0
             for key, value in self.checkedImagesForCalculationNpArray.items():
-                self.checkedImagesForCalculationNpPixMap[key] = convertCvImage2QtImage(drawn_images[index], "RGB")
+                self.checkedImagesForCalculationPixMap[key] = convertCvImage2QtImageRGB(drawn_images[index].copy(),
+                                                                                        "RGB")
                 self.addImageNameToList(key, self.ui.images_calculation_page_import_list)
+                index += 1
 
             buttons_tuple = [
                 (self.ui.btn_calculation_page_save_images, True),
@@ -305,11 +321,15 @@ class MainWindow(QMainWindow):
                 (self.ui.btn_calculation_page_delete_selected_images, True),
                 (self.ui.btn_calculation_page_clear_images, True),
                 (self.ui.btn_calculation_page_send, True),
-                (self.ui.btn_calculation_page_uncheck_all, True),
-                (self.ui.slider, True),
+                (self.ui.btn_calculation_page_uncheck_all, True)
+
             ]
 
             check_box_tuple = [
+                (self.ui.frame_calculation_page_modifications_options_min_spin_box, True),
+                (self.ui.frame_calculation_page_modifications_options_max_spin_box, True),
+                (self.ui.frame_calculation_page_modifications_options_max_label, True),
+                (self.ui.frame_calculation_page_modifications_options_min_label, True),
                 (self.ui.check_box_show_and_calculate_centroid, True),
                 (self.ui.check_box_show_external_contures, True),
                 (self.ui.check_box_show_internal_contures, True)]
@@ -317,15 +337,14 @@ class MainWindow(QMainWindow):
             toggleButtonAndChangeStyle(buttons_tuple)
             toggleCheckBoxAndChangeStyle(check_box_tuple)
             import_list = self.ui.images_calculation_page_import_list
-            # selected_result_list_size = len(import_list.selectedItems())
-            #
-            # if not selected_result_list_size:
-            #     label = self.ui.label_results_page_selected_picture
-            #     label.setPixmap(QtGui.QPixmap(convertCvImage2QtImage(segmented_images[len(segmented_images) - 1])))
-            #     imageLabelFrame(label, QFrame.StyledPanel, QFrame.Sunken, 3)
-            # label = self.ui.label_results_page_selected_picture
-            # imageLabelFrame(label, 0, 0, 0)
-            # label.setText("Please select image to view on the screen.")
+
+            selected_result_list_size = len(import_list.selectedItems())
+
+            if not selected_result_list_size:
+                label = self.ui.label_calculate_page_selected_picture
+                label.setPixmap(QtGui.QPixmap(convertCvImage2QtImageRGB(drawn_images[-1].copy(), "RGB")))
+                imageLabelFrame(label, QFrame.StyledPanel, QFrame.Sunken, 3)
+
             self.updateNumOfImagesPageCalculation(import_list)
 
     def evnSaveCsvsButtonClickedPageResults(self):
@@ -415,6 +434,11 @@ class MainWindow(QMainWindow):
             label.setPixmap(self.PredictedImagesPixMap[item.text()])
             imageLabelFrame(label, QFrame.StyledPanel, QFrame.Sunken, 3)
 
+    def evnCurrentItemChangedPageCalculation(self, label, item):
+        if item:
+            label.setPixmap(self.checkedImagesForCalculationPixMap[item.text()])
+            imageLabelFrame(label, QFrame.StyledPanel, QFrame.Sunken, 3)
+
     def sharedTermsPagePredict(self):
         widget_list = self.ui.images_predict_page_import_list
 
@@ -498,11 +522,14 @@ class MainWindow(QMainWindow):
             buttons_tuple = [(self.ui.btn_calculation_page_clear_images, False),
                              (self.ui.btn_calculation_page_save_images, False),
                              (self.ui.btn_calculation_page_save_csvs, False),
-                             (self.ui.btn_calculation_page_send, False),
-                             (self.ui.slider, False),
+                             (self.ui.btn_calculation_page_send, False)
                              ]
 
             check_box_tuple = [
+                (self.ui.frame_calculation_page_modifications_options_min_spin_box, False),
+                (self.ui.frame_calculation_page_modifications_options_max_spin_box, False),
+                (self.ui.frame_calculation_page_modifications_options_max_label, False),
+                (self.ui.frame_calculation_page_modifications_options_min_label, False),
                 (self.ui.check_box_show_and_calculate_centroid, False),
                 (self.ui.check_box_show_external_contures, False),
                 (self.ui.check_box_show_internal_contures, False)]
@@ -513,11 +540,14 @@ class MainWindow(QMainWindow):
             buttons_tuple = [(self.ui.btn_calculation_page_clear_images, True),
                              (self.ui.btn_calculation_page_save_images, True),
                              (self.ui.btn_calculation_page_save_csvs, True),
-                             (self.ui.btn_calculation_page_send, True),
-                             (self.ui.slider, True),
+                             (self.ui.btn_calculation_page_send, True)
                              ]
 
             check_box_tuple = [
+                (self.ui.frame_calculation_page_modifications_options_min_spin_box, True),
+                (self.ui.frame_calculation_page_modifications_options_max_spin_box, True),
+                (self.ui.frame_calculation_page_modifications_options_max_label, True),
+                (self.ui.frame_calculation_page_modifications_options_min_label, True),
                 (self.ui.check_box_show_and_calculate_centroid, True),
                 (self.ui.check_box_show_external_contures, True),
                 (self.ui.check_box_show_internal_contures, True)]
@@ -656,6 +686,29 @@ class MainWindow(QMainWindow):
                 imageLabelFrame(label, 0, 0, 0)
                 toggleButtonAndChangeStyle([(self.ui.btn_results_page_clear_images, False)])
 
+    def evnDeleteSelectedImagesButtonClickedPageCalculation(self):
+        checked_items = []
+
+        if showDialog('Delete the selected images', 'Are you sure?', QMessageBox.Information):
+            for index in range(self.ui.images_calculation_page_import_list.count()):
+                if self.ui.images_calculation_page_import_list.item(index).checkState() == 2:
+                    list_item = self.ui.images_calculation_page_import_list.item(index)
+                    checked_items.append(list_item)
+
+            for item in checked_items:
+                self.ui.images_calculation_page_import_list.takeItem(
+                    self.ui.images_calculation_page_import_list.row(item))
+                self.checkedImagesForCalculationNpArray.pop(item.text())
+                self.checkedImagesForCalculationPixMap.pop(item.text())
+
+            self.sharedTermsPageCalculation()
+
+            if not len(self.ui.images_calculation_page_import_list):
+                label = self.ui.label_calculate_page_selected_picture
+                label.setText("Please predict images first.")
+                imageLabelFrame(label, 0, 0, 0)
+                toggleButtonAndChangeStyle([(self.ui.btn_calculation_page_clear_images, False)])
+
     def evnClearImagesButtonClickedPagePredict(self):
         if self.imageListPathDict and showDialog('Clear all images', 'Are you sure?', QMessageBox.Information):
             self.ui.images_predict_page_import_list.clear()
@@ -695,8 +748,10 @@ class MainWindow(QMainWindow):
                                                                   QMessageBox.Information):
             self.ui.images_calculation_page_import_list.clear()
             self.checkedImagesForCalculationNpArray = {}
-            # imageLabelFrame(self.ui.label_results_page_selected_picture)
-            # self.ui.label_results_page_selected_picture.setText("Please predict images first.")
+            self.checkedImagesForCalculationPixMap = {}
+
+            imageLabelFrame(self.ui.label_calculate_page_selected_picture)
+            self.ui.label_calculate_page_selected_picture.setText("No results")
 
             buttons_tuple = [(self.ui.btn_calculation_page_clear_images, False),
                              (self.ui.btn_calculation_page_uncheck_all, False),
@@ -704,11 +759,14 @@ class MainWindow(QMainWindow):
                              (self.ui.btn_calculation_page_delete_selected_images, False),
                              (self.ui.btn_calculation_page_save_images, False),
                              (self.ui.btn_calculation_page_save_csvs, False),
-                             (self.ui.btn_calculation_page_send, False),
-                             (self.ui.slider, False),
+                             (self.ui.btn_calculation_page_send, False)
                              ]
 
             check_box_tuple = [
+                (self.ui.frame_calculation_page_modifications_options_min_spin_box, False),
+                (self.ui.frame_calculation_page_modifications_options_max_spin_box, False),
+                (self.ui.frame_calculation_page_modifications_options_max_label, False),
+                (self.ui.frame_calculation_page_modifications_options_min_label, False),
                 (self.ui.check_box_show_and_calculate_centroid, False),
                 (self.ui.check_box_show_external_contures, False),
                 (self.ui.check_box_show_internal_contures, False)]
@@ -775,10 +833,14 @@ class MainWindow(QMainWindow):
                              (self.ui.btn_calculation_page_save_csvs, True),
                              (self.ui.btn_calculation_page_save_images, True),
                              (self.ui.btn_calculation_page_send, True),
-                             (self.ui.slider, True),
+
                              ]
 
             check_box_tuple = [
+                (self.ui.frame_calculation_page_modifications_options_min_spin_box, True),
+                (self.ui.frame_calculation_page_modifications_options_max_spin_box, True),
+                (self.ui.frame_calculation_page_modifications_options_max_label, True),
+                (self.ui.frame_calculation_page_modifications_options_min_label, True),
                 (self.ui.check_box_show_and_calculate_centroid, True),
                 (self.ui.check_box_show_external_contures, True),
                 (self.ui.check_box_show_internal_contures, True)]
@@ -817,10 +879,14 @@ class MainWindow(QMainWindow):
                              (self.ui.btn_calculation_page_save_images, False),
                              (self.ui.btn_calculation_page_save_csvs, False),
                              (self.ui.btn_calculation_page_send, False),
-                             (self.ui.slider, False)
+
                              ]
 
             check_box_tuple = [
+                (self.ui.frame_calculation_page_modifications_options_min_spin_box, False),
+                (self.ui.frame_calculation_page_modifications_options_max_spin_box, False),
+                (self.ui.frame_calculation_page_modifications_options_max_label, False),
+                (self.ui.frame_calculation_page_modifications_options_min_label, False),
                 (self.ui.check_box_show_and_calculate_centroid, False),
                 (self.ui.check_box_show_external_contures, False),
                 (self.ui.check_box_show_internal_contures, False)]
