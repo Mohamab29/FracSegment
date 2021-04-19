@@ -20,7 +20,7 @@ class Ui_MainWindow(object):
         icon.addPixmap(QtGui.QPixmap(":/assets/icons/app-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
         MainWindow.setWindowIcon(icon)
         MainWindow.setStyleSheet("background-color: rgb(40, 44, 52);\n"
-"")
+                                 "")
         MainWindow.setToolButtonStyle(QtCore.Qt.ToolButtonIconOnly)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -55,12 +55,12 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(self.btn_toggle.sizePolicy().hasHeightForWidth())
         self.btn_toggle.setSizePolicy(sizePolicy)
         self.btn_toggle.setStyleSheet("QPushButton {\n"
-"    color: rgb(255, 255, 255);\n"
-"    border: 0px solid;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: rgb(27, 30, 34);\n"
-"}")
+                                      "    color: rgb(255, 255, 255);\n"
+                                      "    border: 0px solid;\n"
+                                      "}\n"
+                                      "QPushButton:hover {\n"
+                                      "    background-color: rgb(27, 30, 34);\n"
+                                      "}")
         self.btn_toggle.setText("")
         icon1 = QtGui.QIcon()
         icon1.addPixmap(QtGui.QPixmap(":/assets/icons/menu-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -111,14 +111,14 @@ class Ui_MainWindow(object):
         self.btn_page_predict.setFont(font)
         self.btn_page_predict.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btn_page_predict.setStyleSheet("QPushButton {\n"
-"    color: rgb(200, 200, 200);\n"
-"    background-color: rgb(33, 37, 43);\n"
-"    border: 0px solid;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    color: rgb(85, 150, 186);\n"
-"    background-color: rgb(50, 56, 68);\n"
-"}")
+                                            "    color: rgb(200, 200, 200);\n"
+                                            "    background-color: rgb(33, 37, 43);\n"
+                                            "    border: 0px solid;\n"
+                                            "}\n"
+                                            "QPushButton:hover {\n"
+                                            "    color: rgb(85, 150, 186);\n"
+                                            "    background-color: rgb(50, 56, 68);\n"
+                                            "}")
         self.btn_page_predict.setText("")
         icon2 = QtGui.QIcon()
         icon2.addPixmap(QtGui.QPixmap(":/assets/icons/upload-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -135,14 +135,14 @@ class Ui_MainWindow(object):
         self.btn_page_results.setFont(font)
         self.btn_page_results.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btn_page_results.setStyleSheet("QPushButton {\n"
-"    color: rgb(200, 200, 200);\n"
-"    background-color: rgb(33, 37, 43);\n"
-"    border: 0px solid;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    color: rgb(85, 150, 186);\n"
-"    background-color: rgb(50, 56, 68);\n"
-"}")
+                                            "    color: rgb(200, 200, 200);\n"
+                                            "    background-color: rgb(33, 37, 43);\n"
+                                            "    border: 0px solid;\n"
+                                            "}\n"
+                                            "QPushButton:hover {\n"
+                                            "    color: rgb(85, 150, 186);\n"
+                                            "    background-color: rgb(50, 56, 68);\n"
+                                            "}")
         self.btn_page_results.setText("")
         icon3 = QtGui.QIcon()
         icon3.addPixmap(QtGui.QPixmap(":/assets/icons/results-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -158,14 +158,14 @@ class Ui_MainWindow(object):
         self.btn_page_calculation.setFont(font)
         self.btn_page_calculation.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btn_page_calculation.setStyleSheet("QPushButton {\n"
-"    color: rgb(200, 200, 200);\n"
-"    background-color: rgb(33, 37, 43);\n"
-"    border: 0px solid;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    color: rgb(85, 150, 186);\n"
-"    background-color: rgb(50, 56, 68);\n"
-"}")
+                                                "    color: rgb(200, 200, 200);\n"
+                                                "    background-color: rgb(33, 37, 43);\n"
+                                                "    border: 0px solid;\n"
+                                                "}\n"
+                                                "QPushButton:hover {\n"
+                                                "    color: rgb(85, 150, 186);\n"
+                                                "    background-color: rgb(50, 56, 68);\n"
+                                                "}")
         self.btn_page_calculation.setText("")
         icon4 = QtGui.QIcon()
         icon4.addPixmap(QtGui.QPixmap(":/assets/icons/edit-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -190,14 +190,14 @@ class Ui_MainWindow(object):
         self.btn_page_help.setFont(font)
         self.btn_page_help.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btn_page_help.setStyleSheet("QPushButton {\n"
-"    color: rgb(200, 200, 200);\n"
-"    background-color: rgb(33, 37, 43);\n"
-"    border: 0px solid;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    color: rgb(85, 150, 186);\n"
-"    background-color: rgb(50, 56, 68);\n"
-"}")
+                                         "    color: rgb(200, 200, 200);\n"
+                                         "    background-color: rgb(33, 37, 43);\n"
+                                         "    border: 0px solid;\n"
+                                         "}\n"
+                                         "QPushButton:hover {\n"
+                                         "    color: rgb(85, 150, 186);\n"
+                                         "    background-color: rgb(50, 56, 68);\n"
+                                         "}")
         self.btn_page_help.setText("")
         icon5 = QtGui.QIcon()
         icon5.addPixmap(QtGui.QPixmap(":/assets/icons/info-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -268,12 +268,12 @@ class Ui_MainWindow(object):
         self.images_predict_page_import_list = QtWidgets.QListWidget(self.frame_predict_page_up_list)
         self.images_predict_page_import_list.setMinimumSize(QtCore.QSize(150, 0))
         self.images_predict_page_import_list.setStyleSheet("QListWidget {\n"
-"    background-color: rgb(33, 37, 43);\n"
-"}\n"
-"\n"
-"QListWidget::item {\n"
-"    color: rgb(255, 255, 255);\n"
-"}")
+                                                           "    background-color: rgb(33, 37, 43);\n"
+                                                           "}\n"
+                                                           "\n"
+                                                           "QListWidget::item {\n"
+                                                           "    color: rgb(255, 255, 255);\n"
+                                                           "}")
         self.images_predict_page_import_list.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.images_predict_page_import_list.setFrameShadow(QtWidgets.QFrame.Plain)
         self.images_predict_page_import_list.setLineWidth(2)
@@ -305,15 +305,15 @@ class Ui_MainWindow(object):
         self.btn_predict_page_load_images.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.btn_predict_page_load_images.setAutoFillBackground(False)
         self.btn_predict_page_load_images.setStyleSheet("QPushButton {\n"
-"    color: rgb(140, 166, 179);\n"
-"    background-color: rgb(33, 37, 43);\n"
-"    border: 2px outset rgb(70, 76, 85);\n"
-"    border-radius: 3px;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    color: rgb(85, 170, 255);\n"
-"    background-color: rgb(42, 47, 54);\n"
-"}")
+                                                        "    color: rgb(140, 166, 179);\n"
+                                                        "    background-color: rgb(33, 37, 43);\n"
+                                                        "    border: 2px outset rgb(70, 76, 85);\n"
+                                                        "    border-radius: 3px;\n"
+                                                        "}\n"
+                                                        "QPushButton:hover {\n"
+                                                        "    color: rgb(85, 170, 255);\n"
+                                                        "    background-color: rgb(42, 47, 54);\n"
+                                                        "}")
         icon6 = QtGui.QIcon()
         icon6.addPixmap(QtGui.QPixmap(":/assets/icons/load-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.btn_predict_page_load_images.setIcon(icon6)
@@ -333,14 +333,14 @@ class Ui_MainWindow(object):
         self.btn_predict_page_clear_images.setToolTip("")
         self.btn_predict_page_clear_images.setStatusTip("")
         self.btn_predict_page_clear_images.setStyleSheet("QPushButton {\n"
-"    color: rgb(43, 49, 56);\n"
-"    background-color: rgb(33, 37, 43);\n"
-"    border: 2px outset rgb(37, 40, 45);\n"
-"    border-radius: 3px;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    color: rgb(85, 170, 255);\n"
-"}")
+                                                         "    color: rgb(43, 49, 56);\n"
+                                                         "    background-color: rgb(33, 37, 43);\n"
+                                                         "    border: 2px outset rgb(37, 40, 45);\n"
+                                                         "    border-radius: 3px;\n"
+                                                         "}\n"
+                                                         "QPushButton:hover {\n"
+                                                         "    color: rgb(85, 170, 255);\n"
+                                                         "}")
         icon7 = QtGui.QIcon()
         icon7.addPixmap(QtGui.QPixmap(":/assets/icons/clear-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.btn_predict_page_clear_images.setIcon(icon7)
@@ -350,7 +350,8 @@ class Ui_MainWindow(object):
         self.frame_predict_page_buttons_check_uncheck_images = QtWidgets.QFrame(self.frame_predict_page_buttons)
         self.frame_predict_page_buttons_check_uncheck_images.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_predict_page_buttons_check_uncheck_images.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_predict_page_buttons_check_uncheck_images.setObjectName("frame_predict_page_buttons_check_uncheck_images")
+        self.frame_predict_page_buttons_check_uncheck_images.setObjectName(
+            "frame_predict_page_buttons_check_uncheck_images")
         self.verticalLayout_12 = QtWidgets.QVBoxLayout(self.frame_predict_page_buttons_check_uncheck_images)
         self.verticalLayout_12.setObjectName("verticalLayout_12")
         self.btn_predict_page_check_all = QtWidgets.QPushButton(self.frame_predict_page_buttons_check_uncheck_images)
@@ -358,14 +359,14 @@ class Ui_MainWindow(object):
         self.btn_predict_page_check_all.setMinimumSize(QtCore.QSize(0, 20))
         self.btn_predict_page_check_all.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btn_predict_page_check_all.setStyleSheet("QPushButton {\n"
-"    color: rgb(43, 49, 56);\n"
-"    background-color: rgb(33, 37, 43);\n"
-"    border: 2px outset rgb(37, 40, 45);\n"
-"    border-radius: 3px;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    color: rgb(85, 170, 255);\n"
-"}")
+                                                      "    color: rgb(43, 49, 56);\n"
+                                                      "    background-color: rgb(33, 37, 43);\n"
+                                                      "    border: 2px outset rgb(37, 40, 45);\n"
+                                                      "    border-radius: 3px;\n"
+                                                      "}\n"
+                                                      "QPushButton:hover {\n"
+                                                      "    color: rgb(85, 170, 255);\n"
+                                                      "}")
         icon8 = QtGui.QIcon()
         icon8.addPixmap(QtGui.QPixmap(":/assets/icons/check-all-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.btn_predict_page_check_all.setIcon(icon8)
@@ -376,14 +377,14 @@ class Ui_MainWindow(object):
         self.btn_predict_page_uncheck_all.setMinimumSize(QtCore.QSize(0, 20))
         self.btn_predict_page_uncheck_all.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btn_predict_page_uncheck_all.setStyleSheet("QPushButton {\n"
-"    color: rgb(43, 49, 56);\n"
-"    background-color: rgb(33, 37, 43);\n"
-"    border: 2px outset rgb(37, 40, 45);\n"
-"    border-radius: 3px;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    color: rgb(85, 170, 255);\n"
-"}")
+                                                        "    color: rgb(43, 49, 56);\n"
+                                                        "    background-color: rgb(33, 37, 43);\n"
+                                                        "    border: 2px outset rgb(37, 40, 45);\n"
+                                                        "    border-radius: 3px;\n"
+                                                        "}\n"
+                                                        "QPushButton:hover {\n"
+                                                        "    color: rgb(85, 170, 255);\n"
+                                                        "}")
         icon9 = QtGui.QIcon()
         icon9.addPixmap(QtGui.QPixmap(":/assets/icons/uncheck-all-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.btn_predict_page_uncheck_all.setIcon(icon9)
@@ -401,14 +402,14 @@ class Ui_MainWindow(object):
         self.btn_predict_page_delete_selected_images.setMinimumSize(QtCore.QSize(0, 20))
         self.btn_predict_page_delete_selected_images.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btn_predict_page_delete_selected_images.setStyleSheet("QPushButton {\n"
-"    color: rgb(43, 49, 56);\n"
-"    background-color: rgb(33, 37, 43);\n"
-"    border: 2px outset rgb(37, 40, 45);\n"
-"    border-radius: 3px;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    color: rgb(85, 170, 255);\n"
-"}")
+                                                                   "    color: rgb(43, 49, 56);\n"
+                                                                   "    background-color: rgb(33, 37, 43);\n"
+                                                                   "    border: 2px outset rgb(37, 40, 45);\n"
+                                                                   "    border-radius: 3px;\n"
+                                                                   "}\n"
+                                                                   "QPushButton:hover {\n"
+                                                                   "    color: rgb(85, 170, 255);\n"
+                                                                   "}")
         icon10 = QtGui.QIcon()
         icon10.addPixmap(QtGui.QPixmap(":/assets/icons/delete-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.btn_predict_page_delete_selected_images.setIcon(icon10)
@@ -419,14 +420,14 @@ class Ui_MainWindow(object):
         self.pushButton_3.setMinimumSize(QtCore.QSize(0, 20))
         self.pushButton_3.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.pushButton_3.setStyleSheet("QPushButton {\n"
-"    color: rgb(43, 49, 56);\n"
-"    background-color: rgb(33, 37, 43);\n"
-"    border: 2px outset rgb(37, 40, 45);\n"
-"    border-radius: 3px;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    color: rgb(85, 170, 255);\n"
-"}")
+                                        "    color: rgb(43, 49, 56);\n"
+                                        "    background-color: rgb(33, 37, 43);\n"
+                                        "    border: 2px outset rgb(37, 40, 45);\n"
+                                        "    border-radius: 3px;\n"
+                                        "}\n"
+                                        "QPushButton:hover {\n"
+                                        "    color: rgb(85, 170, 255);\n"
+                                        "}")
         self.pushButton_3.setObjectName("pushButton_3")
         self.verticalLayout_14.addWidget(self.pushButton_3)
         self.horizontalLayout_8.addWidget(self.frame_predict_page_buttons_delete)
@@ -441,14 +442,14 @@ class Ui_MainWindow(object):
         self.btn_predict_page_predict.setMinimumSize(QtCore.QSize(0, 45))
         self.btn_predict_page_predict.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btn_predict_page_predict.setStyleSheet("QPushButton {\n"
-"    color: rgb(43, 49, 56);\n"
-"    background-color: rgb(33, 37, 43);\n"
-"    border: 2px outset rgb(37, 40, 45);\n"
-"    border-radius: 3px;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    color: rgb(85, 170, 255);\n"
-"}")
+                                                    "    color: rgb(43, 49, 56);\n"
+                                                    "    background-color: rgb(33, 37, 43);\n"
+                                                    "    border: 2px outset rgb(37, 40, 45);\n"
+                                                    "    border-radius: 3px;\n"
+                                                    "}\n"
+                                                    "QPushButton:hover {\n"
+                                                    "    color: rgb(85, 170, 255);\n"
+                                                    "}")
         icon11 = QtGui.QIcon()
         icon11.addPixmap(QtGui.QPixmap(":/assets/icons/play-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.btn_predict_page_predict.setIcon(icon11)
@@ -479,7 +480,8 @@ class Ui_MainWindow(object):
         self.label_results_page_selected_picture.setStyleSheet("QLabel {color: rgb(130, 130, 130)}")
         self.label_results_page_selected_picture.setScaledContents(True)
         self.label_results_page_selected_picture.setObjectName("label_results_page_selected_picture")
-        self.gridLayout_4.addWidget(self.label_results_page_selected_picture, 0, 0, 1, 1, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
+        self.gridLayout_4.addWidget(self.label_results_page_selected_picture, 0, 0, 1, 1,
+                                    QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
         self.horizontalLayout_6.addWidget(self.frame_results_page_up_image)
         self.frame_results_page_up_list = QtWidgets.QFrame(self.frame_results_page_up)
         self.frame_results_page_up_list.setMinimumSize(QtCore.QSize(250, 0))
@@ -502,12 +504,12 @@ class Ui_MainWindow(object):
         self.verticalLayout_9.addWidget(self.label_results_page_images, 0, QtCore.Qt.AlignHCenter)
         self.images_results_page_import_list = QtWidgets.QListWidget(self.frame_results_page_up_list)
         self.images_results_page_import_list.setStyleSheet("QListWidget {\n"
-"    background-color: rgb(33, 37, 43);\n"
-"}\n"
-"\n"
-"QListWidget::item {\n"
-"    color: rgb(255, 255, 255);\n"
-"}")
+                                                           "    background-color: rgb(33, 37, 43);\n"
+                                                           "}\n"
+                                                           "\n"
+                                                           "QListWidget::item {\n"
+                                                           "    color: rgb(255, 255, 255);\n"
+                                                           "}")
         self.images_results_page_import_list.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.images_results_page_import_list.setFrameShadow(QtWidgets.QFrame.Plain)
         self.images_results_page_import_list.setLineWidth(2)
@@ -525,40 +527,43 @@ class Ui_MainWindow(object):
         self.frame_results_page_buttons_save_and_clear_images = QtWidgets.QFrame(self.frame_results_page_buttons)
         self.frame_results_page_buttons_save_and_clear_images.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_results_page_buttons_save_and_clear_images.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_results_page_buttons_save_and_clear_images.setObjectName("frame_results_page_buttons_save_and_clear_images")
+        self.frame_results_page_buttons_save_and_clear_images.setObjectName(
+            "frame_results_page_buttons_save_and_clear_images")
         self.verticalLayout_17 = QtWidgets.QVBoxLayout(self.frame_results_page_buttons_save_and_clear_images)
         self.verticalLayout_17.setObjectName("verticalLayout_17")
-        self.btn_results_page_save_images_and_csvs = QtWidgets.QPushButton(self.frame_results_page_buttons_save_and_clear_images)
+        self.btn_results_page_save_images_and_csvs = QtWidgets.QPushButton(
+            self.frame_results_page_buttons_save_and_clear_images)
         self.btn_results_page_save_images_and_csvs.setEnabled(False)
         self.btn_results_page_save_images_and_csvs.setMinimumSize(QtCore.QSize(0, 20))
         self.btn_results_page_save_images_and_csvs.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btn_results_page_save_images_and_csvs.setStyleSheet("QPushButton {\n"
-"    color: rgb(43, 49, 56);\n"
-"    background-color: rgb(33, 37, 43);\n"
-"    border: 2px outset rgb(37, 40, 45);\n"
-"    border-radius: 3px;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    color: rgb(85, 170, 255);\n"
-"}")
+                                                                 "    color: rgb(43, 49, 56);\n"
+                                                                 "    background-color: rgb(33, 37, 43);\n"
+                                                                 "    border: 2px outset rgb(37, 40, 45);\n"
+                                                                 "    border-radius: 3px;\n"
+                                                                 "}\n"
+                                                                 "QPushButton:hover {\n"
+                                                                 "    color: rgb(85, 170, 255);\n"
+                                                                 "}")
         icon12 = QtGui.QIcon()
         icon12.addPixmap(QtGui.QPixmap(":/assets/icons/save-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.btn_results_page_save_images_and_csvs.setIcon(icon12)
         self.btn_results_page_save_images_and_csvs.setObjectName("btn_results_page_save_images_and_csvs")
         self.verticalLayout_17.addWidget(self.btn_results_page_save_images_and_csvs)
-        self.btn_results_page_clear_images = QtWidgets.QPushButton(self.frame_results_page_buttons_save_and_clear_images)
+        self.btn_results_page_clear_images = QtWidgets.QPushButton(
+            self.frame_results_page_buttons_save_and_clear_images)
         self.btn_results_page_clear_images.setEnabled(False)
         self.btn_results_page_clear_images.setMinimumSize(QtCore.QSize(0, 20))
         self.btn_results_page_clear_images.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btn_results_page_clear_images.setStyleSheet("QPushButton {\n"
-"    color: rgb(43, 49, 56);\n"
-"    background-color: rgb(33, 37, 43);\n"
-"    border: 2px outset rgb(37, 40, 45);\n"
-"    border-radius: 3px;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    color: rgb(85, 170, 255);\n"
-"}")
+                                                         "    color: rgb(43, 49, 56);\n"
+                                                         "    background-color: rgb(33, 37, 43);\n"
+                                                         "    border: 2px outset rgb(37, 40, 45);\n"
+                                                         "    border-radius: 3px;\n"
+                                                         "}\n"
+                                                         "QPushButton:hover {\n"
+                                                         "    color: rgb(85, 170, 255);\n"
+                                                         "}")
         self.btn_results_page_clear_images.setIcon(icon7)
         self.btn_results_page_clear_images.setObjectName("btn_results_page_clear_images")
         self.verticalLayout_17.addWidget(self.btn_results_page_clear_images)
@@ -566,7 +571,8 @@ class Ui_MainWindow(object):
         self.frame_results_page_buttons_save_images_and_csvs = QtWidgets.QFrame(self.frame_results_page_buttons)
         self.frame_results_page_buttons_save_images_and_csvs.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_results_page_buttons_save_images_and_csvs.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_results_page_buttons_save_images_and_csvs.setObjectName("frame_results_page_buttons_save_images_and_csvs")
+        self.frame_results_page_buttons_save_images_and_csvs.setObjectName(
+            "frame_results_page_buttons_save_images_and_csvs")
         self.verticalLayout_19 = QtWidgets.QVBoxLayout(self.frame_results_page_buttons_save_images_and_csvs)
         self.verticalLayout_19.setObjectName("verticalLayout_19")
         self.btn_results_page_save_images = QtWidgets.QPushButton(self.frame_results_page_buttons_save_images_and_csvs)
@@ -574,14 +580,14 @@ class Ui_MainWindow(object):
         self.btn_results_page_save_images.setMinimumSize(QtCore.QSize(0, 20))
         self.btn_results_page_save_images.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btn_results_page_save_images.setStyleSheet("QPushButton {\n"
-"    color: rgb(43, 49, 56);\n"
-"    background-color: rgb(33, 37, 43);\n"
-"    border: 2px outset rgb(37, 40, 45);\n"
-"    border-radius: 3px;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    color: rgb(85, 170, 255);\n"
-"}")
+                                                        "    color: rgb(43, 49, 56);\n"
+                                                        "    background-color: rgb(33, 37, 43);\n"
+                                                        "    border: 2px outset rgb(37, 40, 45);\n"
+                                                        "    border-radius: 3px;\n"
+                                                        "}\n"
+                                                        "QPushButton:hover {\n"
+                                                        "    color: rgb(85, 170, 255);\n"
+                                                        "}")
         icon13 = QtGui.QIcon()
         icon13.addPixmap(QtGui.QPixmap(":/assets/icons/save-images-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.btn_results_page_save_images.setIcon(icon13)
@@ -592,14 +598,14 @@ class Ui_MainWindow(object):
         self.btn_results_page_save_csvs.setMinimumSize(QtCore.QSize(0, 20))
         self.btn_results_page_save_csvs.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btn_results_page_save_csvs.setStyleSheet("QPushButton {\n"
-"    color: rgb(43, 49, 56);\n"
-"    background-color: rgb(33, 37, 43);\n"
-"    border: 2px outset rgb(37, 40, 45);\n"
-"    border-radius: 3px;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    color: rgb(85, 170, 255);\n"
-"}")
+                                                      "    color: rgb(43, 49, 56);\n"
+                                                      "    background-color: rgb(33, 37, 43);\n"
+                                                      "    border: 2px outset rgb(37, 40, 45);\n"
+                                                      "    border-radius: 3px;\n"
+                                                      "}\n"
+                                                      "QPushButton:hover {\n"
+                                                      "    color: rgb(85, 170, 255);\n"
+                                                      "}")
         icon14 = QtGui.QIcon()
         icon14.addPixmap(QtGui.QPixmap(":/assets/icons/save-csv-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.btn_results_page_save_csvs.setIcon(icon14)
@@ -609,7 +615,8 @@ class Ui_MainWindow(object):
         self.frame_results_page_buttons_check_uncheck_images = QtWidgets.QFrame(self.frame_results_page_buttons)
         self.frame_results_page_buttons_check_uncheck_images.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_results_page_buttons_check_uncheck_images.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_results_page_buttons_check_uncheck_images.setObjectName("frame_results_page_buttons_check_uncheck_images")
+        self.frame_results_page_buttons_check_uncheck_images.setObjectName(
+            "frame_results_page_buttons_check_uncheck_images")
         self.verticalLayout_18 = QtWidgets.QVBoxLayout(self.frame_results_page_buttons_check_uncheck_images)
         self.verticalLayout_18.setObjectName("verticalLayout_18")
         self.btn_results_page_check_all = QtWidgets.QPushButton(self.frame_results_page_buttons_check_uncheck_images)
@@ -617,14 +624,14 @@ class Ui_MainWindow(object):
         self.btn_results_page_check_all.setMinimumSize(QtCore.QSize(0, 20))
         self.btn_results_page_check_all.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btn_results_page_check_all.setStyleSheet("QPushButton {\n"
-"    color: rgb(43, 49, 56);\n"
-"    background-color: rgb(33, 37, 43);\n"
-"    border: 2px outset rgb(37, 40, 45);\n"
-"    border-radius: 3px;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    color: rgb(85, 170, 255);\n"
-"}")
+                                                      "    color: rgb(43, 49, 56);\n"
+                                                      "    background-color: rgb(33, 37, 43);\n"
+                                                      "    border: 2px outset rgb(37, 40, 45);\n"
+                                                      "    border-radius: 3px;\n"
+                                                      "}\n"
+                                                      "QPushButton:hover {\n"
+                                                      "    color: rgb(85, 170, 255);\n"
+                                                      "}")
         self.btn_results_page_check_all.setIcon(icon8)
         self.btn_results_page_check_all.setObjectName("btn_results_page_check_all")
         self.verticalLayout_18.addWidget(self.btn_results_page_check_all)
@@ -633,14 +640,14 @@ class Ui_MainWindow(object):
         self.btn_results_page_uncheck_all.setMinimumSize(QtCore.QSize(0, 20))
         self.btn_results_page_uncheck_all.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btn_results_page_uncheck_all.setStyleSheet("QPushButton {\n"
-"    color: rgb(43, 49, 56);\n"
-"    background-color: rgb(33, 37, 43);\n"
-"    border: 2px outset rgb(37, 40, 45);\n"
-"    border-radius: 3px;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    color: rgb(85, 170, 255);\n"
-"}")
+                                                        "    color: rgb(43, 49, 56);\n"
+                                                        "    background-color: rgb(33, 37, 43);\n"
+                                                        "    border: 2px outset rgb(37, 40, 45);\n"
+                                                        "    border-radius: 3px;\n"
+                                                        "}\n"
+                                                        "QPushButton:hover {\n"
+                                                        "    color: rgb(85, 170, 255);\n"
+                                                        "}")
         self.btn_results_page_uncheck_all.setIcon(icon9)
         self.btn_results_page_uncheck_all.setObjectName("btn_results_page_uncheck_all")
         self.verticalLayout_18.addWidget(self.btn_results_page_uncheck_all)
@@ -656,14 +663,14 @@ class Ui_MainWindow(object):
         self.btn_results_page_delete_selected_images.setMinimumSize(QtCore.QSize(0, 20))
         self.btn_results_page_delete_selected_images.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btn_results_page_delete_selected_images.setStyleSheet("QPushButton {\n"
-"    color: rgb(43, 49, 56);\n"
-"    background-color: rgb(33, 37, 43);\n"
-"    border: 2px outset rgb(37, 40, 45);\n"
-"    border-radius: 3px;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    color: rgb(85, 170, 255);\n"
-"}")
+                                                                   "    color: rgb(43, 49, 56);\n"
+                                                                   "    background-color: rgb(33, 37, 43);\n"
+                                                                   "    border: 2px outset rgb(37, 40, 45);\n"
+                                                                   "    border-radius: 3px;\n"
+                                                                   "}\n"
+                                                                   "QPushButton:hover {\n"
+                                                                   "    color: rgb(85, 170, 255);\n"
+                                                                   "}")
         self.btn_results_page_delete_selected_images.setIcon(icon10)
         self.btn_results_page_delete_selected_images.setObjectName("btn_results_page_delete_selected_images")
         self.verticalLayout_16.addWidget(self.btn_results_page_delete_selected_images)
@@ -671,14 +678,14 @@ class Ui_MainWindow(object):
         self.pushButton.setEnabled(False)
         self.pushButton.setMinimumSize(QtCore.QSize(0, 20))
         self.pushButton.setStyleSheet("QPushButton {\n"
-"    color: rgb(43, 49, 56);\n"
-"    background-color: rgb(33, 37, 43);\n"
-"    border: 2px outset rgb(37, 40, 45);\n"
-"    border-radius: 3px;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    color: rgb(85, 170, 255);\n"
-"}")
+                                      "    color: rgb(43, 49, 56);\n"
+                                      "    background-color: rgb(33, 37, 43);\n"
+                                      "    border: 2px outset rgb(37, 40, 45);\n"
+                                      "    border-radius: 3px;\n"
+                                      "}\n"
+                                      "QPushButton:hover {\n"
+                                      "    color: rgb(85, 170, 255);\n"
+                                      "}")
         self.pushButton.setObjectName("pushButton")
         self.verticalLayout_16.addWidget(self.pushButton)
         self.horizontalLayout_5.addWidget(self.frame_results_page_buttons_delete)
@@ -692,14 +699,14 @@ class Ui_MainWindow(object):
         self.btn_results_page_custom_calculation.setMinimumSize(QtCore.QSize(0, 45))
         self.btn_results_page_custom_calculation.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btn_results_page_custom_calculation.setStyleSheet("QPushButton {\n"
-"    color: rgb(43, 49, 56);\n"
-"    background-color: rgb(33, 37, 43);\n"
-"    border: 2px outset rgb(37, 40, 45);\n"
-"    border-radius: 3px;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    color: rgb(85, 170, 255);\n"
-"}")
+                                                               "    color: rgb(43, 49, 56);\n"
+                                                               "    background-color: rgb(33, 37, 43);\n"
+                                                               "    border: 2px outset rgb(37, 40, 45);\n"
+                                                               "    border-radius: 3px;\n"
+                                                               "}\n"
+                                                               "QPushButton:hover {\n"
+                                                               "    color: rgb(85, 170, 255);\n"
+                                                               "}")
         icon15 = QtGui.QIcon()
         icon15.addPixmap(QtGui.QPixmap(":/assets/icons/calc-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.btn_results_page_custom_calculation.setIcon(icon15)
@@ -775,12 +782,12 @@ class Ui_MainWindow(object):
         font.setWeight(75)
         self.images_calculation_page_import_list.setFont(font)
         self.images_calculation_page_import_list.setStyleSheet("QListWidget {\n"
-"    background-color: rgb(33, 37, 43);\n"
-"}\n"
-"\n"
-"QListWidget::item {\n"
-"    color: rgb(255, 255, 255);\n"
-"}")
+                                                               "    background-color: rgb(33, 37, 43);\n"
+                                                               "}\n"
+                                                               "\n"
+                                                               "QListWidget::item {\n"
+                                                               "    color: rgb(255, 255, 255);\n"
+                                                               "}")
         self.images_calculation_page_import_list.setFrameShadow(QtWidgets.QFrame.Plain)
         self.images_calculation_page_import_list.setLineWidth(2)
         self.images_calculation_page_import_list.setObjectName("images_calculation_page_import_list")
@@ -810,7 +817,8 @@ class Ui_MainWindow(object):
         self.frame_calculation_page_modifications_options.setObjectName("frame_calculation_page_modifications_options")
         self.verticalLayout_27 = QtWidgets.QVBoxLayout(self.frame_calculation_page_modifications_options)
         self.verticalLayout_27.setObjectName("verticalLayout_27")
-        self.check_box_show_and_calculate_centroid = QtWidgets.QCheckBox(self.frame_calculation_page_modifications_options)
+        self.check_box_show_and_calculate_centroid = QtWidgets.QCheckBox(
+            self.frame_calculation_page_modifications_options)
         self.check_box_show_and_calculate_centroid.setEnabled(False)
         self.check_box_show_and_calculate_centroid.setStyleSheet("color: rgb(56, 61, 70);")
         self.check_box_show_and_calculate_centroid.setChecked(True)
@@ -828,13 +836,16 @@ class Ui_MainWindow(object):
         self.check_box_show_external_contures.setChecked(True)
         self.check_box_show_external_contures.setObjectName("check_box_show_external_contures")
         self.verticalLayout_27.addWidget(self.check_box_show_external_contures)
-        self.frame_calculation_page_modifications_options_slider = QtWidgets.QFrame(self.frame_calculation_page_modifications_options)
+        self.frame_calculation_page_modifications_options_slider = QtWidgets.QFrame(
+            self.frame_calculation_page_modifications_options)
         self.frame_calculation_page_modifications_options_slider.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_calculation_page_modifications_options_slider.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_calculation_page_modifications_options_slider.setObjectName("frame_calculation_page_modifications_options_slider")
+        self.frame_calculation_page_modifications_options_slider.setObjectName(
+            "frame_calculation_page_modifications_options_slider")
         self.horizontalLayout_9 = QtWidgets.QHBoxLayout(self.frame_calculation_page_modifications_options_slider)
         self.horizontalLayout_9.setObjectName("horizontalLayout_9")
-        self.label_min_value_page_calculation = QtWidgets.QLabel(self.frame_calculation_page_modifications_options_slider)
+        self.label_min_value_page_calculation = QtWidgets.QLabel(
+            self.frame_calculation_page_modifications_options_slider)
         self.label_min_value_page_calculation.setStyleSheet("color: rgb(130, 130, 130)")
         self.label_min_value_page_calculation.setObjectName("label_min_value_page_calculation")
         self.horizontalLayout_9.addWidget(self.label_min_value_page_calculation)
@@ -844,7 +855,8 @@ class Ui_MainWindow(object):
         self.slider.setOrientation(QtCore.Qt.Horizontal)
         self.slider.setObjectName("slider")
         self.horizontalLayout_9.addWidget(self.slider)
-        self.label_max_value_page_calculation = QtWidgets.QLabel(self.frame_calculation_page_modifications_options_slider)
+        self.label_max_value_page_calculation = QtWidgets.QLabel(
+            self.frame_calculation_page_modifications_options_slider)
         self.label_max_value_page_calculation.setStyleSheet("color: rgb(130, 130, 130)")
         self.label_max_value_page_calculation.setObjectName("label_max_value_page_calculation")
         self.horizontalLayout_9.addWidget(self.label_max_value_page_calculation)
@@ -852,14 +864,14 @@ class Ui_MainWindow(object):
         self.btn_calculation_page_send = QtWidgets.QPushButton(self.frame_calculation_page_modifications_options)
         self.btn_calculation_page_send.setEnabled(False)
         self.btn_calculation_page_send.setStyleSheet("QPushButton {\n"
-"    color: rgb(43, 49, 56);\n"
-"    background-color: rgb(33, 37, 43);\n"
-"    border: 2px outset rgb(37, 40, 45);\n"
-"    border-radius: 3px;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    color: rgb(85, 170, 255);\n"
-"}")
+                                                     "    color: rgb(43, 49, 56);\n"
+                                                     "    background-color: rgb(33, 37, 43);\n"
+                                                     "    border: 2px outset rgb(37, 40, 45);\n"
+                                                     "    border-radius: 3px;\n"
+                                                     "}\n"
+                                                     "QPushButton:hover {\n"
+                                                     "    color: rgb(85, 170, 255);\n"
+                                                     "}")
         self.btn_calculation_page_send.setObjectName("btn_calculation_page_send")
         self.verticalLayout_27.addWidget(self.btn_calculation_page_send)
         self.verticalLayout_23.addWidget(self.frame_calculation_page_modifications_options)
@@ -877,34 +889,37 @@ class Ui_MainWindow(object):
         self.frame_calculation_page_buttons_save_images_csvs = QtWidgets.QFrame(self.frame_calculate_page_buttons)
         self.frame_calculation_page_buttons_save_images_csvs.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_calculation_page_buttons_save_images_csvs.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_calculation_page_buttons_save_images_csvs.setObjectName("frame_calculation_page_buttons_save_images_csvs")
+        self.frame_calculation_page_buttons_save_images_csvs.setObjectName(
+            "frame_calculation_page_buttons_save_images_csvs")
         self.verticalLayout_24 = QtWidgets.QVBoxLayout(self.frame_calculation_page_buttons_save_images_csvs)
         self.verticalLayout_24.setObjectName("verticalLayout_24")
-        self.btn_calculation_page_save_images = QtWidgets.QPushButton(self.frame_calculation_page_buttons_save_images_csvs)
+        self.btn_calculation_page_save_images = QtWidgets.QPushButton(
+            self.frame_calculation_page_buttons_save_images_csvs)
         self.btn_calculation_page_save_images.setEnabled(False)
         self.btn_calculation_page_save_images.setStyleSheet("QPushButton {\n"
-"    color: rgb(43, 49, 56);\n"
-"    background-color: rgb(33, 37, 43);\n"
-"    border: 2px outset rgb(37, 40, 45);\n"
-"    border-radius: 3px;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    color: rgb(85, 170, 255);\n"
-"}")
+                                                            "    color: rgb(43, 49, 56);\n"
+                                                            "    background-color: rgb(33, 37, 43);\n"
+                                                            "    border: 2px outset rgb(37, 40, 45);\n"
+                                                            "    border-radius: 3px;\n"
+                                                            "}\n"
+                                                            "QPushButton:hover {\n"
+                                                            "    color: rgb(85, 170, 255);\n"
+                                                            "}")
         self.btn_calculation_page_save_images.setIcon(icon13)
         self.btn_calculation_page_save_images.setObjectName("btn_calculation_page_save_images")
         self.verticalLayout_24.addWidget(self.btn_calculation_page_save_images)
-        self.btn_calculation_page_save_csvs = QtWidgets.QPushButton(self.frame_calculation_page_buttons_save_images_csvs)
+        self.btn_calculation_page_save_csvs = QtWidgets.QPushButton(
+            self.frame_calculation_page_buttons_save_images_csvs)
         self.btn_calculation_page_save_csvs.setEnabled(False)
         self.btn_calculation_page_save_csvs.setStyleSheet("QPushButton {\n"
-"    color: rgb(43, 49, 56);\n"
-"    background-color: rgb(33, 37, 43);\n"
-"    border: 2px outset rgb(37, 40, 45);\n"
-"    border-radius: 3px;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    color: rgb(85, 170, 255);\n"
-"}")
+                                                          "    color: rgb(43, 49, 56);\n"
+                                                          "    background-color: rgb(33, 37, 43);\n"
+                                                          "    border: 2px outset rgb(37, 40, 45);\n"
+                                                          "    border-radius: 3px;\n"
+                                                          "}\n"
+                                                          "QPushButton:hover {\n"
+                                                          "    color: rgb(85, 170, 255);\n"
+                                                          "}")
         self.btn_calculation_page_save_csvs.setIcon(icon14)
         self.btn_calculation_page_save_csvs.setObjectName("btn_calculation_page_save_csvs")
         self.verticalLayout_24.addWidget(self.btn_calculation_page_save_csvs)
@@ -912,34 +927,37 @@ class Ui_MainWindow(object):
         self.frame_calculation_page_buttons_delete_clear_images = QtWidgets.QFrame(self.frame_calculate_page_buttons)
         self.frame_calculation_page_buttons_delete_clear_images.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_calculation_page_buttons_delete_clear_images.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_calculation_page_buttons_delete_clear_images.setObjectName("frame_calculation_page_buttons_delete_clear_images")
+        self.frame_calculation_page_buttons_delete_clear_images.setObjectName(
+            "frame_calculation_page_buttons_delete_clear_images")
         self.verticalLayout_25 = QtWidgets.QVBoxLayout(self.frame_calculation_page_buttons_delete_clear_images)
         self.verticalLayout_25.setObjectName("verticalLayout_25")
-        self.btn_calculation_page_delete_selected_images = QtWidgets.QPushButton(self.frame_calculation_page_buttons_delete_clear_images)
+        self.btn_calculation_page_delete_selected_images = QtWidgets.QPushButton(
+            self.frame_calculation_page_buttons_delete_clear_images)
         self.btn_calculation_page_delete_selected_images.setEnabled(False)
         self.btn_calculation_page_delete_selected_images.setStyleSheet("QPushButton {\n"
-"    color: rgb(43, 49, 56);\n"
-"    background-color: rgb(33, 37, 43);\n"
-"    border: 2px outset rgb(37, 40, 45);\n"
-"    border-radius: 3px;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    color: rgb(85, 170, 255);\n"
-"}")
+                                                                       "    color: rgb(43, 49, 56);\n"
+                                                                       "    background-color: rgb(33, 37, 43);\n"
+                                                                       "    border: 2px outset rgb(37, 40, 45);\n"
+                                                                       "    border-radius: 3px;\n"
+                                                                       "}\n"
+                                                                       "QPushButton:hover {\n"
+                                                                       "    color: rgb(85, 170, 255);\n"
+                                                                       "}")
         self.btn_calculation_page_delete_selected_images.setIcon(icon10)
         self.btn_calculation_page_delete_selected_images.setObjectName("btn_calculation_page_delete_selected_images")
         self.verticalLayout_25.addWidget(self.btn_calculation_page_delete_selected_images)
-        self.btn_calculation_page_clear_images = QtWidgets.QPushButton(self.frame_calculation_page_buttons_delete_clear_images)
+        self.btn_calculation_page_clear_images = QtWidgets.QPushButton(
+            self.frame_calculation_page_buttons_delete_clear_images)
         self.btn_calculation_page_clear_images.setEnabled(False)
         self.btn_calculation_page_clear_images.setStyleSheet("QPushButton {\n"
-"    color: rgb(43, 49, 56);\n"
-"    background-color: rgb(33, 37, 43);\n"
-"    border: 2px outset rgb(37, 40, 45);\n"
-"    border-radius: 3px;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    color: rgb(85, 170, 255);\n"
-"}")
+                                                             "    color: rgb(43, 49, 56);\n"
+                                                             "    background-color: rgb(33, 37, 43);\n"
+                                                             "    border: 2px outset rgb(37, 40, 45);\n"
+                                                             "    border-radius: 3px;\n"
+                                                             "}\n"
+                                                             "QPushButton:hover {\n"
+                                                             "    color: rgb(85, 170, 255);\n"
+                                                             "}")
         self.btn_calculation_page_clear_images.setIcon(icon7)
         self.btn_calculation_page_clear_images.setObjectName("btn_calculation_page_clear_images")
         self.verticalLayout_25.addWidget(self.btn_calculation_page_clear_images)
@@ -947,34 +965,37 @@ class Ui_MainWindow(object):
         self.frame_calculation_page_buttons_check_uncheck_images = QtWidgets.QFrame(self.frame_calculate_page_buttons)
         self.frame_calculation_page_buttons_check_uncheck_images.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_calculation_page_buttons_check_uncheck_images.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_calculation_page_buttons_check_uncheck_images.setObjectName("frame_calculation_page_buttons_check_uncheck_images")
+        self.frame_calculation_page_buttons_check_uncheck_images.setObjectName(
+            "frame_calculation_page_buttons_check_uncheck_images")
         self.verticalLayout_26 = QtWidgets.QVBoxLayout(self.frame_calculation_page_buttons_check_uncheck_images)
         self.verticalLayout_26.setObjectName("verticalLayout_26")
-        self.btn_calculation_page_check_all = QtWidgets.QPushButton(self.frame_calculation_page_buttons_check_uncheck_images)
+        self.btn_calculation_page_check_all = QtWidgets.QPushButton(
+            self.frame_calculation_page_buttons_check_uncheck_images)
         self.btn_calculation_page_check_all.setEnabled(False)
         self.btn_calculation_page_check_all.setStyleSheet("QPushButton {\n"
-"    color: rgb(43, 49, 56);\n"
-"    background-color: rgb(33, 37, 43);\n"
-"    border: 2px outset rgb(37, 40, 45);\n"
-"    border-radius: 3px;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    color: rgb(85, 170, 255);\n"
-"}")
+                                                          "    color: rgb(43, 49, 56);\n"
+                                                          "    background-color: rgb(33, 37, 43);\n"
+                                                          "    border: 2px outset rgb(37, 40, 45);\n"
+                                                          "    border-radius: 3px;\n"
+                                                          "}\n"
+                                                          "QPushButton:hover {\n"
+                                                          "    color: rgb(85, 170, 255);\n"
+                                                          "}")
         self.btn_calculation_page_check_all.setIcon(icon8)
         self.btn_calculation_page_check_all.setObjectName("btn_calculation_page_check_all")
         self.verticalLayout_26.addWidget(self.btn_calculation_page_check_all)
-        self.btn_calculation_page_uncheck_all = QtWidgets.QPushButton(self.frame_calculation_page_buttons_check_uncheck_images)
+        self.btn_calculation_page_uncheck_all = QtWidgets.QPushButton(
+            self.frame_calculation_page_buttons_check_uncheck_images)
         self.btn_calculation_page_uncheck_all.setEnabled(False)
         self.btn_calculation_page_uncheck_all.setStyleSheet("QPushButton {\n"
-"    color: rgb(43, 49, 56);\n"
-"    background-color: rgb(33, 37, 43);\n"
-"    border: 2px outset rgb(37, 40, 45);\n"
-"    border-radius: 3px;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    color: rgb(85, 170, 255);\n"
-"}")
+                                                            "    color: rgb(43, 49, 56);\n"
+                                                            "    background-color: rgb(33, 37, 43);\n"
+                                                            "    border: 2px outset rgb(37, 40, 45);\n"
+                                                            "    border-radius: 3px;\n"
+                                                            "}\n"
+                                                            "QPushButton:hover {\n"
+                                                            "    color: rgb(85, 170, 255);\n"
+                                                            "}")
         self.btn_calculation_page_uncheck_all.setIcon(icon9)
         self.btn_calculation_page_uncheck_all.setObjectName("btn_calculation_page_uncheck_all")
         self.verticalLayout_26.addWidget(self.btn_calculation_page_uncheck_all)
@@ -1034,11 +1055,13 @@ class Ui_MainWindow(object):
         self.btn_calculation_page_clear_images.setText(_translate("MainWindow", "Clear Image list"))
         self.btn_calculation_page_check_all.setText(_translate("MainWindow", "Check All"))
         self.btn_calculation_page_uncheck_all.setText(_translate("MainWindow", "Uncheck All"))
-import icons_rc
 
+
+import icons_rc
 
 if __name__ == "__main__":
     import sys
+
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()

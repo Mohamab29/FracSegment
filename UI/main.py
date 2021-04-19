@@ -151,13 +151,13 @@ def evnImageListItemDoubleClickedPageResults(dic, item):
         pil_im.show()
 
 
-def convertCvImage2QtImage(img):
+def convertCvImage2QtImage(img, mode):
     """
     Converting an image to a pix map. from a numpy array to and image object to a Pixmap
 
     :returns: a Pixmap object
     """
-    return QtGui.QPixmap.fromImage(ImageQt(Image.fromarray(img).convert('L')))
+    return QtGui.QPixmap.fromImage(ImageQt(Image.fromarray(img).convert(mode)))
 
 
 class MainWindow(QMainWindow):
@@ -249,7 +249,7 @@ class MainWindow(QMainWindow):
                 splited_image_name = checked_items[index].split('/')[-1].split('.')
                 image_name = f"{splited_image_name[0]}_predicted.{splited_image_name[1]}"
 
-                self.PredictedImagesPixMap[image_name] = convertCvImage2QtImage(segmented_image)
+                self.PredictedImagesPixMap[image_name] = convertCvImage2QtImage(segmented_image, "L")
                 self.PredictedImagesNpArray[image_name] = segmented_image
 
                 self.addImageNameToList(image_name, self.ui.images_results_page_import_list)
@@ -270,7 +270,7 @@ class MainWindow(QMainWindow):
 
             if not selected_result_list_size:
                 label = self.ui.label_results_page_selected_picture
-                label.setPixmap(QtGui.QPixmap(convertCvImage2QtImage(segmented_images[len(segmented_images) - 1])))
+                label.setPixmap(QtGui.QPixmap(convertCvImage2QtImage(segmented_images[len(segmented_images) - 1], "L")))
                 imageLabelFrame(label, QFrame.StyledPanel, QFrame.Sunken, 3)
                 # label = self.ui.label_results_page_selected_picture
                 # imageLabelFrame(label, 0, 0, 0)
@@ -296,7 +296,7 @@ class MainWindow(QMainWindow):
 
             index = 0
             for key, value in self.checkedImagesForCalculationNpArray.items():
-                self.checkedImagesForCalculationNpPixMap[key] = convertCvImage2QtImage(drawn_images[index])
+                self.checkedImagesForCalculationNpPixMap[key] = convertCvImage2QtImage(drawn_images[index], "RGB")
                 self.addImageNameToList(key, self.ui.images_calculation_page_import_list)
 
             buttons_tuple = [
@@ -691,7 +691,8 @@ class MainWindow(QMainWindow):
             self.updateNumOfImagesPageResults(self.ui.images_results_page_import_list)
 
     def evnClearImagesButtonClickedPageCalculation(self):
-        if self.checkedImagesForCalculationNpArray and showDialog('Clear all images', 'Are you sure?', QMessageBox.Information):
+        if self.checkedImagesForCalculationNpArray and showDialog('Clear all images', 'Are you sure?',
+                                                                  QMessageBox.Information):
             self.ui.images_calculation_page_import_list.clear()
             self.checkedImagesForCalculationNpArray = {}
             # imageLabelFrame(self.ui.label_results_page_selected_picture)
