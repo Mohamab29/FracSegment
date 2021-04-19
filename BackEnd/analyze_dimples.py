@@ -111,6 +111,7 @@ def saveImagesAnalysisToCSV(images_analysis: list, file_names: list):
         saveAnalysisToCSV(images_analysis[index], file_name)
 
 
+# noinspection DuplicatedCode
 def analyze(images: List[np.ndarray]
             , show_ex_contours=True
             , show_in_contours=True
@@ -134,16 +135,12 @@ def analyze(images: List[np.ndarray]
     """
 
     assert images.__len__() != 0, "Function received empty images list."
-    # if show_ex_contours and show_in_contours and calc_centroid and save_to_csv:
-    #     analyze_default(images,
-    #                     file_names,
-    #                     number_of_bins,
-    #                     min_limit,
-    #                     max_limit)
+
     images_analysis = []
     image_analysis = {}
     drawn_images = []
     pixel_to_um = 5
+
     for index in range(images.__len__()):
         contours, hierarchy = cv2.findContours(images[index], cv2.RETR_CCOMP, cv2.CHAIN_APPROX_NONE)
 
@@ -172,7 +169,7 @@ def analyze(images: List[np.ndarray]
                     if calc_centroid:
                         cx, cy = calcCentroid(cnt)
                         image_analysis["centroid"].append((cx, cy))
-                        drawn_image = cv2.circle(
+                        cv2.circle(
                             drawn_image, (cx, cy), radius=3,
                             color=cnt_color, thickness=-1)
                     image_analysis["area"].append(cnt_area / pixel_to_um)
@@ -185,7 +182,7 @@ def analyze(images: List[np.ndarray]
                         if calc_centroid:
                             cx, cy = calcCentroid(cnt)
                             image_analysis["centroid"].append((cx, cy))
-                            drawn_image = cv2.circle(
+                            cv2.circle(
                                 drawn_image, (cx, cy), radius=3,
                                 color=cnt_color, thickness=-1)
 
@@ -200,7 +197,7 @@ def analyze(images: List[np.ndarray]
                         if calc_centroid:
                             cx, cy = calcCentroid(cnt)
                             image_analysis["centroid"].append((cx, cy))
-                            drawn_image = cv2.circle(
+                            cv2.circle(
                                 drawn_image, (cx, cy), radius=3,
                                 color=cnt_color, thickness=-1)
                         image_analysis["area"].append(cnt_area / pixel_to_um)
@@ -218,7 +215,7 @@ def analyze(images: List[np.ndarray]
 
 if __name__ == "__main__":
     mask = cv2.imread("mask.png", 0)
-    drawn_imgs, analysis = analyze([mask], show_ex_contours=False, calc_centroid=False,
+    drawn_imgs, analysis = analyze([mask], show_ex_contours=False, show_in_contours=True, calc_centroid=True,
                                    min_limit=1000,
                                    max_limit=200000)
     display(drawn_imgs[0], "Contours")
