@@ -315,32 +315,36 @@ class MainWindow(QMainWindow):
 
         results_page_list = self.ui.images_results_page_import_list
 
+        checked_min_max_values = {}
+
         for index in range(results_page_list.count()):
             if results_page_list.item(index).checkState() == 2:
                 list_item = results_page_list.item(index)
                 list_item_name = list_item.text()
                 list_item_calc_name = list_item_name.replace('_predicted', '_calculated')
-                self.imagesMaxValues[list_item_calc_name] = find_max_area(
-                    self.PredictedImagesNpArray[list_item_name])
+
                 self.checkedImagesForCalculationNpArray[list_item_calc_name] = \
                     self.PredictedImagesNpArray[list_item_name]
 
+                self.imagesMaxValues[list_item_calc_name] = find_max_area(
+                    self.PredictedImagesNpArray[list_item_name])
                 self.imagesMinValues[
                     list_item_calc_name] = self.ui.frame_calculation_page_modifications_options_min_spin_box.value()
-                self.checkedImagesForCalculationNpArray[list_item_calc_name] = \
-                    self.PredictedImagesNpArray[list_item_name]
+                checked_min_max_values[list_item_calc_name] = (
+                    self.imagesMinValues[list_item_calc_name], self.imagesMaxValues[list_item_calc_name])
 
         checked_calculated_items_size = self.checkedImagesForCalculationNpArray.__len__()
 
         if checked_calculated_items_size:
-            drawn_images, images_analysis = analyze(list(self.checkedImagesForCalculationNpArray.values()))
-
-            index = 0
-            for key, value in self.checkedImagesForCalculationNpArray.items():
-                self.checkedImagesForCalculationPixMap[key] = convertCvImage2QtImageRGB(drawn_images[index].copy(),
-                                                                                        "RGB")
-                self.addImageNameToList(key, self.ui.images_calculation_page_import_list)
-                index += 1
+            drawn_images, _ = analyze(self.checkedImagesForCalculationNpArray, self.default_flags,
+                                      checked_min_max_values)
+            nparray_images = self.checkedImagesForCalculationNpArray.keys()
+            names = []
+            for name in nparray_images:
+                self.checkedImagesForCalculationPixMap[name] = convertCvImage2QtImageRGB(drawn_images[name].copy(),
+                                                                                         "RGB")
+                self.addImageNameToList(name, self.ui.images_calculation_page_import_list)
+                names.append(name)
 
             buttons_tuple = [
                 (self.ui.btn_calculation_page_save_images, True),
@@ -368,11 +372,12 @@ class MainWindow(QMainWindow):
             selected_calculation_list_size = len(import_list.selectedItems())
 
             if not selected_calculation_list_size:
-                last_image = drawn_images[-1]
+                last_image = drawn_images[names[-1]]
                 label = self.ui.label_calculate_page_selected_picture
                 label.setPixmap(QtGui.QPixmap(convertCvImage2QtImageRGB(last_image.copy(), "RGB")))
                 imageLabelFrame(label, QFrame.StyledPanel, QFrame.Sunken, 3)
             self.updateNumOfImagesPageCalculation(import_list)
+        names = []
 
     def evnSaveCsvsButtonClickedPageResults(self):
         predicted_images_nparray = {}
