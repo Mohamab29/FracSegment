@@ -1748,7 +1748,7 @@ QListWidget::item {
                              <string>Show and calculate centroid</string>
                             </property>
                             <property name="checked">
-                             <bool>false</bool>
+                             <bool>true</bool>
                             </property>
                            </widget>
                           </item>
@@ -1762,6 +1762,9 @@ QListWidget::item {
                             </property>
                             <property name="text">
                              <string>Show Internal Contours</string>
+                            </property>
+                            <property name="checked">
+                             <bool>true</bool>
                             </property>
                            </widget>
                           </item>
@@ -1777,20 +1780,7 @@ QListWidget::item {
                              <string>Show External Contours</string>
                             </property>
                             <property name="checked">
-                             <bool>false</bool>
-                            </property>
-                           </widget>
-                          </item>
-                          <item>
-                           <widget class="QCheckBox" name="check_box_show_diemeters">
-                            <property name="enabled">
-                             <bool>false</bool>
-                            </property>
-                            <property name="styleSheet">
-                             <string notr="true">color: rgb(56, 61, 70);</string>
-                            </property>
-                            <property name="text">
-                             <string>Show Diameters</string>
+                             <bool>true</bool>
                             </property>
                            </widget>
                           </item>

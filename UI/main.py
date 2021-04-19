@@ -169,7 +169,8 @@ class MainWindow(QMainWindow):
         self.imageListPathDict = {}
         self.PredictedImagesPixMap = {}
         self.PredictedImagesNpArray = {}
-        self.CalculatedImages = {}
+        self.checkedImagesForCalculationNpArray = {}
+        self.checkedImagesForCalculationPixMap = {}
 
         self.setActions()
         self.center()
@@ -243,9 +244,9 @@ class MainWindow(QMainWindow):
         segmented_images_size = segmented_images.__len__()
 
         if segmented_images_size:
-            for img in range(segmented_images_size):
-                segmented_image = segmented_images[img]
-                splited_image_name = checked_items[img].split('/')[-1].split('.')
+            for index in range(segmented_images_size):
+                segmented_image = segmented_images[index]
+                splited_image_name = checked_items[index].split('/')[-1].split('.')
                 image_name = f"{splited_image_name[0]}_predicted.{splited_image_name[1]}"
 
                 self.PredictedImagesPixMap[image_name] = convertCvImage2QtImage(segmented_image)
@@ -277,23 +278,26 @@ class MainWindow(QMainWindow):
             self.updateNumOfImagesPageResults(import_list)
 
     def evnCustomCalculationButtonClicked(self):
-        checked_items = []
+        calculated_images_list_checked = []
+
         results_page_list = self.ui.images_results_page_import_list
 
         for index in range(results_page_list.count()):
             if results_page_list.item(index).checkState() == 2:
                 list_item = results_page_list.item(index)
-                checked_items.append(self.imageListPathDict[list_item.text().replace('_predicted', '')])
+                list_item_name = list_item.text()
+                self.checkedImagesForCalculationNpArray[list_item_name.replace('_predicted', '_calculated')] = \
+                    self.PredictedImagesNpArray[list_item_name]
 
-        checked_items_size = checked_items.__len__()
-        if checked_items_size:
-            for img in range(checked_items_size):
-                # contre_image = contre_images[img]
-                splited_image_name = checked_items[img].split('/')[-1].split('.')
-                image_name = f"{splited_image_name[0]}_calculated.{splited_image_name[1]}"
-                # self.CalculatedImages[image_name] = convertCvImage2QtImage(contre_image)
-                self.CalculatedImages[image_name] = image_name
-                self.addImageNameToList(image_name, self.ui.images_calculation_page_import_list)
+        checked_calculated_items_size = self.checkedImagesForCalculationNpArray.__len__()
+
+        if checked_calculated_items_size:
+            drawn_images, images_analysis = analyze(list(self.checkedImagesForCalculationNpArray.values()))
+
+            index = 0
+            for key, value in self.checkedImagesForCalculationNpArray.items():
+                self.checkedImagesForCalculationNpPixMap[key] = convertCvImage2QtImage(drawn_images[index])
+                self.addImageNameToList(key, self.ui.images_calculation_page_import_list)
 
             buttons_tuple = [
                 (self.ui.btn_calculation_page_save_images, True),
@@ -305,10 +309,10 @@ class MainWindow(QMainWindow):
                 (self.ui.slider, True),
             ]
 
-            check_box_tuple = [(self.ui.check_box_show_diemeters, True),
-                               (self.ui.check_box_show_and_calculate_centroid, True),
-                               (self.ui.check_box_show_external_contures, True),
-                               (self.ui.check_box_show_internal_contures, True)]
+            check_box_tuple = [
+                (self.ui.check_box_show_and_calculate_centroid, True),
+                (self.ui.check_box_show_external_contures, True),
+                (self.ui.check_box_show_internal_contures, True)]
 
             toggleButtonAndChangeStyle(buttons_tuple)
             toggleCheckBoxAndChangeStyle(check_box_tuple)
@@ -341,9 +345,7 @@ class MainWindow(QMainWindow):
 
         if path and predicted_images_list_checked:
             _, images_analysis = analyze(predicted_images_list_checked)
-            saveImagesAnalysisToCSV(images_analysis, image_names_list_checked,path)
-
-
+            saveImagesAnalysisToCSV(images_analysis, image_names_list_checked, path)
 
     def addImageNameToList(self, image_name, list):
         list_item = QtWidgets.QListWidgetItem()
@@ -392,7 +394,7 @@ class MainWindow(QMainWindow):
 
         if path and predicted_images_list_checked and checked_items:
             _, images_analysis = analyze(predicted_images_list_checked)
-            saveImagesAnalysisToCSV(images_analysis, image_names_list_checked,path)
+            saveImagesAnalysisToCSV(images_analysis, image_names_list_checked, path)
 
             if not os.path.exists(f"{path}/files/predicted_images/"):
                 os.makedirs(f"{path}/files/predicted_images/")
@@ -402,7 +404,6 @@ class MainWindow(QMainWindow):
                 image_path = f"{path}/files/predicted_images/{image_name}"
                 image_type = image_name.split('.')[-1]
                 pixmap_image.save(image_path, image_type)
-
 
     def evnCurrentItemChangedPagePredict(self, label, item):
         if item:
@@ -501,10 +502,10 @@ class MainWindow(QMainWindow):
                              (self.ui.slider, False),
                              ]
 
-            check_box_tuple = [(self.ui.check_box_show_diemeters, False),
-                               (self.ui.check_box_show_and_calculate_centroid, False),
-                               (self.ui.check_box_show_external_contures, False),
-                               (self.ui.check_box_show_internal_contures, False)]
+            check_box_tuple = [
+                (self.ui.check_box_show_and_calculate_centroid, False),
+                (self.ui.check_box_show_external_contures, False),
+                (self.ui.check_box_show_internal_contures, False)]
 
             toggleButtonAndChangeStyle(buttons_tuple)
             toggleCheckBoxAndChangeStyle(check_box_tuple)
@@ -516,10 +517,10 @@ class MainWindow(QMainWindow):
                              (self.ui.slider, True),
                              ]
 
-            check_box_tuple = [(self.ui.check_box_show_diemeters, True),
-                               (self.ui.check_box_show_and_calculate_centroid, True),
-                               (self.ui.check_box_show_external_contures, True),
-                               (self.ui.check_box_show_internal_contures, True)]
+            check_box_tuple = [
+                (self.ui.check_box_show_and_calculate_centroid, True),
+                (self.ui.check_box_show_external_contures, True),
+                (self.ui.check_box_show_internal_contures, True)]
 
             toggleButtonAndChangeStyle(buttons_tuple)
             toggleCheckBoxAndChangeStyle(check_box_tuple)
@@ -690,9 +691,9 @@ class MainWindow(QMainWindow):
             self.updateNumOfImagesPageResults(self.ui.images_results_page_import_list)
 
     def evnClearImagesButtonClickedPageCalculation(self):
-        if self.CalculatedImages and showDialog('Clear all images', 'Are you sure?', QMessageBox.Information):
+        if self.checkedImagesForCalculationNpArray and showDialog('Clear all images', 'Are you sure?', QMessageBox.Information):
             self.ui.images_calculation_page_import_list.clear()
-            self.CalculatedImages = {}
+            self.checkedImagesForCalculationNpArray = {}
             # imageLabelFrame(self.ui.label_results_page_selected_picture)
             # self.ui.label_results_page_selected_picture.setText("Please predict images first.")
 
@@ -706,10 +707,10 @@ class MainWindow(QMainWindow):
                              (self.ui.slider, False),
                              ]
 
-            check_box_tuple = [(self.ui.check_box_show_diemeters, False),
-                               (self.ui.check_box_show_and_calculate_centroid, False),
-                               (self.ui.check_box_show_external_contures, False),
-                               (self.ui.check_box_show_internal_contures, False)]
+            check_box_tuple = [
+                (self.ui.check_box_show_and_calculate_centroid, False),
+                (self.ui.check_box_show_external_contures, False),
+                (self.ui.check_box_show_internal_contures, False)]
 
             toggleButtonAndChangeStyle(buttons_tuple)
             toggleCheckBoxAndChangeStyle(check_box_tuple)
@@ -776,10 +777,10 @@ class MainWindow(QMainWindow):
                              (self.ui.slider, True),
                              ]
 
-            check_box_tuple = [(self.ui.check_box_show_diemeters, True),
-                               (self.ui.check_box_show_and_calculate_centroid, True),
-                               (self.ui.check_box_show_external_contures, True),
-                               (self.ui.check_box_show_internal_contures, True)]
+            check_box_tuple = [
+                (self.ui.check_box_show_and_calculate_centroid, True),
+                (self.ui.check_box_show_external_contures, True),
+                (self.ui.check_box_show_internal_contures, True)]
 
             toggleButtonAndChangeStyle(buttons_tuple)
             toggleCheckBoxAndChangeStyle(check_box_tuple)
@@ -818,10 +819,10 @@ class MainWindow(QMainWindow):
                              (self.ui.slider, False)
                              ]
 
-            check_box_tuple = [(self.ui.check_box_show_diemeters, False),
-                               (self.ui.check_box_show_and_calculate_centroid, False),
-                               (self.ui.check_box_show_external_contures, False),
-                               (self.ui.check_box_show_internal_contures, False)]
+            check_box_tuple = [
+                (self.ui.check_box_show_and_calculate_centroid, False),
+                (self.ui.check_box_show_external_contures, False),
+                (self.ui.check_box_show_internal_contures, False)]
 
             toggleButtonAndChangeStyle(buttons_tuple)
             toggleCheckBoxAndChangeStyle(check_box_tuple)
