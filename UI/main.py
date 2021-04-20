@@ -255,7 +255,7 @@ class MainWindow(QMainWindow):
         self.ui.btn_calculation_page_uncheck_all.clicked.connect(self.evnUncheckAllButtonClickedPageCalculation)
         self.ui.btn_calculation_page_delete_selected_images.clicked.connect(
             self.evnDeleteSelectedImagesButtonClickedPageCalculation)
-        # self.ui.btn_calculation_page_save_images.clicked.connect(self.evnSaveImagesButtonClickedPageCalculation)
+        self.ui.btn_calculation_page_save_images.clicked.connect(self.evnSaveImagesButtonClickedPageCalculation)
         self.ui.btn_calculation_page_save_csvs.clicked.connect(self.evnSaveCsvsButtonClickedPageCalculation)
 
         self.ui.images_calculation_page_import_list.itemClicked.connect(self.evnImageListItemClickedPageCalculation)
@@ -481,7 +481,8 @@ class MainWindow(QMainWindow):
 
     def evnCurrentItemChangedPageCalculation(self, label, item):
         if item:
-            label.setPixmap(self.imagesForCalculationPixMap[item.text()])
+            image = convertCvImage2QtImageRGB(self.imagesDrawn[item.text()], "RGB")
+            label.setPixmap(image)
             imageLabelFrame(label, QFrame.StyledPanel, QFrame.Sunken, 3)
             self.currentItemClickedNameCalcPage = item.text()
 
@@ -773,7 +774,25 @@ class MainWindow(QMainWindow):
                 toggleButtonAndChangeStyle([(self.ui.btn_calculation_page_clear_images, False)])
 
     def evnSaveImagesButtonClickedPageCalculation(self):
-        print("hey bitches")
+        checked_images = []
+
+        calculation_items_list = self.ui.images_calculation_page_import_list
+
+        for index in range(calculation_items_list.count()):
+            item = calculation_items_list.item(index)
+            if item.checkState() == 2:
+                list_item = item
+                list_item_name = list_item.text()
+                checked_images.append(list_item_name)
+
+        path = QFileDialog.getExistingDirectory(self, "Choose Folder")
+
+        if path and checked_images:
+            if not os.path.exists(f"{path}/files/drawn_images/"):
+                os.makedirs(f"{path}/files/drawn_images/")
+            for image_name in checked_images:
+                image_path = f"{path}/files/drawn_images/{image_name}"
+                cv2.imwrite(image_path, self.imagesDrawn[image_name])
 
     def evnSaveCsvsButtonClickedPageCalculation(self):
 
