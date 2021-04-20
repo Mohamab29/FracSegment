@@ -258,7 +258,8 @@ class MainWindow(QMainWindow):
         self.ui.btn_calculation_page_save_images.clicked.connect(self.evnSaveImagesButtonClickedPageCalculation)
         self.ui.btn_calculation_page_save_csvs.clicked.connect(self.evnSaveCsvsButtonClickedPageCalculation)
 
-        self.ui.images_calculation_page_import_list.itemClicked.connect(self.evnImageListItemClickedPageCalculation)
+        self.ui.images_calculation_page_import_list.itemClicked.connect(
+            partial(self.evnImageListItemClickedPageCalculation, self.ui.label_calculate_page_selected_picture))
         self.ui.images_calculation_page_import_list.itemDoubleClicked.connect(
             partial(evnImageListItemDoubleClicked, self.imagesForCalculationPixMap))
         self.ui.images_calculation_page_import_list.currentItemChanged.connect(
@@ -627,12 +628,16 @@ class MainWindow(QMainWindow):
     def evnImageListItemClickedPageResults(self):
         self.sharedTermsPageResults()
 
-    def evnImageListItemClickedPageCalculation(self, item):
-        self.ui.frame_calculation_page_modifications_options_max_spin_box.setValue(
-            self.imagesMaxValues[item.text()])
-        self.ui.frame_calculation_page_modifications_options_min_spin_box.setValue(
-            self.imagesMinValues[item.text()])
-        self.currentItemClickedNameCalcPage = item.text()
+    def evnImageListItemClickedPageCalculation(self, label, item):
+        if item:
+            self.ui.frame_calculation_page_modifications_options_max_spin_box.setValue(
+                self.imagesMaxValues[item.text()])
+            self.ui.frame_calculation_page_modifications_options_min_spin_box.setValue(
+                self.imagesMinValues[item.text()])
+            image = convertCvImage2QtImageRGB(self.imagesDrawn[item.text()], "RGB")
+            label.setPixmap(image)
+            imageLabelFrame(label, QFrame.StyledPanel, QFrame.Sunken, 3)
+            self.currentItemClickedNameCalcPage = item.text()
         self.sharedTermsPageCalculation()
 
     def evnPagePredictClicked(self):
@@ -663,7 +668,6 @@ class MainWindow(QMainWindow):
                 self.ui.btn_page_predict.setText('Predict')
                 self.ui.btn_page_results.setText('Results')
                 self.ui.btn_page_calculation.setText('Calculation')
-                self.ui.btn_page_help.setText('Help')
 
             else:
                 width_extended = standard
@@ -680,7 +684,7 @@ class MainWindow(QMainWindow):
             self.animation.start()
 
     def evnLoadImagesButtonClicked(self):
-        file_to_open = "Image Files (*.png *.jpg *.bmp *.tiff)"
+        file_to_open = "Image Files (*.png *.jpg *.bmp *.tiff *.tif)"
         res = QFileDialog.getOpenFileNames(None, "Open File", "/", file_to_open)
 
         if len(res[0]) > 0:
@@ -837,7 +841,6 @@ class MainWindow(QMainWindow):
 
     def evnClearImagesButtonClickedPageResults(self):
         if self.PredictedImagesPixMap and showDialog('Clear all images', 'Are you sure?', QMessageBox.Information):
-
             self.ui.images_results_page_import_list.clear()
             self.PredictedImagesPixMap.clear()
 
