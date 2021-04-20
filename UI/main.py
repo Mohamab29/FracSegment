@@ -270,119 +270,126 @@ class MainWindow(QMainWindow):
             self.evnChangeMinValuePageCalculation)
 
     def evnPredictButtonClicked(self):
-        checked_items = []
         import_list = self.ui.images_predict_page_import_list
+        if showDialog('Predict images', f'Predict for {numOfCheckedItems(import_list)} images?', QMessageBox.Question):
+            checked_items = []
 
-        for index in range(import_list.count()):
-            if import_list.item(index).checkState() == 2:
-                # add check if the image already predicted.
-                list_item = import_list.item(index)
-                checked_items.append(self.imageListPathDict[list_item.text()])
+            for index in range(import_list.count()):
+                if import_list.item(index).checkState() == 2:
+                    # add check if the image already predicted.
+                    list_item = import_list.item(index)
+                    checked_items.append(self.imageListPathDict[list_item.text()])
 
-        segmented_images = segment(checked_items)
-        segmented_images_size = segmented_images.__len__()
+            segmented_images = segment(checked_items)
+            segmented_images_size = segmented_images.__len__()
 
-        if segmented_images_size:
-            for index in range(segmented_images_size):
-                segmented_image = segmented_images[index]
-                splited_image_name = checked_items[index].split('/')[-1].split('.')
-                image_name = f"{splited_image_name[0]}_predicted.{splited_image_name[1]}"
+            if segmented_images_size:
+                for index in range(segmented_images_size):
+                    segmented_image = segmented_images[index]
+                    splited_image_name = checked_items[index].split('/')[-1].split('.')
+                    image_name = f"{splited_image_name[0]}_predicted.{splited_image_name[1]}"
 
-                self.PredictedImagesPixMap[image_name] = convertCvImage2QtImage(segmented_image, "L")
-                self.PredictedImagesNpArray[image_name] = segmented_image
+                    self.PredictedImagesPixMap[image_name] = convertCvImage2QtImage(segmented_image, "L")
+                    self.PredictedImagesNpArray[image_name] = segmented_image
 
-                self.addImageNameToList(image_name, self.ui.images_results_page_import_list)
+                    self.addImageNameToList(image_name, self.ui.images_results_page_import_list)
 
-            buttons_tuple = [
-                (self.ui.btn_results_page_clear_images, True),
-                (self.ui.btn_results_page_uncheck_all, True),
-                (self.ui.btn_results_page_delete_selected_images, True),
-                (self.ui.btn_results_page_save_images, True),
-                (self.ui.btn_results_page_custom_calculation, True),
-                (self.ui.btn_results_page_save_csvs, True),
-                (self.ui.btn_results_page_save_images_and_csvs, True)
-            ]
+                buttons_tuple = [
+                    (self.ui.btn_results_page_clear_images, True),
+                    (self.ui.btn_results_page_uncheck_all, True),
+                    (self.ui.btn_results_page_delete_selected_images, True),
+                    (self.ui.btn_results_page_save_images, True),
+                    (self.ui.btn_results_page_custom_calculation, True),
+                    (self.ui.btn_results_page_save_csvs, True),
+                    (self.ui.btn_results_page_save_images_and_csvs, True)
+                ]
 
-            toggleButtonAndChangeStyle(buttons_tuple)
-            import_list = self.ui.images_results_page_import_list
-            selected_result_list_size = len(import_list.selectedItems())
+                toggleButtonAndChangeStyle(buttons_tuple)
+                import_list = self.ui.images_results_page_import_list
+                selected_result_list_size = len(import_list.selectedItems())
 
-            if not selected_result_list_size:
-                label = self.ui.label_results_page_selected_picture
-                label.setPixmap(QtGui.QPixmap(convertCvImage2QtImage(segmented_images[len(segmented_images) - 1], "L")))
-                imageLabelFrame(label, QFrame.StyledPanel, QFrame.Sunken, 3)
-                # label = self.ui.label_results_page_selected_picture
-                # imageLabelFrame(label, 0, 0, 0)
-                # label.setText("Please select image to view on the screen.")
-            self.updateNumOfImagesPageResults(import_list)
+                if not selected_result_list_size:
+                    label = self.ui.label_results_page_selected_picture
+                    label.setPixmap(
+                        QtGui.QPixmap(convertCvImage2QtImage(segmented_images[len(segmented_images) - 1], "L")))
+                    imageLabelFrame(label, QFrame.StyledPanel, QFrame.Sunken, 3)
+                    # label = self.ui.label_results_page_selected_picture
+                    # imageLabelFrame(label, 0, 0, 0)
+                    # label.setText("Please select image to view on the screen.")
+                self.updateNumOfImagesPageResults(import_list)
+                if showDialog('Prediction Succeeded', 'Move to the results page?', QMessageBox.Question):
+                    self.ui.stackedWidget.setCurrentWidget(self.ui.frame_results_page)
 
     def evnCustomCalculationButtonClicked(self):
-
         results_page_list = self.ui.images_results_page_import_list
+        if showDialog('Calculate images', f'Calculate for {numOfCheckedItems(results_page_list)} images?',
+                      QMessageBox.Question):
 
-        checked_min_max_values = {}
+            checked_min_max_values = {}
 
-        for index in range(results_page_list.count()):
-            if results_page_list.item(index).checkState() == 2:
-                list_item = results_page_list.item(index)
-                list_item_name = list_item.text()
-                list_item_calc_name = list_item_name.replace('_predicted', '_calculated')
+            for index in range(results_page_list.count()):
+                if results_page_list.item(index).checkState() == 2:
+                    list_item = results_page_list.item(index)
+                    list_item_name = list_item.text()
+                    list_item_calc_name = list_item_name.replace('_predicted', '_calculated')
 
-                self.imagesForCalculationNpArray[list_item_calc_name] = \
-                    self.PredictedImagesNpArray[list_item_name]
+                    self.imagesForCalculationNpArray[list_item_calc_name] = \
+                        self.PredictedImagesNpArray[list_item_name]
 
-                self.imagesMaxValues[list_item_calc_name] = find_max_area(
-                    self.PredictedImagesNpArray[list_item_name])
-                self.imagesMinValues[
-                    list_item_calc_name] = self.ui.frame_calculation_page_modifications_options_min_spin_box.value()
-                checked_min_max_values[list_item_calc_name] = (
-                    self.imagesMinValues[list_item_calc_name], self.imagesMaxValues[list_item_calc_name])
+                    self.imagesMaxValues[list_item_calc_name] = find_max_area(
+                        self.PredictedImagesNpArray[list_item_name])
+                    self.imagesMinValues[
+                        list_item_calc_name] = self.ui.frame_calculation_page_modifications_options_min_spin_box.value()
+                    checked_min_max_values[list_item_calc_name] = (
+                        self.imagesMinValues[list_item_calc_name], self.imagesMaxValues[list_item_calc_name])
 
-        checked_calculated_items_size = self.imagesForCalculationNpArray.__len__()
+            checked_calculated_items_size = self.imagesForCalculationNpArray.__len__()
 
-        if checked_calculated_items_size:
-            self.imagesDrawn, self.imagesAnalyse = analyze(self.imagesForCalculationNpArray, self.default_flags,
-                                                           checked_min_max_values)
-            nparray_images = self.imagesForCalculationNpArray.keys()
-            names = []
-            for name in nparray_images:
-                self.imagesForCalculationPixMap[name] = convertCvImage2QtImageRGB(self.imagesDrawn[name].copy(),
-                                                                                  "RGB")
-                self.addImageNameToList(name, self.ui.images_calculation_page_import_list)
-                names.append(name)
+            if checked_calculated_items_size:
+                self.imagesDrawn, self.imagesAnalyse = analyze(self.imagesForCalculationNpArray, self.default_flags,
+                                                               checked_min_max_values)
+                nparray_images = self.imagesForCalculationNpArray.keys()
+                names = []
+                for name in nparray_images:
+                    self.imagesForCalculationPixMap[name] = convertCvImage2QtImageRGB(self.imagesDrawn[name].copy(),
+                                                                                      "RGB")
+                    self.addImageNameToList(name, self.ui.images_calculation_page_import_list)
+                    names.append(name)
 
-            buttons_tuple = [
-                (self.ui.btn_calculation_page_save_images, True),
-                (self.ui.btn_calculation_page_save_csvs, True),
-                (self.ui.btn_calculation_page_delete_selected_images, True),
-                (self.ui.btn_calculation_page_clear_images, True),
-                (self.ui.btn_calculation_page_send, True),
-                (self.ui.btn_calculation_page_uncheck_all, True)
+                buttons_tuple = [
+                    (self.ui.btn_calculation_page_save_images, True),
+                    (self.ui.btn_calculation_page_save_csvs, True),
+                    (self.ui.btn_calculation_page_delete_selected_images, True),
+                    (self.ui.btn_calculation_page_clear_images, True),
+                    (self.ui.btn_calculation_page_send, True),
+                    (self.ui.btn_calculation_page_uncheck_all, True)
 
-            ]
+                ]
 
-            check_box_tuple = [
-                (self.ui.frame_calculation_page_modifications_options_min_spin_box, True),
-                (self.ui.frame_calculation_page_modifications_options_max_spin_box, True),
-                (self.ui.frame_calculation_page_modifications_options_max_label, True),
-                (self.ui.frame_calculation_page_modifications_options_min_label, True),
-                (self.ui.check_box_show_and_calculate_centroid, True),
-                (self.ui.check_box_show_external_contures, True),
-                (self.ui.check_box_show_internal_contures, True)]
+                check_box_tuple = [
+                    (self.ui.frame_calculation_page_modifications_options_min_spin_box, True),
+                    (self.ui.frame_calculation_page_modifications_options_max_spin_box, True),
+                    (self.ui.frame_calculation_page_modifications_options_max_label, True),
+                    (self.ui.frame_calculation_page_modifications_options_min_label, True),
+                    (self.ui.check_box_show_and_calculate_centroid, True),
+                    (self.ui.check_box_show_external_contures, True),
+                    (self.ui.check_box_show_internal_contures, True)]
 
-            toggleButtonAndChangeStyle(buttons_tuple)
-            toggleCheckBoxAndChangeStyle(check_box_tuple)
-            import_list = self.ui.images_calculation_page_import_list
+                toggleButtonAndChangeStyle(buttons_tuple)
+                toggleCheckBoxAndChangeStyle(check_box_tuple)
+                import_list = self.ui.images_calculation_page_import_list
 
-            selected_calculation_list_size = len(import_list.selectedItems())
+                selected_calculation_list_size = len(import_list.selectedItems())
 
-            if not selected_calculation_list_size:
-                last_image = self.imagesDrawn[names[-1]]
-                label = self.ui.label_calculate_page_selected_picture
-                label.setPixmap(QtGui.QPixmap(convertCvImage2QtImageRGB(last_image.copy(), "RGB")))
-                imageLabelFrame(label, QFrame.StyledPanel, QFrame.Sunken, 3)
-            self.updateNumOfImagesPageCalculation(import_list)
-        names = []
+                if not selected_calculation_list_size:
+                    last_image = self.imagesDrawn[names[-1]]
+                    label = self.ui.label_calculate_page_selected_picture
+                    label.setPixmap(QtGui.QPixmap(convertCvImage2QtImageRGB(last_image.copy(), "RGB")))
+                    imageLabelFrame(label, QFrame.StyledPanel, QFrame.Sunken, 3)
+                self.updateNumOfImagesPageCalculation(import_list)
+
+                if showDialog('Calculation Succeeded', 'Move to the calculation page?', QMessageBox.Question):
+                    self.ui.stackedWidget.setCurrentWidget(self.ui.frame_calculation_page)
 
     def evnSaveCsvsButtonClickedPageResults(self):
         predicted_images_nparray = {}
@@ -764,6 +771,8 @@ class MainWindow(QMainWindow):
                     self.ui.images_calculation_page_import_list.row(item))
                 self.imagesForCalculationNpArray.pop(item.text())
                 self.imagesForCalculationPixMap.pop(item.text())
+                self.imagesDrawn.pop(item.text())
+                self.imagesAnalyse.pop(item.text())
 
             self.sharedTermsPageCalculation()
 
@@ -813,7 +822,7 @@ class MainWindow(QMainWindow):
     def evnClearImagesButtonClickedPagePredict(self):
         if self.imageListPathDict and showDialog('Clear all images', 'Are you sure?', QMessageBox.Information):
             self.ui.images_predict_page_import_list.clear()
-            self.imageListPathDict = {}
+            self.imageListPathDict.clear()
             imageLabelFrame(self.ui.label_predict_page_selected_picture, 0, 0, 0)
             self.ui.label_predict_page_selected_picture.setText("Please load and select image.")
 
@@ -828,8 +837,10 @@ class MainWindow(QMainWindow):
 
     def evnClearImagesButtonClickedPageResults(self):
         if self.PredictedImagesPixMap and showDialog('Clear all images', 'Are you sure?', QMessageBox.Information):
+
             self.ui.images_results_page_import_list.clear()
-            self.PredictedImagesPixMap = {}
+            self.PredictedImagesPixMap.clear()
+
             imageLabelFrame(self.ui.label_results_page_selected_picture)
             self.ui.label_results_page_selected_picture.setText("Please predict images first.")
 
@@ -848,8 +859,10 @@ class MainWindow(QMainWindow):
         if self.imagesForCalculationNpArray and showDialog('Clear all images', 'Are you sure?',
                                                            QMessageBox.Information):
             self.ui.images_calculation_page_import_list.clear()
-            self.imagesForCalculationNpArray = {}
-            self.imagesForCalculationPixMap = {}
+            self.imagesForCalculationNpArray.clear()
+            self.imagesForCalculationPixMap.clear()
+            self.imagesDrawn.clear()
+            self.imagesAnalyse.clear()
 
             imageLabelFrame(self.ui.label_calculate_page_selected_picture)
             self.ui.label_calculate_page_selected_picture.setText("No results")
@@ -877,30 +890,32 @@ class MainWindow(QMainWindow):
             self.updateNumOfImagesPageCalculation(self.ui.images_calculation_page_import_list)
 
     def evnSendButtonClickedPageCalculation(self):
-
-        checked_calculate_items = {}
-        checked_min_max_values = {}
-
         import_list = self.ui.images_calculation_page_import_list
-        show_external = self.ui.check_box_show_external_contures
-        show_and_calculate_centroid = self.ui.check_box_show_and_calculate_centroid
-        show_internal = self.ui.check_box_show_internal_contures
+        if showDialog('Send custom properties', f'Send for {numOfCheckedItems(import_list)} images?',
+                      QMessageBox.Question):
+            checked_calculate_items = {}
+            checked_min_max_values = {}
 
-        check_box_flags = {
-            'show_in_contours': show_internal.isChecked(),
-            'show_ex_contours': show_external.isChecked(),
-            'calc_centroid': show_and_calculate_centroid.isChecked()
-        }
+            show_external = self.ui.check_box_show_external_contures
+            show_and_calculate_centroid = self.ui.check_box_show_and_calculate_centroid
+            show_internal = self.ui.check_box_show_internal_contures
 
-        for index in range(import_list.count()):
-            if import_list.item(index).checkState() == 2:
-                list_item = import_list.item(index)
-                list_item_name = list_item.text()
-                checked_calculate_items[list_item_name] = self.imagesForCalculationNpArray[list_item_name]
-                checked_min_max_values[list_item_name] = (
-                    self.imagesMinValues[list_item_name], self.imagesMaxValues[list_item_name])
-        self.imagesDrawn, self.imagesAnalyse = analyze(checked_calculate_items, check_box_flags, checked_min_max_values,
-                                                       num_of_bins=10)
+            check_box_flags = {
+                'show_in_contours': show_internal.isChecked(),
+                'show_ex_contours': show_external.isChecked(),
+                'calc_centroid': show_and_calculate_centroid.isChecked()
+            }
+
+            for index in range(import_list.count()):
+                if import_list.item(index).checkState() == 2:
+                    list_item = import_list.item(index)
+                    list_item_name = list_item.text()
+                    checked_calculate_items[list_item_name] = self.imagesForCalculationNpArray[list_item_name]
+                    checked_min_max_values[list_item_name] = (
+                        self.imagesMinValues[list_item_name], self.imagesMaxValues[list_item_name])
+            self.imagesDrawn, self.imagesAnalyse = analyze(checked_calculate_items, check_box_flags,
+                                                           checked_min_max_values,
+                                                           num_of_bins=10)
 
     def evnCheckAllButtonClickedPagePredict(self):
         if showDialog('Check all images', 'Are you sure?', QMessageBox.Information):
@@ -960,6 +975,7 @@ class MainWindow(QMainWindow):
                              (self.ui.btn_calculation_page_save_csvs, True),
                              (self.ui.btn_calculation_page_save_images, True),
                              (self.ui.btn_calculation_page_send, True),
+                             (self.ui.btn_calculation_page_clear_images, True),
 
                              ]
 
@@ -1006,6 +1022,7 @@ class MainWindow(QMainWindow):
                              (self.ui.btn_calculation_page_save_images, False),
                              (self.ui.btn_calculation_page_save_csvs, False),
                              (self.ui.btn_calculation_page_send, False),
+                             (self.ui.btn_calculation_page_clear_images, False),
 
                              ]
 

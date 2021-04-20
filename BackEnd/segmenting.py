@@ -173,4 +173,5 @@ def segment(paths: list) -> Union[np.ndarray, list]:
         patched_img = patch_back(prediction, original_shape)
         predicted_masks.append(clean_mask(patched_img))
 
+    del model
     return predicted_masks
