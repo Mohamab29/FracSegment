@@ -4,7 +4,6 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog, QMessageBox,
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
 from ui_main import Ui_MainWindow
-from functools import partial
 from PIL.ImageQt import ImageQt
 from BackEnd.segmenting import segment
 from BackEnd.analyze_dimples import analyze, saveImagesAnalysisToCSV, find_max_area
@@ -137,12 +136,13 @@ def imageLabelFrame(label, frame_shape=0, frame_shadow=0, line_width=0):
     label.setLineWidth(line_width)
 
 
-def evnImageListItemDoubleClickedPagePredict(dic, item):
+def evnImageListItemDoubleClickedPagePredict(item, dic):
     if item:
         openImage(dic[item.text()])
 
 
-def evnImageListItemDoubleClicked(dic, item):
+def evnImageListItemDoubleClicked(item, dic):
+    print(item.type())
     if item:
         buffer = QBuffer()
         buffer.open(QBuffer.ReadWrite)
@@ -213,12 +213,14 @@ class MainWindow(QMainWindow):
         self.move(qr.topLeft())
 
     def setActions(self):
+        # pages event listeners
         self.ui.btn_page_predict.clicked.connect(self.evnPagePredictClicked)
         self.ui.btn_page_results.clicked.connect(self.evnPageResultsClicked)
         self.ui.btn_page_help.clicked.connect(self.evnPageHelpClicked)
         self.ui.btn_page_calculation.clicked.connect(self.evnPageCalculationClicked)
-        self.ui.btn_toggle.clicked.connect(self.evnBtnToggleClicked)
 
+        # predict page event listeners
+        self.ui.btn_toggle.clicked.connect(self.evnBtnToggleClicked)
         self.ui.btn_predict_page_load_images.clicked.connect(self.evnLoadImagesButtonClicked)
         self.ui.btn_predict_page_clear_images.clicked.connect(self.evnClearImagesButtonClickedPagePredict)
         self.ui.btn_predict_page_check_all.clicked.connect(self.evnCheckAllButtonClickedPagePredict)
@@ -226,13 +228,13 @@ class MainWindow(QMainWindow):
         self.ui.btn_predict_page_delete_selected_images.clicked.connect(
             self.evnDeleteSelectedImagesButtonClickedPagePredict)
         self.ui.btn_predict_page_predict.clicked.connect(self.evnPredictButtonClicked)
-
         self.ui.images_predict_page_import_list.itemClicked.connect(self.evnImageListItemClickedPagePredict)
         self.ui.images_predict_page_import_list.itemDoubleClicked.connect(
-            partial(evnImageListItemDoubleClickedPagePredict, self.imageListPathDict))
+            lambda item: evnImageListItemDoubleClickedPagePredict(item, self.imageListPathDict))
         self.ui.images_predict_page_import_list.currentItemChanged.connect(
-            partial(self.evnCurrentItemChangedPagePredict, self.ui.label_predict_page_selected_picture))
+            lambda item: self.evnCurrentItemChangedPagePredict(item, self.ui.label_predict_page_selected_picture))
 
+        # results page event listeners
         self.ui.btn_results_page_clear_images.clicked.connect(self.evnClearImagesButtonClickedPageResults)
         self.ui.btn_results_page_check_all.clicked.connect(self.evnCheckAllButtonClickedPageResults)
         self.ui.btn_results_page_uncheck_all.clicked.connect(self.evnUncheckAllButtonClickedPageResults)
@@ -242,13 +244,13 @@ class MainWindow(QMainWindow):
         self.ui.btn_results_page_custom_calculation.clicked.connect(self.evnCustomCalculationButtonClicked)
         self.ui.btn_results_page_save_csvs.clicked.connect(self.evnSaveCsvsButtonClickedPageResults)
         self.ui.btn_results_page_save_images_and_csvs.clicked.connect(self.evnSaveImageAndCsvsButtonClickedPageResults)
-
         self.ui.images_results_page_import_list.itemClicked.connect(self.evnImageListItemClickedPageResults)
         self.ui.images_results_page_import_list.itemDoubleClicked.connect(
-            partial(evnImageListItemDoubleClicked, self.PredictedImagesPixMap))
+            lambda item: evnImageListItemDoubleClicked(item, self.PredictedImagesPixMap))
         self.ui.images_results_page_import_list.currentItemChanged.connect(
-            partial(self.evnCurrentItemChangedPageResults, self.ui.label_results_page_selected_picture))
+            lambda item: self.evnCurrentItemChangedPageResults(item, self.ui.label_results_page_selected_picture))
 
+        # calculation page event listeners
         self.ui.btn_calculation_page_clear_images.clicked.connect(self.evnClearImagesButtonClickedPageCalculation)
         self.ui.btn_calculation_page_send.clicked.connect(self.evnSendButtonClickedPageCalculation)
         self.ui.btn_calculation_page_check_all.clicked.connect(self.evnCheckAllButtonClickedPageCalculation)
@@ -257,14 +259,13 @@ class MainWindow(QMainWindow):
             self.evnDeleteSelectedImagesButtonClickedPageCalculation)
         self.ui.btn_calculation_page_save_images.clicked.connect(self.evnSaveImagesButtonClickedPageCalculation)
         self.ui.btn_calculation_page_save_csvs.clicked.connect(self.evnSaveCsvsButtonClickedPageCalculation)
-
         self.ui.images_calculation_page_import_list.itemClicked.connect(
-            partial(self.evnImageListItemClickedPageCalculation, self.ui.label_calculate_page_selected_picture))
+            lambda item: self.evnImageListItemClickedPageCalculation(item,
+                                                                     self.ui.label_calculate_page_selected_picture))
         self.ui.images_calculation_page_import_list.itemDoubleClicked.connect(
-            partial(evnImageListItemDoubleClicked, self.imagesForCalculationPixMap))
+            lambda item: evnImageListItemDoubleClicked(item, self.imagesForCalculationPixMap))
         self.ui.images_calculation_page_import_list.currentItemChanged.connect(
-            partial(self.evnCurrentItemChangedPageCalculation, self.ui.label_calculate_page_selected_picture))
-
+            lambda item: self.evnCurrentItemChangedPageCalculation(item, self.ui.label_calculate_page_selected_picture))
         self.ui.frame_calculation_page_modifications_options_max_spin_box.valueChanged.connect(
             self.evnChangeMaxValuePageCalculation)
         self.ui.frame_calculation_page_modifications_options_min_spin_box.valueChanged.connect(
@@ -314,9 +315,6 @@ class MainWindow(QMainWindow):
                     label.setPixmap(
                         QtGui.QPixmap(convertCvImage2QtImage(segmented_images[len(segmented_images) - 1], "L")))
                     imageLabelFrame(label, QFrame.StyledPanel, QFrame.Sunken, 3)
-                    # label = self.ui.label_results_page_selected_picture
-                    # imageLabelFrame(label, 0, 0, 0)
-                    # label.setText("Please select image to view on the screen.")
                 self.updateNumOfImagesPageResults(import_list)
                 if showDialog('Prediction Succeeded', 'Move to the results page?', QMessageBox.Question):
                     self.ui.stackedWidget.setCurrentWidget(self.ui.frame_results_page)
@@ -477,17 +475,17 @@ class MainWindow(QMainWindow):
                 image_type = image_name.split('.')[-1]
                 pixmap_image.save(image_path, image_type)
 
-    def evnCurrentItemChangedPagePredict(self, label, item):
+    def evnCurrentItemChangedPagePredict(self, item, label):
         if item:
             label.setPixmap(QtGui.QPixmap(self.imageListPathDict[item.text()]))
             imageLabelFrame(label, QFrame.StyledPanel, QFrame.Sunken, 3)
 
-    def evnCurrentItemChangedPageResults(self, label, item):
+    def evnCurrentItemChangedPageResults(self, item, label):
         if item:
             label.setPixmap(self.PredictedImagesPixMap[item.text()])
             imageLabelFrame(label, QFrame.StyledPanel, QFrame.Sunken, 3)
 
-    def evnCurrentItemChangedPageCalculation(self, label, item):
+    def evnCurrentItemChangedPageCalculation(self, item,label):
         if item:
             image = convertCvImage2QtImageRGB(self.imagesDrawn[item.text()], "RGB")
             label.setPixmap(image)
@@ -628,7 +626,7 @@ class MainWindow(QMainWindow):
     def evnImageListItemClickedPageResults(self):
         self.sharedTermsPageResults()
 
-    def evnImageListItemClickedPageCalculation(self, label, item):
+    def evnImageListItemClickedPageCalculation(self, item,label):
         if item:
             self.ui.frame_calculation_page_modifications_options_max_spin_box.setValue(
                 self.imagesMaxValues[item.text()])
