@@ -142,7 +142,6 @@ def evnImageListItemDoubleClickedPagePredict(item, dic):
 
 
 def evnImageListItemDoubleClicked(item, dic):
-    print(item.type())
     if item:
         buffer = QBuffer()
         buffer.open(QBuffer.ReadWrite)
@@ -218,14 +217,16 @@ class MainWindow(QMainWindow):
         self.move(qr.topLeft())
 
     def setActions(self):
+        # toggle event listener
+        self.ui.btn_toggle.clicked.connect(self.evnBtnToggleClicked)
+
         # pages event listeners
         self.ui.btn_page_predict.clicked.connect(self.evnPagePredictClicked)
         self.ui.btn_page_results.clicked.connect(self.evnPageResultsClicked)
-        self.ui.btn_page_help.clicked.connect(self.evnPageHelpClicked)
         self.ui.btn_page_calculation.clicked.connect(self.evnPageCalculationClicked)
+        self.ui.btn_page_help.clicked.connect(self.evnPageHelpClicked)
 
         # predict page event listeners
-        self.ui.btn_toggle.clicked.connect(self.evnBtnToggleClicked)
         self.ui.btn_predict_page_load_images.clicked.connect(self.evnLoadImagesButtonClicked)
         self.ui.btn_predict_page_clear_images.clicked.connect(self.evnClearImagesButtonClickedPagePredict)
         self.ui.btn_predict_page_check_all.clicked.connect(self.evnCheckAllButtonClickedPagePredict)
