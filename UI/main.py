@@ -444,8 +444,14 @@ class MainWindow(QMainWindow):
             if showDialog('Calculate images',
                           f'Calculate for {num_of_image_to_calculate} images?',
                           QMessageBox.Question):
-                self.imagesDrawn, self.imagesAnalyse = analyze(checked_items, self.default_flags,
-                                                               checked_min_max_values)
+
+                images_drawn, images_analyzed = analyze(checked_items, self.default_flags,
+                                                        checked_min_max_values)
+                for image_name in checked_items.keys():
+                    if image_name in images_drawn and image_name in images_analyzed:
+                        self.imagesDrawn[image_name] = images_drawn[image_name].copy()
+                        self.imagesAnalyse[image_name] = images_analyzed[image_name].copy()
+
                 nparray_images = checked_items.keys()
                 names = []
                 for name in nparray_images:
