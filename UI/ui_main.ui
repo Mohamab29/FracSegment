@@ -825,7 +825,7 @@ QPushButton:hover {
                     <item>
                      <widget class="QPushButton" name="pushButton_3">
                       <property name="enabled">
-                       <bool>false</bool>
+                       <bool>true</bool>
                       </property>
                       <property name="minimumSize">
                        <size>
@@ -838,13 +838,14 @@ QPushButton:hover {
                       </property>
                       <property name="styleSheet">
                        <string notr="true">QPushButton {
-	color: rgb(43, 49, 56);
+	color: rgb(140, 166, 179);
     background-color: rgb(33, 37, 43);
-	border: 2px outset rgb(37, 40, 45);
+	border: 2px outset rgb(70, 76, 85);
 	border-radius: 3px;
 }
 QPushButton:hover {
 	color: rgb(85, 170, 255);
+    background-color: rgb(42, 47, 54);
 }</string>
                       </property>
                       <property name="text">

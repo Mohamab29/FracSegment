@@ -11,6 +11,8 @@ import io
 from PIL import Image
 from PyQt5.QtCore import QBuffer
 from styles import widgets_style
+import sys
+
 
 
 def toggleWidgetAndChangeStyle(pair):
@@ -219,6 +221,7 @@ class MainWindow(QMainWindow):
         self.currentItemClickedNameCalcPage = ''
         self.setActions()
         self.center()
+        self.thread = {}
 
     def center(self):
         """
@@ -233,6 +236,9 @@ class MainWindow(QMainWindow):
         """
         This is where all the connections between the events and the buttons in the app are made
         """
+
+        # threds
+        self.ui.pushButton_3.clicked.connect(self.start_worker)
 
         # toggle event listener
         self.ui.btn_toggle.clicked.connect(self.evnBtnToggleClicked)
@@ -314,6 +320,15 @@ class MainWindow(QMainWindow):
         self.ui.frame_calculation_page_modifications_options_min_spin_box.valueChanged.connect(
             lambda: self.evnChangeMaxOrMinValuePageCalculation(self.imagesMinValues,
                                                                self.ui.frame_calculation_page_modifications_options_min_spin_box))
+
+    def start_worker(self):
+        self.thread[1] = ThreadClass(parent=None, index=1)
+        self.thread[1].start()
+        self.thread[1].any_signal.connect(self.my_function)
+        self.thread[1].stop()
+
+    def my_function(self):
+        print('my_function')
 
     def evnPredictButtonClicked(self):
         """
@@ -791,15 +806,6 @@ class MainWindow(QMainWindow):
         updateNumOfImages(self.ui.images_predict_page_import_list, self.ui.label_predict_page_images)
 
     def evnDeleteSelectedImagesButton(self, list, label, dict_list, page_name, buttons_to_toggle):
-        """
-        Deletes the checked images from the dictionaries that hold them on the various pages.
-
-        :param list:
-        :param label:
-        :param dict_list:
-        :param page_name:
-        :param buttons_to_toggle:
-        """
         checked_items = []
 
         if showDialog('Delete the selected images', 'Are you sure?', QMessageBox.Information):
@@ -1066,6 +1072,23 @@ class MainWindow(QMainWindow):
 
             toggleWidgetAndChangeStyle(widgets_tuples)
             updateNumOfImages(self.ui.images_calculation_page_import_list, self.ui.label_calculate_page_images)
+
+
+class ThreadClass(QtCore.QThread):
+    any_signal = QtCore.pyqtSignal(int)
+
+    def __init__(self, parent=None, index=0):
+        super(ThreadClass, self).__init__(parent)
+        self.index = index
+        self.is_running = True
+
+    def run(self):
+        print('Starting thread...')
+
+    def stop(self):
+        self.is_running = False
+        print('Stopping thread...')
+        self.terminate()
 
 
 if __name__ == "__main__":

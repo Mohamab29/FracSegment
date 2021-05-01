@@ -370,17 +370,18 @@ class Ui_MainWindow(object):
         self.btn_predict_page_delete_selected_images.setObjectName("btn_predict_page_delete_selected_images")
         self.verticalLayout_14.addWidget(self.btn_predict_page_delete_selected_images)
         self.pushButton_3 = QtWidgets.QPushButton(self.frame_predict_page_buttons_delete)
-        self.pushButton_3.setEnabled(False)
+        self.pushButton_3.setEnabled(True)
         self.pushButton_3.setMinimumSize(QtCore.QSize(0, 20))
         self.pushButton_3.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.pushButton_3.setStyleSheet("QPushButton {\n"
-"    color: rgb(43, 49, 56);\n"
+"    color: rgb(140, 166, 179);\n"
 "    background-color: rgb(33, 37, 43);\n"
-"    border: 2px outset rgb(37, 40, 45);\n"
+"    border: 2px outset rgb(70, 76, 85);\n"
 "    border-radius: 3px;\n"
 "}\n"
 "QPushButton:hover {\n"
 "    color: rgb(85, 170, 255);\n"
+"    background-color: rgb(42, 47, 54);\n"
 "}")
         self.pushButton_3.setObjectName("pushButton_3")
         self.verticalLayout_14.addWidget(self.pushButton_3)
