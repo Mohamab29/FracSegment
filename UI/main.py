@@ -320,8 +320,6 @@ class MainWindow(QMainWindow):
         This event runs when you press the predict button on the main page of the app.
         """
         import_list = self.ui.images_predict_page_import_list
-        # if showDialog('Predict images', f'Predict for {countCheckedItems(import_list, "num_of_check_items")} images?',
-        #               QMessageBox.Question):
         checked_items = []
         allredy_predicted_images = []
 
@@ -336,7 +334,7 @@ class MainWindow(QMainWindow):
                     allredy_predicted_images.append(real_image_name)
 
         if len(allredy_predicted_images) == 1:
-            showDialog('Already predict images', f'The image: {allredy_predicted_images[0]} already predicted',
+            showDialog('Already predict image', f'The image: {allredy_predicted_images[0]} already predicted',
                        QMessageBox.Warning)
         if len(allredy_predicted_images) > 1:
             names_of_predicted_images = ''
@@ -400,20 +398,19 @@ class MainWindow(QMainWindow):
             checked_min_max_values = {}
 
             for index in range(results_page_list.count()):
+                list_item = results_page_list.item(index)
+                list_item_name = list_item.text()
+                list_item_calc_name = list_item_name.replace('_predicted', '_calculated')
                 if results_page_list.item(index).checkState() == 2:
-                    list_item = results_page_list.item(index)
-                    list_item_name = list_item.text()
-                    list_item_calc_name = list_item_name.replace('_predicted', '_calculated')
-
-                    self.imagesForCalculationNpArray[list_item_calc_name] = \
-                        self.PredictedImagesNpArray[list_item_name]
-
-                    self.imagesMaxValues[list_item_calc_name] = find_max_area(
-                        self.PredictedImagesNpArray[list_item_name])
-                    self.imagesMinValues[
-                        list_item_calc_name] = self.ui.frame_calculation_page_modifications_options_min_spin_box.value()
-                    checked_min_max_values[list_item_calc_name] = (
-                        self.imagesMinValues[list_item_calc_name], self.imagesMaxValues[list_item_calc_name])
+                    if list_item_calc_name not in self.imagesForCalculationNpArray.keys():
+                        self.imagesForCalculationNpArray[list_item_calc_name] = \
+                            self.PredictedImagesNpArray[list_item_name]
+                        self.imagesMaxValues[list_item_calc_name] = find_max_area(
+                            self.PredictedImagesNpArray[list_item_name])
+                        self.imagesMinValues[
+                            list_item_calc_name] = self.ui.frame_calculation_page_modifications_options_min_spin_box.value()
+                        checked_min_max_values[list_item_calc_name] = (
+                            self.imagesMinValues[list_item_calc_name], self.imagesMaxValues[list_item_calc_name])
 
             checked_calculated_items_size = self.imagesForCalculationNpArray.__len__()
 

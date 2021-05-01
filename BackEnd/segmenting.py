@@ -163,7 +163,6 @@ def segment(paths: list) -> Union[np.ndarray, list]:
 
     # we load the trained model
     model = keras.models.load_model(f'../assets/models/{MODEL_NAME}.h5')
-    print('here')
 
     # the masks of each image will be contained in this varible
     predicted_masks = []
