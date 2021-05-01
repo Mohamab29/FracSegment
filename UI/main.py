@@ -1,5 +1,4 @@
 import os
-
 from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog, QMessageBox, QDesktopWidget, QFrame
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -11,78 +10,43 @@ import cv2
 import io
 from PIL import Image
 from PyQt5.QtCore import QBuffer
+from styles import widgets_style
 
 
-def changeButtonToDisableStyle(btn):
-    btn.setStyleSheet("QPushButton {\n"
-                      "    color: rgb(43, 49, 56);\n"
-                      "    background-color: rgb(33, 37, 43);\n"
-                      "    border: 2px outset rgb(37, 40, 45);\n"
-                      "    border-radius: 3px;\n"
-                      "}\n"
-                      "QPushButton:hover {\n"
-                      "    color: rgb(85, 170, 255);\n"
-                      "}")
+def toggleWidgetAndChangeStyle(pair):
+    """
+    Change mode (enable/disable) and button design (darker/lither).
 
-
-def changeButtonToEnableStyle(btn):
-    btn.setStyleSheet("QPushButton {\n"
-                      "    color: rgb(140, 166, 179);\n"
-                      "    background-color: rgb(33, 37, 43);\n"
-                      "    border: 2px outset rgb(70, 76, 85);\n"
-                      "    border-radius: 3px;\n"
-                      "}\n"
-                      "QPushButton:hover {\n"
-                      "    color: rgb(85, 170, 255);\n"
-                      "    background-color: rgb(42, 47, 54);\n"
-                      "}")
-
-
-def changeChackBoxToEnableStyle(check_box):
-    check_box.setStyleSheet("color: rgb(255, 255, 255);")
-
-
-def changeChackBoxToDisableStyle(check_box):
-    check_box.setStyleSheet("color: rgb(32, 35, 41);")
-
-
-def toggleCheckBoxAndChangeStyle(pair):
+    :param pair: a tupple of widget and mode to change to (True/False) For example: (predict_btn, False)
+    """
     for p in pair:
-        check_box = p[0]
+        widget = p[0]
         term = p[1]
-        if not term:
-            check_box.setEnabled(False)
-            changeChackBoxToDisableStyle(check_box)
-        else:
-            check_box.setEnabled(True)
-            changeChackBoxToEnableStyle(check_box)
-
-
-def toggleButtonAndChangeStyle(pair):
-    for p in pair:
-        btn = p[0]
-        term = p[1]
-        if not term:
-            btn.setEnabled(False)
-            changeButtonToDisableStyle(btn)
-        else:
-            btn.setEnabled(True)
-            changeButtonToEnableStyle(btn)
+        widget_class_name = widget.__class__.__name__
+        widget.setEnabled(term)
+        widget.setStyleSheet(widgets_style[widget_class_name][str(term)])
 
 
 def setListItemItemStyle(item):
+    """
+    Change mode (enable/disable) and button design (darker/lither).
+
+    :param item: a QListWidgetItem of one of the lists in the app.
+    """
     font = QtGui.QFont()
     font.setBold(True)
     font.setWeight(75)
     item.setFont(font)
 
 
-def openImage(path):
-    image = Image.open(path, 'r')
-    image.show()
-
-
 def showDialog(title, message, icon):
+    """
+    Shows Dialog when we need it.
+
+    :param title: a Dialog title.
+    :param message: a Dialog message.
+    :param icon: a Dialog icon.
+    """
     msg_box = QMessageBox()
     msg_box.setIcon(icon)
     msg_box.setText(message)
@@ -101,33 +65,44 @@ def showDialog(title, message, icon):
         return False
 
 
-def isAtLeastOneItemChecked(widget_list):
-    for index in range(widget_list.count()):
-        if widget_list.item(index).checkState() == 2:
-            return True
-    return False
+def countCheckedItems(widget_list, what_to_count):
+    """
+    Calculation of the amount of records marked in the list.
 
+    :param widget_list: the current list for which the number of marked records is counted.
+    :param what_to_count: A parameter that tells the function what to count, for example: number of checked items.
+    :returns: boolean or number (of checked items).
+    """
+    def isAtLeastOneItemChecked():
+        for index in range(widget_list.count()):
+            if widget_list.item(index).checkState() == 2:
+                return True
+        return False
 
-def isAtLeastOneItemNotChecked(widget_list):
-    for index in range(widget_list.count()):
-        if widget_list.item(index).checkState() == 0:
-            return True
-    return False
+    def isAtLeastOneItemNotChecked():
+        for index in range(widget_list.count()):
+            if widget_list.item(index).checkState() == 0:
+                return True
+        return False
 
+    def isNoItemChecked():
+        for index in range(widget_list.count()):
+            if widget_list.item(index).checkState() == 2:
+                return False
+        return True
 
-def isNoItemChecked(widget_list):
-    for index in range(widget_list.count()):
-        if widget_list.item(index).checkState() == 2:
-            return False
-    return True
+    def numOfCheckedItems():
+        counter = 0
+        for index in range(widget_list.count()):
+            if widget_list.item(index).checkState() == 2:
+                counter = counter + 1
+        return counter
 
-
-def numOfCheckedItems(widget_list):
-    counter = 0
-    for index in range(widget_list.count()):
-        if widget_list.item(index).checkState() == 2:
-            counter = counter + 1
-    return counter
+    return {'at_list_one_checked': isAtLeastOneItemChecked,
+            'at_list_one_not_checked': isAtLeastOneItemNotChecked,
+            'not_items_checked': isNoItemChecked,
+            'num_of_check_items': numOfCheckedItems
+            }[what_to_count]()
 
 
 def imageLabelFrame(label, frame_shape=0, frame_shadow=0, line_width=0):
@@ -136,18 +111,25 @@ def imageLabelFrame(label, frame_shape=0, frame_shadow=0, line_width=0):
     label.setLineWidth(line_width)
 
 
-def evnImageListItemDoubleClickedPagePredict(item, dic):
-    if item:
-        openImage(dic[item.text()])
+def evnImageListItemDoubleClicked(item, dic, page):
+    def pagePredict():
+        if item:
+            image = Image.open(dic[item.text()], 'r')
+            image.show()
 
+    def pageResultsAndCalculation():
+        if item:
+            buffer = QBuffer()
+            buffer.open(QBuffer.ReadWrite)
+            dic[item.text()].save(buffer, item.text().split('.')[-1])
+            pil_im = Image.open(io.BytesIO(buffer.data()))
+            pil_im.show()
 
-def evnImageListItemDoubleClicked(item, dic):
-    if item:
-        buffer = QBuffer()
-        buffer.open(QBuffer.ReadWrite)
-        dic[item.text()].save(buffer, item.text().split('.')[-1])
-        pil_im = Image.open(io.BytesIO(buffer.data()))
-        pil_im.show()
+    {
+        'predict': pagePredict,
+        'results': pageResultsAndCalculation,
+        'calculation': pageResultsAndCalculation
+    }[page]()
 
 
 def convertCvImage2QtImage(img, mode):
@@ -175,8 +157,11 @@ def convertCvImage2QtImageRGB(img, mode):
 
 
 def updateNumOfImages(widget_list, label):
+    """
+    Updates the number of complete photos in the list and the number of checked photos.
+    """
     label.setText(
-        f"Images: {widget_list.count()} Checked: {numOfCheckedItems(widget_list)}")
+        f"Images: {widget_list.count()} Checked: {countCheckedItems(widget_list, 'num_of_check_items')}")
 
 
 class MainWindow(QMainWindow):
@@ -240,7 +225,7 @@ class MainWindow(QMainWindow):
         self.ui.btn_predict_page_predict.clicked.connect(self.evnPredictButtonClicked)
         self.ui.images_predict_page_import_list.itemClicked.connect(self.evnImageListItemClickedPagePredict)
         self.ui.images_predict_page_import_list.itemDoubleClicked.connect(
-            lambda item: evnImageListItemDoubleClickedPagePredict(item, self.imageListPathDict))
+            lambda item: evnImageListItemDoubleClicked(item, self.imageListPathDict, "predict"))
         self.ui.images_predict_page_import_list.currentItemChanged.connect(
             lambda item: self.evnCurrentItemChangedPagePredict(item, self.ui.label_predict_page_selected_picture))
 
@@ -261,7 +246,7 @@ class MainWindow(QMainWindow):
         self.ui.btn_results_page_save_images_and_csvs.clicked.connect(self.evnSaveImageAndCsvsButtonClickedPageResults)
         self.ui.images_results_page_import_list.itemClicked.connect(self.evnImageListItemClickedPageResults)
         self.ui.images_results_page_import_list.itemDoubleClicked.connect(
-            lambda item: evnImageListItemDoubleClicked(item, self.PredictedImagesPixMap))
+            lambda item: evnImageListItemDoubleClicked(item, self.PredictedImagesPixMap, "results"))
         self.ui.images_results_page_import_list.currentItemChanged.connect(
             lambda item: self.evnCurrentItemChangedPageResults(item, self.ui.label_results_page_selected_picture))
 
@@ -285,7 +270,7 @@ class MainWindow(QMainWindow):
             lambda item: self.evnImageListItemClickedPageCalculation(item,
                                                                      self.ui.label_calculate_page_selected_picture))
         self.ui.images_calculation_page_import_list.itemDoubleClicked.connect(
-            lambda item: evnImageListItemDoubleClicked(item, self.imagesForCalculationPixMap))
+            lambda item: evnImageListItemDoubleClicked(item, self.imagesForCalculationPixMap, "calculation"))
         self.ui.images_calculation_page_import_list.currentItemChanged.connect(
             lambda item: self.evnCurrentItemChangedPageCalculation(item, self.ui.label_calculate_page_selected_picture))
         self.ui.frame_calculation_page_modifications_options_max_spin_box.valueChanged.connect(
@@ -295,7 +280,8 @@ class MainWindow(QMainWindow):
 
     def evnPredictButtonClicked(self):
         import_list = self.ui.images_predict_page_import_list
-        if showDialog('Predict images', f'Predict for {numOfCheckedItems(import_list)} images?', QMessageBox.Question):
+        if showDialog('Predict images', f'Predict for {countCheckedItems(import_list, "num_of_check_items")} images?',
+                      QMessageBox.Question):
             checked_items = []
 
             for index in range(import_list.count()):
@@ -327,7 +313,7 @@ class MainWindow(QMainWindow):
                     (self.ui.btn_results_page_save_images_and_csvs, True)
                 ]
 
-                toggleButtonAndChangeStyle(buttons_tuple)
+                toggleWidgetAndChangeStyle(buttons_tuple)
                 import_list = self.ui.images_results_page_import_list
                 selected_result_list_size = len(import_list.selectedItems())
 
@@ -342,7 +328,8 @@ class MainWindow(QMainWindow):
 
     def evnCustomCalculationButtonClicked(self):
         results_page_list = self.ui.images_results_page_import_list
-        if showDialog('Calculate images', f'Calculate for {numOfCheckedItems(results_page_list)} images?',
+        if showDialog('Calculate images',
+                      f'Calculate for {countCheckedItems(results_page_list, "num_of_check_items")} images?',
                       QMessageBox.Question):
 
             checked_min_max_values = {}
@@ -394,8 +381,7 @@ class MainWindow(QMainWindow):
                     (self.ui.check_box_show_external_contures, True),
                     (self.ui.check_box_show_internal_contures, True)]
 
-                toggleButtonAndChangeStyle(buttons_tuple)
-                toggleCheckBoxAndChangeStyle(check_box_tuple)
+                toggleWidgetAndChangeStyle([*buttons_tuple, *check_box_tuple])
                 import_list = self.ui.images_calculation_page_import_list
 
                 selected_calculation_list_size = len(import_list.selectedItems())
@@ -529,51 +515,51 @@ class MainWindow(QMainWindow):
 
         updateNumOfImages(widget_list, self.ui.label_predict_page_images)
 
-        if not isAtLeastOneItemChecked(widget_list):
-            toggleButtonAndChangeStyle([(self.ui.btn_predict_page_uncheck_all, False)])
+        if not countCheckedItems(widget_list, 'at_list_one_checked'):
+            toggleWidgetAndChangeStyle([(self.ui.btn_predict_page_uncheck_all, False)])
         else:
-            toggleButtonAndChangeStyle([(self.ui.btn_predict_page_uncheck_all, True)])
+            toggleWidgetAndChangeStyle([(self.ui.btn_predict_page_uncheck_all, True)])
 
-        if isAtLeastOneItemNotChecked(widget_list):
-            toggleButtonAndChangeStyle([(self.ui.btn_predict_page_check_all, True)])
+        if countCheckedItems(widget_list, 'at_list_one_not_checked'):
+            toggleWidgetAndChangeStyle([(self.ui.btn_predict_page_check_all, True)])
         else:
-            toggleButtonAndChangeStyle([(self.ui.btn_predict_page_check_all, False)])
+            toggleWidgetAndChangeStyle([(self.ui.btn_predict_page_check_all, False)])
 
-        if numOfCheckedItems(widget_list):
-            toggleButtonAndChangeStyle([(self.ui.btn_predict_page_predict, True)])
-            toggleButtonAndChangeStyle([(self.ui.btn_predict_page_delete_selected_images, True)])
+        if countCheckedItems(widget_list, 'num_of_check_items'):
+            toggleWidgetAndChangeStyle([(self.ui.btn_predict_page_predict, True)])
+            toggleWidgetAndChangeStyle([(self.ui.btn_predict_page_delete_selected_images, True)])
         else:
-            toggleButtonAndChangeStyle([(self.ui.btn_predict_page_predict, False)])
-            toggleButtonAndChangeStyle([(self.ui.btn_predict_page_delete_selected_images, False)])
+            toggleWidgetAndChangeStyle([(self.ui.btn_predict_page_predict, False)])
+            toggleWidgetAndChangeStyle([(self.ui.btn_predict_page_delete_selected_images, False)])
 
     def sharedTermsPageResults(self):
         widget_list = self.ui.images_results_page_import_list
 
         updateNumOfImages(widget_list, self.ui.label_results_page_images)
 
-        if not isAtLeastOneItemChecked(widget_list):
-            toggleButtonAndChangeStyle([(self.ui.btn_results_page_uncheck_all, False)])
+        if not countCheckedItems(widget_list, 'at_list_one_checked'):
+            toggleWidgetAndChangeStyle([(self.ui.btn_results_page_uncheck_all, False)])
         else:
-            toggleButtonAndChangeStyle([(self.ui.btn_results_page_uncheck_all, True)])
+            toggleWidgetAndChangeStyle([(self.ui.btn_results_page_uncheck_all, True)])
 
-        if isAtLeastOneItemNotChecked(widget_list):
-            toggleButtonAndChangeStyle([(self.ui.btn_results_page_check_all, True)])
+        if countCheckedItems(widget_list, 'at_list_one_not_checked'):
+            toggleWidgetAndChangeStyle([(self.ui.btn_results_page_check_all, True)])
         else:
-            toggleButtonAndChangeStyle([(self.ui.btn_results_page_check_all, False)])
+            toggleWidgetAndChangeStyle([(self.ui.btn_results_page_check_all, False)])
 
-        if numOfCheckedItems(widget_list):
-            toggleButtonAndChangeStyle([(self.ui.btn_results_page_delete_selected_images, True)])
+        if countCheckedItems(widget_list, 'num_of_check_items'):
+            toggleWidgetAndChangeStyle([(self.ui.btn_results_page_delete_selected_images, True)])
         else:
-            toggleButtonAndChangeStyle([(self.ui.btn_results_page_delete_selected_images, False)])
+            toggleWidgetAndChangeStyle([(self.ui.btn_results_page_delete_selected_images, False)])
 
-        if not numOfCheckedItems(widget_list):
+        if not countCheckedItems(widget_list, 'num_of_check_items'):
             buttons_tuple = [(self.ui.btn_results_page_custom_calculation, False),
                              (self.ui.btn_results_page_save_images, False),
                              (self.ui.btn_results_page_save_csvs, False),
                              (self.ui.btn_results_page_save_images_and_csvs, False),
                              ]
 
-            toggleButtonAndChangeStyle(buttons_tuple)
+            toggleWidgetAndChangeStyle(buttons_tuple)
         else:
             buttons_tuple = [(self.ui.btn_results_page_custom_calculation, True),
                              (self.ui.btn_results_page_save_images, True),
@@ -581,29 +567,29 @@ class MainWindow(QMainWindow):
                              (self.ui.btn_results_page_save_images_and_csvs, True),
                              ]
 
-            toggleButtonAndChangeStyle(buttons_tuple)
+            toggleWidgetAndChangeStyle(buttons_tuple)
 
     def sharedTermsPageCalculation(self):
         widget_list = self.ui.images_calculation_page_import_list
 
         updateNumOfImages(widget_list, self.ui.label_calculate_page_images)
 
-        if not isAtLeastOneItemChecked(widget_list):
-            toggleButtonAndChangeStyle([(self.ui.btn_calculation_page_uncheck_all, False)])
+        if not countCheckedItems(widget_list, 'at_list_one_checked'):
+            toggleWidgetAndChangeStyle([(self.ui.btn_calculation_page_uncheck_all, False)])
         else:
-            toggleButtonAndChangeStyle([(self.ui.btn_calculation_page_uncheck_all, True)])
+            toggleWidgetAndChangeStyle([(self.ui.btn_calculation_page_uncheck_all, True)])
 
-        if isAtLeastOneItemNotChecked(widget_list):
-            toggleButtonAndChangeStyle([(self.ui.btn_calculation_page_check_all, True)])
+        if countCheckedItems(widget_list, 'at_list_one_not_checked'):
+            toggleWidgetAndChangeStyle([(self.ui.btn_calculation_page_check_all, True)])
         else:
-            toggleButtonAndChangeStyle([(self.ui.btn_calculation_page_check_all, False)])
+            toggleWidgetAndChangeStyle([(self.ui.btn_calculation_page_check_all, False)])
 
-        if numOfCheckedItems(widget_list):
-            toggleButtonAndChangeStyle([(self.ui.btn_calculation_page_delete_selected_images, True)])
+        if countCheckedItems(widget_list, 'num_of_check_items'):
+            toggleWidgetAndChangeStyle([(self.ui.btn_calculation_page_delete_selected_images, True)])
         else:
-            toggleButtonAndChangeStyle([(self.ui.btn_calculation_page_delete_selected_images, False)])
+            toggleWidgetAndChangeStyle([(self.ui.btn_calculation_page_delete_selected_images, False)])
 
-        if not numOfCheckedItems(widget_list):
+        if not countCheckedItems(widget_list, 'num_of_check_items'):
             buttons_tuple = [(self.ui.btn_calculation_page_clear_images, False),
                              (self.ui.btn_calculation_page_save_images, False),
                              (self.ui.btn_calculation_page_save_csvs, False),
@@ -619,8 +605,8 @@ class MainWindow(QMainWindow):
                 (self.ui.check_box_show_external_contures, False),
                 (self.ui.check_box_show_internal_contures, False)]
 
-            toggleButtonAndChangeStyle(buttons_tuple)
-            toggleCheckBoxAndChangeStyle(check_box_tuple)
+            toggleWidgetAndChangeStyle([*buttons_tuple, *check_box_tuple])
+
         else:
             buttons_tuple = [(self.ui.btn_calculation_page_clear_images, True),
                              (self.ui.btn_calculation_page_save_images, True),
@@ -637,8 +623,7 @@ class MainWindow(QMainWindow):
                 (self.ui.check_box_show_external_contures, True),
                 (self.ui.check_box_show_internal_contures, True)]
 
-            toggleButtonAndChangeStyle(buttons_tuple)
-            toggleCheckBoxAndChangeStyle(check_box_tuple)
+            toggleWidgetAndChangeStyle([*buttons_tuple, *check_box_tuple])
 
     def evnImageListItemClickedPagePredict(self):
         self.sharedTermsPagePredict()
@@ -725,7 +710,7 @@ class MainWindow(QMainWindow):
                              (self.ui.btn_predict_page_clear_images, True),
                              (self.ui.btn_predict_page_uncheck_all, True),
                              (self.ui.btn_predict_page_delete_selected_images, True)]
-            toggleButtonAndChangeStyle(buttons_tuple)
+            toggleWidgetAndChangeStyle(buttons_tuple)
 
         label = self.ui.label_predict_page_selected_picture
         last_picture_name = pictures_input_path[len(pictures_input_path) - 1].split('/')[-1]
@@ -747,16 +732,16 @@ class MainWindow(QMainWindow):
                 list.takeItem(list.row(item))
                 map(lambda dict: dict.pop(item.text()), dict_list)
 
-            shared_terms = {
-                'predict': self.sharedTermsPagePredict(),
-                'results': self.sharedTermsPageResults(),
-                'calculation': self.sharedTermsPageCalculation()
-            }[page_name]
+            {
+                'predict': self.sharedTermsPagePredict,
+                'results': self.sharedTermsPageResults,
+                'calculation': self.sharedTermsPageCalculation
+            }[page_name]()
 
             if not len(list):
                 label.setText("Please load and select image.")
                 imageLabelFrame(label, 0, 0, 0)
-                toggleButtonAndChangeStyle(buttons_to_toggle)
+                toggleWidgetAndChangeStyle(buttons_to_toggle)
 
     def evnSaveImagesButtonClickedPageCalculation(self):
         checked_images = []
@@ -808,7 +793,7 @@ class MainWindow(QMainWindow):
                              (self.ui.btn_predict_page_delete_selected_images, False),
                              (self.ui.btn_predict_page_clear_images, False)]
 
-            toggleButtonAndChangeStyle(buttons_tuple)
+            toggleWidgetAndChangeStyle(buttons_tuple)
             updateNumOfImages(self.ui.images_predict_page_import_list,
                               self.ui.label_predict_page_images)
 
@@ -828,7 +813,7 @@ class MainWindow(QMainWindow):
                              (self.ui.btn_results_page_save_csvs, False),
                              (self.ui.btn_results_page_save_images_and_csvs, False)]
 
-            toggleButtonAndChangeStyle(buttons_tuple)
+            toggleWidgetAndChangeStyle(buttons_tuple)
             updateNumOfImages(self.ui.images_results_page_import_list, self.ui.label_results_page_images)
 
     def evnClearImagesButtonClickedPageCalculation(self):
@@ -861,13 +846,14 @@ class MainWindow(QMainWindow):
                 (self.ui.check_box_show_external_contures, False),
                 (self.ui.check_box_show_internal_contures, False)]
 
-            toggleButtonAndChangeStyle(buttons_tuple)
-            toggleCheckBoxAndChangeStyle(check_box_tuple)
+            toggleWidgetAndChangeStyle([*buttons_tuple, *check_box_tuple])
+
             updateNumOfImages(self.ui.images_calculation_page_import_list, self.ui.label_calculate_page_images)
 
     def evnSendButtonClickedPageCalculation(self):
         import_list = self.ui.images_calculation_page_import_list
-        if showDialog('Send custom properties', f'Send for {numOfCheckedItems(import_list)} images?',
+        if showDialog('Send custom properties',
+                      f'Send for {countCheckedItems(import_list, "num_of_check_items")} images?',
                       QMessageBox.Question):
             checked_calculate_items = {}
             checked_min_max_values = {}
@@ -904,7 +890,7 @@ class MainWindow(QMainWindow):
                              (self.ui.btn_predict_page_predict, True),
                              (self.ui.btn_predict_page_delete_selected_images, True)]
 
-            toggleButtonAndChangeStyle(buttons_tuple)
+            toggleWidgetAndChangeStyle(buttons_tuple)
             updateNumOfImages(self.ui.images_predict_page_import_list,
                               self.ui.label_predict_page_images)
 
@@ -919,7 +905,7 @@ class MainWindow(QMainWindow):
                              (self.ui.btn_predict_page_predict, False),
                              (self.ui.btn_predict_page_delete_selected_images, False)]
 
-            toggleButtonAndChangeStyle(buttons_tuple)
+            toggleWidgetAndChangeStyle(buttons_tuple)
             updateNumOfImages(self.ui.images_predict_page_import_list,
                               self.ui.label_predict_page_images)
 
@@ -938,7 +924,7 @@ class MainWindow(QMainWindow):
                              (self.ui.btn_results_page_save_images_and_csvs, True),
                              ]
 
-            toggleButtonAndChangeStyle(buttons_tuple)
+            toggleWidgetAndChangeStyle(buttons_tuple)
             updateNumOfImages(self.ui.images_results_page_import_list, self.ui.label_results_page_images)
 
     def evnCheckAllButtonClickedPageCalculation(self):
@@ -966,8 +952,7 @@ class MainWindow(QMainWindow):
                 (self.ui.check_box_show_external_contures, True),
                 (self.ui.check_box_show_internal_contures, True)]
 
-            toggleButtonAndChangeStyle(buttons_tuple)
-            toggleCheckBoxAndChangeStyle(check_box_tuple)
+            toggleWidgetAndChangeStyle([*buttons_tuple, *check_box_tuple])
             updateNumOfImages(self.ui.images_calculation_page_import_list, self.ui.label_calculate_page_images)
 
     def evnUncheckAllButtonClickedPageResults(self):
@@ -985,7 +970,7 @@ class MainWindow(QMainWindow):
                              (self.ui.btn_results_page_save_images_and_csvs, False)
                              ]
 
-            toggleButtonAndChangeStyle(buttons_tuple)
+            toggleWidgetAndChangeStyle(buttons_tuple)
             updateNumOfImages(self.ui.images_results_page_import_list, self.ui.label_results_page_images)
 
     def evnUncheckAllButtonClickedPageCalculation(self):
@@ -1013,8 +998,7 @@ class MainWindow(QMainWindow):
                 (self.ui.check_box_show_external_contures, False),
                 (self.ui.check_box_show_internal_contures, False)]
 
-            toggleButtonAndChangeStyle(buttons_tuple)
-            toggleCheckBoxAndChangeStyle(check_box_tuple)
+            toggleWidgetAndChangeStyle([*buttons_tuple, *check_box_tuple])
             updateNumOfImages(self.ui.images_calculation_page_import_list, self.ui.label_calculate_page_images)
 
 
