@@ -320,50 +320,73 @@ class MainWindow(QMainWindow):
         This event runs when you press the predict button on the main page of the app.
         """
         import_list = self.ui.images_predict_page_import_list
-        if showDialog('Predict images', f'Predict for {countCheckedItems(import_list, "num_of_check_items")} images?',
-                      QMessageBox.Question):
-            checked_items = []
-            for index in range(import_list.count()):
-                if import_list.item(index).checkState() == 2:
-                    list_item = import_list.item(index)
-                    checked_items.append(self.imageListPathDict[list_item.text()])
+        # if showDialog('Predict images', f'Predict for {countCheckedItems(import_list, "num_of_check_items")} images?',
+        #               QMessageBox.Question):
+        checked_items = []
+        allredy_predicted_images = []
 
-            segmented_images = segment(checked_items)
-            segmented_images_size = segmented_images.__len__()
+        for index in range(import_list.count()):
+            real_image_name = import_list.item(index).text()
+            split_image_name = real_image_name.split('/')[-1].split('.')
+            predicted_image_name = f"{split_image_name[0]}_predicted.{split_image_name[1]}"
+            if import_list.item(index).checkState() == 2:
+                if predicted_image_name not in self.PredictedImagesPixMap.keys():
+                    checked_items.append(self.imageListPathDict[real_image_name])
+                else:
+                    allredy_predicted_images.append(real_image_name)
 
-            if segmented_images_size:
-                for index in range(segmented_images_size):
-                    segmented_image = segmented_images[index]
-                    split_image_name = checked_items[index].split('/')[-1].split('.')
-                    image_name = f"{split_image_name[0]}_predicted.{split_image_name[1]}"
-                    self.PredictedImagesPixMap[image_name] = convertCvImage2QtImage(segmented_image, "L")
-                    self.PredictedImagesNpArray[image_name] = segmented_image
-                    addImageNameToList(image_name, self.ui.images_results_page_import_list)
+        if len(allredy_predicted_images) == 1:
+            showDialog('Already predict images', f'The image: {allredy_predicted_images[0]} already predicted',
+                       QMessageBox.Warning)
+        if len(allredy_predicted_images) > 1:
+            names_of_predicted_images = ''
+            for name in allredy_predicted_images:
+                names_of_predicted_images = names_of_predicted_images + ' ' + name
+            showDialog('Already predict images', f'The images: {names_of_predicted_images} already predicted',
+                       QMessageBox.Warning)
 
-                widgets_tuples = [
-                    (self.ui.btn_results_page_clear_images, True),
-                    (self.ui.btn_results_page_uncheck_all, True),
-                    (self.ui.btn_results_page_delete_selected_images, True),
-                    (self.ui.btn_results_page_save_images, True),
-                    (self.ui.btn_results_page_custom_calculation, True),
-                    (self.ui.btn_results_page_save_csvs, True),
-                    (self.ui.btn_results_page_save_images_and_csvs, True)
-                ]
+        num_of_image_to_predict = countCheckedItems(import_list, "num_of_check_items") - len(allredy_predicted_images)
+        if num_of_image_to_predict > 0:
+            if showDialog('Predict images',
+                          f'Predict for {num_of_image_to_predict} images?',
+                          QMessageBox.Question):
 
-                toggleWidgetAndChangeStyle(widgets_tuples)
-                import_list = self.ui.images_results_page_import_list
-                selected_result_list_size = len(import_list.selectedItems())
+                segmented_images = segment(checked_items)
+                segmented_images_size = segmented_images.__len__()
 
-                if not selected_result_list_size:
-                    label = self.ui.label_results_page_selected_picture
-                    label.setPixmap(
-                        QtGui.QPixmap(convertCvImage2QtImage(segmented_images[len(segmented_images) - 1], "L")))
-                    imageLabelFrame(label, QFrame.StyledPanel, QFrame.Sunken, 3)
+                if segmented_images_size:
+                    for index in range(segmented_images_size):
+                        segmented_image = segmented_images[index]
+                        split_image_name = checked_items[index].split('/')[-1].split('.')
+                        image_name = f"{split_image_name[0]}_predicted.{split_image_name[1]}"
+                        self.PredictedImagesPixMap[image_name] = convertCvImage2QtImage(segmented_image, "L")
+                        self.PredictedImagesNpArray[image_name] = segmented_image
+                        addImageNameToList(image_name, self.ui.images_results_page_import_list)
 
-                updateNumOfImages(import_list, self.ui.label_results_page_images)
+                    widgets_tuples = [
+                        (self.ui.btn_results_page_clear_images, True),
+                        (self.ui.btn_results_page_uncheck_all, True),
+                        (self.ui.btn_results_page_delete_selected_images, True),
+                        (self.ui.btn_results_page_save_images, True),
+                        (self.ui.btn_results_page_custom_calculation, True),
+                        (self.ui.btn_results_page_save_csvs, True),
+                        (self.ui.btn_results_page_save_images_and_csvs, True)
+                    ]
 
-                if showDialog('Prediction Succeeded', 'Move to the results page?', QMessageBox.Question):
-                    self.ui.stackedWidget.setCurrentWidget(self.ui.frame_results_page)
+                    toggleWidgetAndChangeStyle(widgets_tuples)
+                    import_list = self.ui.images_results_page_import_list
+                    selected_result_list_size = len(import_list.selectedItems())
+
+                    if not selected_result_list_size:
+                        label = self.ui.label_results_page_selected_picture
+                        label.setPixmap(
+                            QtGui.QPixmap(convertCvImage2QtImage(segmented_images[len(segmented_images) - 1], "L")))
+                        imageLabelFrame(label, QFrame.StyledPanel, QFrame.Sunken, 3)
+
+                    updateNumOfImages(import_list, self.ui.label_results_page_images)
+
+                    if showDialog('Prediction Succeeded', 'Move to the results page?', QMessageBox.Question):
+                        self.ui.stackedWidget.setCurrentWidget(self.ui.frame_results_page)
 
     def evnCustomCalculationButtonClicked(self):
         """
@@ -520,6 +543,7 @@ class MainWindow(QMainWindow):
         This event runs whenever there is a change in a particular list. When the user clicks on an entry on
         a particular page, the image will appear in the middle of the screen.
         """
+
         def predict_results_pages():
             if item:
                 label.setPixmap(QtGui.QPixmap(dict[item.text()]))
@@ -547,7 +571,7 @@ class MainWindow(QMainWindow):
     def sharedTermsPagePredict(self):
         """
         Turns on and off buttons according to the number of records marked on the main page (predict).
-        We also use use this function on the evnDeleteSelectedImagesButton event.
+        We also use use this method on the evnDeleteSelectedImagesButton event.
         """
         widget_list = self.ui.images_predict_page_import_list
         updateNumOfImages(widget_list, self.ui.label_predict_page_images)
@@ -570,7 +594,7 @@ class MainWindow(QMainWindow):
     def sharedTermsPageResults(self):
         """
         Turns on and off buttons according to the number of records marked on the seconds page (results).
-        We also use use this function on the evnDeleteSelectedImagesButton event.
+        We also use use this method on the evnDeleteSelectedImagesButton event.
         """
         widget_list = self.ui.images_results_page_import_list
         updateNumOfImages(widget_list, self.ui.label_results_page_images)
@@ -605,7 +629,7 @@ class MainWindow(QMainWindow):
     def sharedTermsPageCalculation(self):
         """
         Turns on and off buttons according to the number of records marked on the thired page (calculation).
-        We also use use this function on the evnDeleteSelectedImagesButton event.
+        We also use use this method on the evnDeleteSelectedImagesButton event.
         """
         widget_list = self.ui.images_calculation_page_import_list
         updateNumOfImages(widget_list, self.ui.label_calculate_page_images)
@@ -652,12 +676,23 @@ class MainWindow(QMainWindow):
             toggleWidgetAndChangeStyle(widgets_tuples)
 
     def evnImageListItemClickedPagePredict(self):
+        """
+        This event listening to image click on the main page (predict).
+        """
         self.sharedTermsPagePredict()
 
     def evnImageListItemClickedPageResults(self):
+        """
+        This event listening to image click on the second page (results).
+        """
         self.sharedTermsPageResults()
 
     def evnImageListItemClickedPageCalculation(self, item, label):
+        """
+        This event listening to image click on the third page (calculation).
+        :param item: The current QListWidgetItem that the user clicking on.
+        :param label: The QLabel that changed to QPixmap image.
+        """
         if item:
             self.ui.frame_calculation_page_modifications_options_max_spin_box.setValue(
                 self.imagesMaxValues[item.text()])
@@ -670,12 +705,24 @@ class MainWindow(QMainWindow):
         self.sharedTermsPageCalculation()
 
     def evnPageClicked(self, page_frame):
+        """
+        The event is activated when you click on navigation on the various pages.
+        :param page_frame: The page the user wants to get.
+        """
         self.ui.stackedWidget.setCurrentWidget(page_frame)
 
     def evnBtnToggleClicked(self):
+        """
+        The event triggers the toggleMenu method.
+        """
         self.toggleMenu(150, True)
 
     def toggleMenu(self, max_width, enable):
+        """
+        Activates the toggle button and adds or removes the names of the pages.
+        :param max_width: The maximum width to which the page menu will open.
+        :param enable: A Boolean variable that announces whether the page menu is open or closed.
+        """
         if enable:
             # GET WIDTH
             width = self.ui.frame_left_menu.width()
@@ -704,6 +751,9 @@ class MainWindow(QMainWindow):
             self.animation.start()
 
     def evnLoadImagesButtonClicked(self):
+        """
+        Upload photos to the main page of the app
+        """
         file_to_open = "Image Files (*.png *.jpg *.bmp *.tiff *.tif)"
         res = QFileDialog.getOpenFileNames(None, "Open File", "/", file_to_open)
 
@@ -711,6 +761,13 @@ class MainWindow(QMainWindow):
             self.renderInputPictureList(res[0])
 
     def renderInputPictureList(self, pictures_input_path):
+        """
+        Renders the name list of the images on the main page and adds the
+        image names of the images and their paths to the dictionary named imageListPathDict,
+        When the key of each entry in the dictionary is the image name And the value is the path of the image.
+
+        :param pictures_input_path: List of the images path.
+        """
         new_image_flag = False
         for i in range(len(pictures_input_path)):
             if pictures_input_path[i].split('/')[-1] not in self.imageListPathDict:
@@ -737,6 +794,15 @@ class MainWindow(QMainWindow):
         updateNumOfImages(self.ui.images_predict_page_import_list, self.ui.label_predict_page_images)
 
     def evnDeleteSelectedImagesButton(self, list, label, dict_list, page_name, buttons_to_toggle):
+        """
+        Deletes the checked images from the dictionaries that hold them on the various pages.
+
+        :param list:
+        :param label:
+        :param dict_list:
+        :param page_name:
+        :param buttons_to_toggle:
+        """
         checked_items = []
 
         if showDialog('Delete the selected images', 'Are you sure?', QMessageBox.Information):
@@ -747,7 +813,8 @@ class MainWindow(QMainWindow):
 
             for item in checked_items:
                 list.takeItem(list.row(item))
-                map(lambda dict: dict.pop(item.text()), dict_list)
+                for dict in dict_list:
+                    dict.pop(item.text())
 
             {
                 'predict': self.sharedTermsPagePredict,
@@ -841,10 +908,8 @@ class MainWindow(QMainWindow):
             self.imagesForCalculationPixMap.clear()
             self.imagesDrawn.clear()
             self.imagesAnalyse.clear()
-
             imageLabelFrame(self.ui.label_calculate_page_selected_picture)
             self.ui.label_calculate_page_selected_picture.setText("No results")
-
             widgets_tuples = [(self.ui.btn_calculation_page_clear_images, False),
                               (self.ui.btn_calculation_page_uncheck_all, False),
                               (self.ui.btn_calculation_page_check_all, False),
@@ -860,9 +925,7 @@ class MainWindow(QMainWindow):
                               (self.ui.check_box_show_external_contures, False),
                               (self.ui.check_box_show_internal_contures, False)
                               ]
-
             toggleWidgetAndChangeStyle(widgets_tuples)
-
             updateNumOfImages(self.ui.images_calculation_page_import_list, self.ui.label_calculate_page_images)
 
     def evnSendButtonClickedPageCalculation(self):
@@ -872,11 +935,9 @@ class MainWindow(QMainWindow):
                       QMessageBox.Question):
             checked_calculate_items = {}
             checked_min_max_values = {}
-
             show_external = self.ui.check_box_show_external_contures
             show_and_calculate_centroid = self.ui.check_box_show_and_calculate_centroid
             show_internal = self.ui.check_box_show_internal_contures
-
             check_box_flags = {
                 'show_in_contours': show_internal.isChecked(),
                 'show_ex_contours': show_external.isChecked(),
@@ -904,7 +965,6 @@ class MainWindow(QMainWindow):
                               (self.ui.btn_predict_page_uncheck_all, True),
                               (self.ui.btn_predict_page_predict, True),
                               (self.ui.btn_predict_page_delete_selected_images, True)]
-
             toggleWidgetAndChangeStyle(widgets_tuples)
             updateNumOfImages(self.ui.images_predict_page_import_list,
                               self.ui.label_predict_page_images)
