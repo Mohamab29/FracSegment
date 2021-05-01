@@ -14,7 +14,6 @@ from styles import widgets_style
 import sys
 
 
-
 def toggleWidgetAndChangeStyle(pair):
     """
     Change mode (enable/disable) and button design (darker/lither).
@@ -954,9 +953,14 @@ class MainWindow(QMainWindow):
                     checked_calculate_items[list_item_name] = self.imagesForCalculationNpArray[list_item_name]
                     checked_min_max_values[list_item_name] = (
                         self.imagesMinValues[list_item_name], self.imagesMaxValues[list_item_name])
-            self.imagesDrawn, self.imagesAnalyse = analyze(checked_calculate_items, check_box_flags,
-                                                           checked_min_max_values,
-                                                           num_of_bins=10)
+
+            images_drawn, images_analyzed = analyze(checked_calculate_items, check_box_flags,
+                                                    checked_min_max_values,
+                                                    num_of_bins=10)
+            for image_name in checked_calculate_items.keys():
+                if image_name in images_drawn and image_name in images_analyzed:
+                    self.imagesDrawn[image_name] = images_drawn[image_name].copy()
+                    self.imagesAnalyse[image_name] = images_analyzed[image_name].copy()
 
     def evnCheckAllButtonClickedPagePredict(self):
         if showDialog('Check all images', 'Are you sure?', QMessageBox.Information):
