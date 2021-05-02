@@ -135,7 +135,7 @@ def evnImageListItemDoubleClicked(item, dic, page):
             image = Image.open(dic[item.text()], 'r')
             image.show()
 
-    def pageResultsAndCalculation():
+    def pageResults():
         if item:
             buffer = QBuffer()
             buffer.open(QBuffer.ReadWrite)
@@ -143,10 +143,15 @@ def evnImageListItemDoubleClicked(item, dic, page):
             pil_im = Image.open(io.BytesIO(buffer.data()))
             pil_im.show()
 
+    def pageCalculation():
+        if item:
+            pil_im = Image.fromarray(dic[item.text()]).convert('RGB')
+            pil_im.show()
+
     {
         'predict': pagePredict,
-        'results': pageResultsAndCalculation,
-        'calculation': pageResultsAndCalculation
+        'results': pageResults,
+        'calculation': pageCalculation
     }[page]()
 
 
@@ -309,7 +314,7 @@ class MainWindow(QMainWindow):
             lambda item: self.evnImageListItemClickedPageCalculation(item,
                                                                      self.ui.label_calculate_page_selected_picture))
         self.ui.images_calculation_page_import_list.itemDoubleClicked.connect(
-            lambda item: evnImageListItemDoubleClicked(item, self.imagesForCalculationPixMap, "calculation"))
+            lambda item: evnImageListItemDoubleClicked(item, self.imagesDrawn, "calculation"))
         self.ui.images_calculation_page_import_list.currentItemChanged.connect(
             lambda item: self.evnCurrentItemChanged(item, self.ui.label_calculate_page_selected_picture,
                                                     self.imagesDrawn, "calculation"))
@@ -429,12 +434,14 @@ class MainWindow(QMainWindow):
                     already_calculated_images.append(list_item_calc_name)
 
         if len(already_calculated_images) == 1:
-            showDialog('Already calculated image', f'The image: {already_calculated_images[0]} already calculated',
+            names_of_calculated_images = already_calculated_images[0].replace('_calculated', '_predicted')
+            showDialog('Already calculated image', f'The image: {names_of_calculated_images} already calculated',
                        QMessageBox.Warning)
         if len(already_calculated_images) > 1:
             names_of_calculated_images = ''
             for name in already_calculated_images:
-                names_of_calculated_images = names_of_calculated_images + ' ' + name
+                names_of_calculated_images = names_of_calculated_images + ' ' + name.replace('_calculated',
+                                                                                             '_predicted')
             showDialog('Already calculated images', f'The images: {names_of_calculated_images} already calculated',
                        QMessageBox.Warning)
 
