@@ -1,6 +1,5 @@
 import os
 from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog, QMessageBox, QDesktopWidget, QFrame
-import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
 from ui_main import Ui_MainWindow
 from PIL.ImageQt import ImageQt
@@ -11,7 +10,8 @@ import io
 from PIL import Image
 from PyQt5.QtCore import QBuffer
 from styles import widgets_style
-import sys
+import sys, time
+import threading
 
 
 def toggleWidgetAndChangeStyle(pair):
@@ -35,7 +35,7 @@ def setListItemItemStyle(item):
     :param item: a QListWidgetItem of one of the lists in the app.
     """
     font = QtGui.QFont()
-    font.setBold(True)
+    # font.setBold(True)
     font.setWeight(75)
     item.setFont(font)
 
@@ -326,18 +326,53 @@ class MainWindow(QMainWindow):
                                                                self.ui.frame_calculation_page_modifications_options_min_spin_box))
 
     def start_worker(self):
-        self.thread[1] = ThreadClass(parent=None, index=1)
-        self.thread[1].start()
-        self.thread[1].any_signal.connect(self.my_function)
-        self.thread[1].stop()
+        thread = threading.Thread(target=self.evnPredictButtonClicked)
+        thread.start()
 
-    def my_function(self):
-        print('my_function')
+    def my_function(self, pics):
+        segmented_images = pics
+
+        segmented_images_size = segmented_images.__len__()
+
+        if segmented_images_size:
+            for index in range(segmented_images_size):
+                segmented_image = segmented_images[index]
+                split_image_name = self.thread[1].checked_items[index].split('/')[-1].split('.')
+                image_name = f"{split_image_name[0]}_predicted.{split_image_name[1]}"
+                self.PredictedImagesPixMap[image_name] = convertCvImage2QtImage(segmented_image, "L")
+                self.PredictedImagesNpArray[image_name] = segmented_image
+                addImageNameToList(image_name, self.ui.images_results_page_import_list)
+
+            widgets_tuples = [
+                (self.ui.btn_results_page_clear_images, True),
+                (self.ui.btn_results_page_uncheck_all, True),
+                (self.ui.btn_results_page_delete_selected_images, True),
+                (self.ui.btn_results_page_save_images, True),
+                (self.ui.btn_results_page_custom_calculation, True),
+                (self.ui.btn_results_page_save_csvs, True),
+                (self.ui.btn_results_page_save_images_and_csvs, True)
+            ]
+
+            toggleWidgetAndChangeStyle(widgets_tuples)
+            import_list = self.ui.images_results_page_import_list
+            selected_result_list_size = len(import_list.selectedItems())
+
+            if not selected_result_list_size:
+                label = self.ui.label_results_page_selected_picture
+                label.setPixmap(
+                    QtGui.QPixmap(convertCvImage2QtImage(segmented_images[len(segmented_images) - 1], "L")))
+                imageLabelFrame(label, QFrame.StyledPanel, QFrame.Sunken, 3)
+
+            updateNumOfImages(import_list, self.ui.label_results_page_images)
+
+            if showDialog('Prediction Succeeded', 'Move to the results page?', QMessageBox.Question):
+                self.ui.stackedWidget.setCurrentWidget(self.ui.frame_results_page)
 
     def evnPredictButtonClicked(self):
         """
         This event runs when you press the predict button on the main page of the app.
         """
+
         import_list = self.ui.images_predict_page_import_list
         checked_items = []
         already_predicted_images = []
@@ -368,42 +403,13 @@ class MainWindow(QMainWindow):
                           f'Predict for {num_of_image_to_predict} images?',
                           QMessageBox.Question):
 
-                segmented_images = segment(checked_items)
-                segmented_images_size = segmented_images.__len__()
+                self.thread[1] = ThreadClass(parent=self, index=1, func=segment, checked_items=checked_items)
+                self.thread[1].start()
+                self.thread[1].any_signal.connect(self.my_function)
+                # self.thread[1].update_progress.connect(self.evtUpdateProgress)
 
-                if segmented_images_size:
-                    for index in range(segmented_images_size):
-                        segmented_image = segmented_images[index]
-                        split_image_name = checked_items[index].split('/')[-1].split('.')
-                        image_name = f"{split_image_name[0]}_predicted.{split_image_name[1]}"
-                        self.PredictedImagesPixMap[image_name] = convertCvImage2QtImage(segmented_image, "L")
-                        self.PredictedImagesNpArray[image_name] = segmented_image
-                        addImageNameToList(image_name, self.ui.images_results_page_import_list)
-
-                    widgets_tuples = [
-                        (self.ui.btn_results_page_clear_images, True),
-                        (self.ui.btn_results_page_uncheck_all, True),
-                        (self.ui.btn_results_page_delete_selected_images, True),
-                        (self.ui.btn_results_page_save_images, True),
-                        (self.ui.btn_results_page_custom_calculation, True),
-                        (self.ui.btn_results_page_save_csvs, True),
-                        (self.ui.btn_results_page_save_images_and_csvs, True)
-                    ]
-
-                    toggleWidgetAndChangeStyle(widgets_tuples)
-                    import_list = self.ui.images_results_page_import_list
-                    selected_result_list_size = len(import_list.selectedItems())
-
-                    if not selected_result_list_size:
-                        label = self.ui.label_results_page_selected_picture
-                        label.setPixmap(
-                            QtGui.QPixmap(convertCvImage2QtImage(segmented_images[len(segmented_images) - 1], "L")))
-                        imageLabelFrame(label, QFrame.StyledPanel, QFrame.Sunken, 3)
-
-                    updateNumOfImages(import_list, self.ui.label_results_page_images)
-
-                    if showDialog('Prediction Succeeded', 'Move to the results page?', QMessageBox.Question):
-                        self.ui.stackedWidget.setCurrentWidget(self.ui.frame_results_page)
+    # def evtUpdateProgress(self, val):
+    #     self.ui.progressBar.setValue(val)
 
     def evnCustomCalculationButtonClicked(self):
         """
@@ -1107,15 +1113,19 @@ class MainWindow(QMainWindow):
 
 
 class ThreadClass(QtCore.QThread):
-    any_signal = QtCore.pyqtSignal(int)
+    any_signal = QtCore.pyqtSignal(list)
+    update_progress = QtCore.pyqtSignal(int)
 
-    def __init__(self, parent=None, index=0):
+    def __init__(self, checked_items, func, parent=None, index=0):
         super(ThreadClass, self).__init__(parent)
         self.index = index
         self.is_running = True
+        self.checked_items = checked_items
+        self.func = func
 
     def run(self):
-        print('Starting thread...')
+        res = self.func(self.checked_items)
+        self.any_signal.emit(res)
 
     def stop(self):
         self.is_running = False
