@@ -1,4 +1,6 @@
 import os
+import time
+
 from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog, QMessageBox, QDesktopWidget, QFrame
 from PyQt5 import QtCore, QtGui, QtWidgets
 from ui_main import Ui_MainWindow
@@ -10,8 +12,7 @@ import io
 from PIL import Image
 from PyQt5.QtCore import QBuffer
 from styles import widgets_style
-import sys, time
-import threading
+import sys
 
 
 def toggleWidgetAndChangeStyle(pair):
@@ -241,9 +242,6 @@ class MainWindow(QMainWindow):
         This is where all the connections between the events and the buttons in the app are made
         """
 
-        # threds
-        self.ui.pushButton_3.clicked.connect(self.start_worker)
-
         # toggle event listener
         self.ui.btn_toggle.clicked.connect(self.evnBtnToggleClicked)
 
@@ -325,12 +323,9 @@ class MainWindow(QMainWindow):
             lambda: self.evnChangeMaxOrMinValuePageCalculation(self.imagesMinValues,
                                                                self.ui.frame_calculation_page_modifications_options_min_spin_box))
 
-    def start_worker(self):
-        thread = threading.Thread(target=self.evnPredictButtonClicked)
-        thread.start()
+    def evnAfterPrediction(self, segmented_images):
 
-    def my_function(self, pics):
-        segmented_images = pics
+        segmented_images = segmented_images
 
         segmented_images_size = segmented_images.__len__()
 
@@ -368,6 +363,7 @@ class MainWindow(QMainWindow):
             if showDialog('Prediction Succeeded', 'Move to the results page?', QMessageBox.Question):
                 self.ui.stackedWidget.setCurrentWidget(self.ui.frame_results_page)
 
+
     def evnPredictButtonClicked(self):
         """
         This event runs when you press the predict button on the main page of the app.
@@ -402,10 +398,9 @@ class MainWindow(QMainWindow):
             if showDialog('Predict images',
                           f'Predict for {num_of_image_to_predict} images?',
                           QMessageBox.Question):
-
                 self.thread[1] = ThreadClass(parent=self, index=1, func=segment, checked_items=checked_items)
                 self.thread[1].start()
-                self.thread[1].any_signal.connect(self.my_function)
+                self.thread[1].after_prediction.connect(self.evnAfterPrediction)
                 # self.thread[1].update_progress.connect(self.evtUpdateProgress)
 
     # def evtUpdateProgress(self, val):
@@ -1113,7 +1108,7 @@ class MainWindow(QMainWindow):
 
 
 class ThreadClass(QtCore.QThread):
-    any_signal = QtCore.pyqtSignal(list)
+    after_prediction = QtCore.pyqtSignal(list)
     update_progress = QtCore.pyqtSignal(int)
 
     def __init__(self, checked_items, func, parent=None, index=0):
@@ -1124,8 +1119,8 @@ class ThreadClass(QtCore.QThread):
         self.func = func
 
     def run(self):
-        res = self.func(self.checked_items)
-        self.any_signal.emit(res)
+        segmented_images = self.func(self.checked_items)
+        self.after_prediction.emit(segmented_images)
 
     def stop(self):
         self.is_running = False
