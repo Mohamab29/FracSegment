@@ -229,8 +229,9 @@ class MainWindow(QMainWindow):
         self.thread = {}
 
     def closeEvent(self, event):
-        self.thread[1].stop()
-        self.thread[2].stop()
+        for key in self.thread.keys():
+            if self.thread[key].is_running:
+                self.thread[key].stop()
 
     def center(self):
         """
@@ -267,6 +268,7 @@ class MainWindow(QMainWindow):
                                                        "predict",
                                                        [(self.ui.btn_predict_page_clear_images, False)]))
         self.ui.btn_predict_page_predict.clicked.connect(self.evnPredictButtonClicked)
+        # self.ui.btn_predict_page_stop_prediction.clicked.connect(self.evnStopButtonClicked)
         self.ui.images_predict_page_import_list.itemClicked.connect(self.evnImageListItemClickedPagePredict)
         self.ui.images_predict_page_import_list.itemDoubleClicked.connect(
             lambda item: evnImageListItemDoubleClicked(item, self.imageListPathDict, "predict"))
@@ -335,7 +337,7 @@ class MainWindow(QMainWindow):
         if segmented_images_size:
             for index in range(segmented_images_size):
                 segmented_image = segmented_images[index]
-                split_image_name = self.thread[1].checked_items[index].split('/')[-1].split('.')
+                split_image_name = self.thread['prediction'].checked_items[index].split('/')[-1].split('.')
                 image_name = f"{split_image_name[0]}_predicted.{split_image_name[1]}"
                 self.PredictedImagesPixMap[image_name] = convertCvImage2QtImage(segmented_image, "L")
                 self.PredictedImagesNpArray[image_name] = segmented_image
@@ -382,6 +384,10 @@ class MainWindow(QMainWindow):
 
             if showDialog('Prediction Succeeded', 'Move to the results page?', QMessageBox.Question):
                 self.ui.stackedWidget.setCurrentWidget(self.ui.frame_results_page)
+
+    # def evnStopButtonClicked(self):
+    #     self.thread['prediction'].stop()
+    #     self.thread['progress'].stop()
 
     def evnPredictButtonClicked(self):
         """
@@ -430,17 +436,17 @@ class MainWindow(QMainWindow):
                 toggleWidgetAndChangeStyle(widgets_tuples)
                 self.ui.images_predict_page_import_list.setEnabled(False)
 
-                self.thread[1] = PredictionThreadClass(parent=self, index=1, func=segment, checked_items=checked_items)
-                self.thread[1].start()
-                self.thread[1].after_prediction.connect(self.evnAfterPrediction)
+                self.thread['prediction'] = PredictionThreadClass(parent=self, index=1, func=segment,
+                                                                  checked_items=checked_items)
+                self.thread['prediction'].start()
+                self.thread['prediction'].after_prediction.connect(self.evnAfterPrediction)
 
-                self.thread[2] = ProgressThreadClass(parent=None, index=2)
-                self.thread[2].start()
-                self.thread[2].any_signal.connect(self.evtUpdateProgress)
+                self.thread['progress'] = ProgressThreadClass(parent=None, index=2)
+                self.thread['progress'].start()
+                self.thread['progress'].any_signal.connect(self.evtUpdateProgress)
 
     def evtUpdateProgress(self, val):
         self.ui.progress_bar_page_predict.setValue(val)
-
 
     def evnCustomCalculationButtonClicked(self):
         """
