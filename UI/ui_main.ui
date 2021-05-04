@@ -718,7 +718,7 @@ QListWidget::item {
                            <number>0</number>
                           </property>
                           <property name="rightMargin">
-                           <number>0</number>
+                           <number>9</number>
                           </property>
                           <item>
                            <widget class="QProgressBar" name="progress_bar_page_predict">
@@ -726,10 +726,15 @@ QListWidget::item {
                              <bool>false</bool>
                             </property>
                             <property name="styleSheet">
-                             <string notr="true">color: rgb(130, 130, 130)</string>
+                             <string notr="true">QProgressBar {
+    text-align: center;
+}
+QProgressBar::chunk {
+    background-color: rgb(127, 0, 217)
+}</string>
                             </property>
                             <property name="value">
-                             <number>0</number>
+                             <number>20</number>
                             </property>
                            </widget>
                           </item>

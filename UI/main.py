@@ -228,6 +228,10 @@ class MainWindow(QMainWindow):
         self.center()
         self.thread = {}
 
+    def closeEvent(self, event):
+        self.thread[1].stop()
+        self.thread[2].stop()
+
     def center(self):
         """
         Centralizes the app window.
@@ -420,19 +424,23 @@ class MainWindow(QMainWindow):
                                   (self.ui.btn_predict_page_predict, False),
                                   (self.ui.btn_predict_page_load_images, False),
                                   (self.ui.btn_predict_page_delete_selected_images, False),
-                                  (self.ui.images_predict_page_import_list,False)
+                                  (self.ui.images_predict_page_import_list, False)
                                   ]
 
                 toggleWidgetAndChangeStyle(widgets_tuples)
                 self.ui.images_predict_page_import_list.setEnabled(False)
 
-                self.thread[1] = ThreadClass(parent=self, index=1, func=segment, checked_items=checked_items)
+                self.thread[1] = PredictionThreadClass(parent=self, index=1, func=segment, checked_items=checked_items)
                 self.thread[1].start()
                 self.thread[1].after_prediction.connect(self.evnAfterPrediction)
-                # self.thread[1].update_progress.connect(self.evtUpdateProgress)
 
-    # def evtUpdateProgress(self, val):
-    #     self.ui.progressBar.setValue(val)
+                self.thread[2] = ProgressThreadClass(parent=None, index=2)
+                self.thread[2].start()
+                self.thread[2].any_signal.connect(self.evtUpdateProgress)
+
+    def evtUpdateProgress(self, val):
+        self.ui.progress_bar_page_predict.setValue(val)
+
 
     def evnCustomCalculationButtonClicked(self):
         """
@@ -1135,24 +1143,50 @@ class MainWindow(QMainWindow):
             updateNumOfImages(self.ui.images_calculation_page_import_list, self.ui.label_calculate_page_images)
 
 
-class ThreadClass(QtCore.QThread):
+class PredictionThreadClass(QtCore.QThread):
     after_prediction = QtCore.pyqtSignal(list)
     update_progress = QtCore.pyqtSignal(int)
 
-    def __init__(self, checked_items, func, parent=None, index=0):
-        super(ThreadClass, self).__init__(parent)
+    def __init__(self, checked_items=None, func=None, parent=None, index=0):
+        super(PredictionThreadClass, self).__init__(parent)
+        if checked_items is None:
+            checked_items = []
         self.index = index
         self.is_running = True
         self.checked_items = checked_items
         self.func = func
 
     def run(self):
+        print('Starting the prediction thread...')
         segmented_images = self.func(self.checked_items)
         self.after_prediction.emit(segmented_images)
 
     def stop(self):
         self.is_running = False
-        print('Stopping thread...')
+        print('Stopping the prediction thread...')
+        self.terminate()
+
+
+class ProgressThreadClass(QtCore.QThread):
+    any_signal = QtCore.pyqtSignal(int)
+
+    def __init__(self, parent=None, index=0):
+        super(ProgressThreadClass, self).__init__(parent)
+        self.index = index
+        self.is_running = True
+
+    def run(self):
+        print('Starting the progress bar thread...')
+        cnt = 0
+        while True:
+            cnt += 1
+            if cnt == 99: cnt = 0
+            time.sleep(0.01)
+            self.any_signal.emit(cnt)
+
+    def stop(self):
+        self.is_running = False
+        print('Stopping the progress bar thread...')
         self.terminate()
 
 
