@@ -537,7 +537,7 @@ QPushButton:hover {
                   </widget>
                  </item>
                  <item>
-                  <widget class="QFrame" name="frame_predict_page_up_list">
+                  <widget class="QFrame" name="frame_predict_page_up_list_and_progress">
                    <property name="minimumSize">
                     <size>
                      <width>250</width>
@@ -575,67 +575,168 @@ QPushButton:hover {
                     <property name="bottomMargin">
                      <number>0</number>
                     </property>
-                    <item alignment="Qt::AlignHCenter">
-                     <widget class="QLabel" name="label_predict_page_images">
-                      <property name="minimumSize">
-                       <size>
-                        <width>0</width>
-                        <height>30</height>
-                       </size>
-                      </property>
-                      <property name="font">
-                       <font>
-                        <weight>75</weight>
-                        <italic>false</italic>
-                        <bold>true</bold>
-                        <underline>false</underline>
-                        <strikeout>false</strikeout>
-                        <kerning>true</kerning>
-                       </font>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true">QLabel {color: rgb(200, 200, 200)}</string>
-                      </property>
-                      <property name="text">
-                       <string>Images: 0 Checked: 0</string>
-                      </property>
-                     </widget>
-                    </item>
                     <item>
-                     <widget class="QListWidget" name="images_predict_page_import_list">
-                      <property name="minimumSize">
-                       <size>
-                        <width>150</width>
-                        <height>0</height>
-                       </size>
+                     <widget class="QFrame" name="frame_predict_page_up_list">
+                      <property name="frameShape">
+                       <enum>QFrame::StyledPanel</enum>
                       </property>
-                      <property name="styleSheet">
-                       <string notr="true">QListWidget {
+                      <property name="frameShadow">
+                       <enum>QFrame::Raised</enum>
+                      </property>
+                      <layout class="QVBoxLayout" name="verticalLayout_31">
+                       <property name="spacing">
+                        <number>0</number>
+                       </property>
+                       <property name="leftMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="topMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="rightMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="bottomMargin">
+                        <number>0</number>
+                       </property>
+                       <item alignment="Qt::AlignHCenter">
+                        <widget class="QLabel" name="label_predict_page_images">
+                         <property name="minimumSize">
+                          <size>
+                           <width>0</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                         <property name="font">
+                          <font>
+                           <weight>75</weight>
+                           <italic>false</italic>
+                           <bold>true</bold>
+                           <underline>false</underline>
+                           <strikeout>false</strikeout>
+                           <kerning>true</kerning>
+                          </font>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">QLabel {color: rgb(255, 255, 255)}</string>
+                         </property>
+                         <property name="text">
+                          <string>Images: 0 Checked: 0</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QListWidget" name="images_predict_page_import_list">
+                         <property name="minimumSize">
+                          <size>
+                           <width>150</width>
+                           <height>0</height>
+                          </size>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">QListWidget {
     background-color: rgb(33, 37, 43);
 }
 
 QListWidget::item {
     color: rgb(255, 255, 255);
 }</string>
-                      </property>
+                         </property>
+                         <property name="frameShape">
+                          <enum>QFrame::StyledPanel</enum>
+                         </property>
+                         <property name="frameShadow">
+                          <enum>QFrame::Plain</enum>
+                         </property>
+                         <property name="lineWidth">
+                          <number>2</number>
+                         </property>
+                         <property name="midLineWidth">
+                          <number>0</number>
+                         </property>
+                         <property name="showDropIndicator" stdset="0">
+                          <bool>true</bool>
+                         </property>
+                         <property name="dragEnabled">
+                          <bool>false</bool>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QFrame" name="frame_predict_page_up_progress_and_label">
                       <property name="frameShape">
                        <enum>QFrame::StyledPanel</enum>
                       </property>
                       <property name="frameShadow">
-                       <enum>QFrame::Plain</enum>
+                       <enum>QFrame::Raised</enum>
                       </property>
-                      <property name="lineWidth">
-                       <number>2</number>
-                      </property>
-                      <property name="midLineWidth">
-                       <number>0</number>
-                      </property>
-                      <property name="showDropIndicator" stdset="0">
-                       <bool>true</bool>
-                      </property>
-                      <property name="dragEnabled">
-                       <bool>false</bool>
-                      </property>
+                      <layout class="QVBoxLayout" name="verticalLayout_30">
+                       <property name="spacing">
+                        <number>9</number>
+                       </property>
+                       <property name="leftMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="topMargin">
+                        <number>2</number>
+                       </property>
+                       <property name="rightMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="bottomMargin">
+                        <number>0</number>
+                       </property>
+                       <item alignment="Qt::AlignHCenter">
+                        <widget class="QLabel" name="label_predict_progress">
+                         <property name="font">
+                          <font>
+                           <weight>75</weight>
+                           <bold>true</bold>
+                          </font>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">QLabel {color: rgb(255, 255, 255)}</string>
+                         </property>
+                         <property name="text">
+                          <string>Prediction Proggress</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QFrame" name="frame_predict_page_up_progress_bar">
+                         <property name="frameShape">
+                          <enum>QFrame::StyledPanel</enum>
+                         </property>
+                         <property name="frameShadow">
+                          <enum>QFrame::Plain</enum>
+                         </property>
+                         <layout class="QVBoxLayout" name="verticalLayout_32">
+                          <property name="spacing">
+                           <number>0</number>
+                          </property>
+                          <property name="rightMargin">
+                           <number>0</number>
+                          </property>
+                          <item>
+                           <widget class="QProgressBar" name="progress_bar_page_predict">
+                            <property name="enabled">
+                             <bool>false</bool>
+                            </property>
+                            <property name="styleSheet">
+                             <string notr="true">color: rgb(130, 130, 130)</string>
+                            </property>
+                            <property name="value">
+                             <number>0</number>
+                            </property>
+                           </widget>
+                          </item>
+                         </layout>
+                        </widget>
+                       </item>
+                      </layout>
                      </widget>
                     </item>
                    </layout>
@@ -789,83 +890,6 @@ QPushButton:hover {
                    </property>
                    <layout class="QVBoxLayout" name="verticalLayout_14">
                     <item>
-                     <widget class="QPushButton" name="btn_predict_page_delete_selected_images">
-                      <property name="enabled">
-                       <bool>false</bool>
-                      </property>
-                      <property name="minimumSize">
-                       <size>
-                        <width>0</width>
-                        <height>20</height>
-                       </size>
-                      </property>
-                      <property name="cursor">
-                       <cursorShape>PointingHandCursor</cursorShape>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true">QPushButton {
-	color: rgb(43, 49, 56);
-    background-color: rgb(33, 37, 43);
-	border: 2px outset rgb(37, 40, 45);
-	border-radius: 3px;
-}
-QPushButton:hover {
-	color: rgb(85, 170, 255);
-}</string>
-                      </property>
-                      <property name="text">
-                       <string>Delete selected Images</string>
-                      </property>
-                      <property name="icon">
-                       <iconset resource="icons.qrc">
-                        <normaloff>:/assets/icons/delete-icon.png</normaloff>:/assets/icons/delete-icon.png</iconset>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QPushButton" name="pushButton_3">
-                      <property name="enabled">
-                       <bool>true</bool>
-                      </property>
-                      <property name="minimumSize">
-                       <size>
-                        <width>0</width>
-                        <height>20</height>
-                       </size>
-                      </property>
-                      <property name="cursor">
-                       <cursorShape>PointingHandCursor</cursorShape>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true">QPushButton {
-	color: rgb(140, 166, 179);
-    background-color: rgb(33, 37, 43);
-	border: 2px outset rgb(70, 76, 85);
-	border-radius: 3px;
-}
-QPushButton:hover {
-	color: rgb(85, 170, 255);
-    background-color: rgb(42, 47, 54);
-}</string>
-                      </property>
-                      <property name="text">
-                       <string>Button</string>
-                      </property>
-                     </widget>
-                    </item>
-                   </layout>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QFrame" name="frame_predict_page_buttons_check_uncheck_images">
-                   <property name="frameShape">
-                    <enum>QFrame::NoFrame</enum>
-                   </property>
-                   <property name="frameShadow">
-                    <enum>QFrame::Raised</enum>
-                   </property>
-                   <layout class="QVBoxLayout" name="verticalLayout_12">
-                    <item>
                      <widget class="QPushButton" name="btn_predict_page_check_all">
                       <property name="enabled">
                        <bool>false</bool>
@@ -930,6 +954,52 @@ QPushButton:hover {
                       <property name="icon">
                        <iconset resource="icons.qrc">
                         <normaloff>:/assets/icons/uncheck-all-icon.png</normaloff>:/assets/icons/uncheck-all-icon.png</iconset>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item alignment="Qt::AlignTop">
+                  <widget class="QFrame" name="frame_predict_page_buttons_check_uncheck_images">
+                   <property name="frameShape">
+                    <enum>QFrame::NoFrame</enum>
+                   </property>
+                   <property name="frameShadow">
+                    <enum>QFrame::Raised</enum>
+                   </property>
+                   <layout class="QVBoxLayout" name="verticalLayout_12">
+                    <item>
+                     <widget class="QPushButton" name="btn_predict_page_delete_selected_images">
+                      <property name="enabled">
+                       <bool>false</bool>
+                      </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">QPushButton {
+	color: rgb(43, 49, 56);
+    background-color: rgb(33, 37, 43);
+	border: 2px outset rgb(37, 40, 45);
+	border-radius: 3px;
+}
+QPushButton:hover {
+	color: rgb(85, 170, 255);
+}</string>
+                      </property>
+                      <property name="text">
+                       <string>Delete selected Images</string>
+                      </property>
+                      <property name="icon">
+                       <iconset resource="icons.qrc">
+                        <normaloff>:/assets/icons/delete-icon.png</normaloff>:/assets/icons/delete-icon.png</iconset>
                       </property>
                      </widget>
                     </item>
@@ -1089,7 +1159,7 @@ QPushButton:hover {
                        </font>
                       </property>
                       <property name="styleSheet">
-                       <string notr="true">QLabel {color: rgb(200, 200, 200)}</string>
+                       <string notr="true">QLabel {color: rgb(255, 255, 255)}</string>
                       </property>
                       <property name="text">
                        <string>Images: 0 Checked: 0</string>
@@ -1379,7 +1449,7 @@ QPushButton:hover {
                    </layout>
                   </widget>
                  </item>
-                 <item>
+                 <item alignment="Qt::AlignTop">
                   <widget class="QFrame" name="frame_results_page_buttons_delete">
                    <property name="frameShape">
                     <enum>QFrame::NoFrame</enum>
@@ -1419,33 +1489,6 @@ QPushButton:hover {
                       <property name="icon">
                        <iconset resource="icons.qrc">
                         <normaloff>:/assets/icons/delete-icon.png</normaloff>:/assets/icons/delete-icon.png</iconset>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QPushButton" name="pushButton">
-                      <property name="enabled">
-                       <bool>false</bool>
-                      </property>
-                      <property name="minimumSize">
-                       <size>
-                        <width>0</width>
-                        <height>20</height>
-                       </size>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true">QPushButton {
-	color: rgb(43, 49, 56);
-    background-color: rgb(33, 37, 43);
-	border: 2px outset rgb(37, 40, 45);
-	border-radius: 3px;
-}
-QPushButton:hover {
-	color: rgb(85, 170, 255);
-}</string>
-                      </property>
-                      <property name="text">
-                       <string>Button</string>
                       </property>
                      </widget>
                     </item>
@@ -1640,7 +1683,7 @@ QPushButton:hover {
                           </font>
                          </property>
                          <property name="styleSheet">
-                          <string notr="true">QLabel {color: rgb(200, 200, 200)}</string>
+                          <string notr="true">QLabel {color: rgb(255, 255, 255)}</string>
                          </property>
                          <property name="text">
                           <string>Images: 0 Checked: 0</string>
@@ -1720,7 +1763,7 @@ QListWidget::item {
                           </font>
                          </property>
                          <property name="styleSheet">
-                          <string notr="true">QLabel {color: rgb(200, 200, 200)}</string>
+                          <string notr="true">QLabel {color: rgb(255, 255, 255)}</string>
                          </property>
                          <property name="text">
                           <string>Modifications</string>

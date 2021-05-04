@@ -2,6 +2,18 @@ widgets_style = {'QDoubleSpinBox': {'True': "color: rgb(255, 255, 255);",
                                     'False': "color: rgb(32, 35, 41);"},
                  'QCheckBox': {'True': "color: rgb(255, 255, 255);",
                                'False': "color: rgb(32, 35, 41);"},
+                 'QListWidget': {'True': "    background-color: rgb(33, 37, 43);\n"
+                                         "}\n"
+                                         "\n"
+                                         "QListWidget::item {\n"
+                                         "    color: rgb(255, 255, 255);\n"
+                                         "}",
+                                 'False': "    background-color: rgb(72, 73, 74);\n"
+                                          "}\n"
+                                          "\n"
+                                          "QListWidget::item {\n"
+                                          "    color: rgb(130, 130, 130);\n"
+                                          "}"},
                  'QPushButton': {'True': "QPushButton {\n"
                                          "    color: rgb(140, 166, 179);\n"
                                          "    background-color: rgb(33, 37, 43);\n"

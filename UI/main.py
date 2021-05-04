@@ -326,7 +326,6 @@ class MainWindow(QMainWindow):
     def evnAfterPrediction(self, segmented_images):
 
         segmented_images = segmented_images
-
         segmented_images_size = segmented_images.__len__()
 
         if segmented_images_size:
@@ -345,8 +344,25 @@ class MainWindow(QMainWindow):
                 (self.ui.btn_results_page_save_images, True),
                 (self.ui.btn_results_page_custom_calculation, True),
                 (self.ui.btn_results_page_save_csvs, True),
-                (self.ui.btn_results_page_save_images_and_csvs, True)
+                (self.ui.btn_results_page_save_images_and_csvs, True),
+                (self.ui.btn_predict_page_predict, True),
+                (self.ui.btn_predict_page_clear_images, True),
+                (self.ui.btn_predict_page_predict, True),
+                (self.ui.btn_predict_page_load_images, True),
+                (self.ui.btn_predict_page_delete_selected_images, True),
+                (self.ui.images_predict_page_import_list, True)
             ]
+            widget_list = self.ui.images_predict_page_import_list
+
+            if countCheckedItems(widget_list, 'at_list_one_not_checked'):
+                toggleWidgetAndChangeStyle(widgets_tuples +
+                                           [(self.ui.btn_predict_page_check_all, True),
+                                            (self.ui.btn_predict_page_uncheck_all, True)]
+                                           )
+            else:
+                toggleWidgetAndChangeStyle(widgets_tuples +
+                                           [(self.ui.btn_predict_page_uncheck_all, True)]
+                                           )
 
             toggleWidgetAndChangeStyle(widgets_tuples)
             import_list = self.ui.images_results_page_import_list
@@ -362,7 +378,6 @@ class MainWindow(QMainWindow):
 
             if showDialog('Prediction Succeeded', 'Move to the results page?', QMessageBox.Question):
                 self.ui.stackedWidget.setCurrentWidget(self.ui.frame_results_page)
-
 
     def evnPredictButtonClicked(self):
         """
@@ -398,6 +413,19 @@ class MainWindow(QMainWindow):
             if showDialog('Predict images',
                           f'Predict for {num_of_image_to_predict} images?',
                           QMessageBox.Question):
+                widgets_tuples = [(self.ui.btn_predict_page_predict, False),
+                                  (self.ui.btn_predict_page_clear_images, False),
+                                  (self.ui.btn_predict_page_uncheck_all, False),
+                                  (self.ui.btn_predict_page_check_all, False),
+                                  (self.ui.btn_predict_page_predict, False),
+                                  (self.ui.btn_predict_page_load_images, False),
+                                  (self.ui.btn_predict_page_delete_selected_images, False),
+                                  (self.ui.images_predict_page_import_list,False)
+                                  ]
+
+                toggleWidgetAndChangeStyle(widgets_tuples)
+                self.ui.images_predict_page_import_list.setEnabled(False)
+
                 self.thread[1] = ThreadClass(parent=self, index=1, func=segment, checked_items=checked_items)
                 self.thread[1].start()
                 self.thread[1].after_prediction.connect(self.evnAfterPrediction)

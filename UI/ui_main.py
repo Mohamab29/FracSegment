@@ -239,17 +239,25 @@ class Ui_MainWindow(object):
         self.label_predict_page_selected_picture.setObjectName("label_predict_page_selected_picture")
         self.gridLayout.addWidget(self.label_predict_page_selected_picture, 0, 0, 1, 1, QtCore.Qt.AlignHCenter)
         self.horizontalLayout_3.addWidget(self.frame_predict_page_up_image)
-        self.frame_predict_page_up_list = QtWidgets.QFrame(self.frame_predict_page_up)
-        self.frame_predict_page_up_list.setMinimumSize(QtCore.QSize(250, 0))
-        self.frame_predict_page_up_list.setMaximumSize(QtCore.QSize(250, 16777215))
-        self.frame_predict_page_up_list.setFrameShape(QtWidgets.QFrame.NoFrame)
-        self.frame_predict_page_up_list.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_predict_page_up_list.setLineWidth(0)
-        self.frame_predict_page_up_list.setObjectName("frame_predict_page_up_list")
-        self.verticalLayout_11 = QtWidgets.QVBoxLayout(self.frame_predict_page_up_list)
+        self.frame_predict_page_up_list_and_progress = QtWidgets.QFrame(self.frame_predict_page_up)
+        self.frame_predict_page_up_list_and_progress.setMinimumSize(QtCore.QSize(250, 0))
+        self.frame_predict_page_up_list_and_progress.setMaximumSize(QtCore.QSize(250, 16777215))
+        self.frame_predict_page_up_list_and_progress.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.frame_predict_page_up_list_and_progress.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_predict_page_up_list_and_progress.setLineWidth(0)
+        self.frame_predict_page_up_list_and_progress.setObjectName("frame_predict_page_up_list_and_progress")
+        self.verticalLayout_11 = QtWidgets.QVBoxLayout(self.frame_predict_page_up_list_and_progress)
         self.verticalLayout_11.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_11.setSpacing(0)
         self.verticalLayout_11.setObjectName("verticalLayout_11")
+        self.frame_predict_page_up_list = QtWidgets.QFrame(self.frame_predict_page_up_list_and_progress)
+        self.frame_predict_page_up_list.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_predict_page_up_list.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_predict_page_up_list.setObjectName("frame_predict_page_up_list")
+        self.verticalLayout_31 = QtWidgets.QVBoxLayout(self.frame_predict_page_up_list)
+        self.verticalLayout_31.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_31.setSpacing(0)
+        self.verticalLayout_31.setObjectName("verticalLayout_31")
         self.label_predict_page_images = QtWidgets.QLabel(self.frame_predict_page_up_list)
         self.label_predict_page_images.setMinimumSize(QtCore.QSize(0, 30))
         font = QtGui.QFont()
@@ -260,9 +268,9 @@ class Ui_MainWindow(object):
         font.setStrikeOut(False)
         font.setKerning(True)
         self.label_predict_page_images.setFont(font)
-        self.label_predict_page_images.setStyleSheet("QLabel {color: rgb(200, 200, 200)}")
+        self.label_predict_page_images.setStyleSheet("QLabel {color: rgb(148, 231, 247)}")
         self.label_predict_page_images.setObjectName("label_predict_page_images")
-        self.verticalLayout_11.addWidget(self.label_predict_page_images, 0, QtCore.Qt.AlignHCenter)
+        self.verticalLayout_31.addWidget(self.label_predict_page_images, 0, QtCore.Qt.AlignHCenter)
         self.images_predict_page_import_list = QtWidgets.QListWidget(self.frame_predict_page_up_list)
         self.images_predict_page_import_list.setMinimumSize(QtCore.QSize(150, 0))
         self.images_predict_page_import_list.setStyleSheet("QListWidget {\n"
@@ -279,8 +287,41 @@ class Ui_MainWindow(object):
         self.images_predict_page_import_list.setProperty("showDropIndicator", True)
         self.images_predict_page_import_list.setDragEnabled(False)
         self.images_predict_page_import_list.setObjectName("images_predict_page_import_list")
-        self.verticalLayout_11.addWidget(self.images_predict_page_import_list)
-        self.horizontalLayout_3.addWidget(self.frame_predict_page_up_list)
+        self.verticalLayout_31.addWidget(self.images_predict_page_import_list)
+        self.verticalLayout_11.addWidget(self.frame_predict_page_up_list)
+        self.frame_predict_page_up_progress_and_label = QtWidgets.QFrame(self.frame_predict_page_up_list_and_progress)
+        self.frame_predict_page_up_progress_and_label.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_predict_page_up_progress_and_label.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_predict_page_up_progress_and_label.setObjectName("frame_predict_page_up_progress_and_label")
+        self.verticalLayout_30 = QtWidgets.QVBoxLayout(self.frame_predict_page_up_progress_and_label)
+        self.verticalLayout_30.setContentsMargins(0, 2, 0, 0)
+        self.verticalLayout_30.setSpacing(9)
+        self.verticalLayout_30.setObjectName("verticalLayout_30")
+        self.label_predict_progress = QtWidgets.QLabel(self.frame_predict_page_up_progress_and_label)
+        font = QtGui.QFont()
+        font.setBold(True)
+        font.setWeight(75)
+        self.label_predict_progress.setFont(font)
+        self.label_predict_progress.setStyleSheet("QLabel {color: rgb(231, 133, 255)}")
+        self.label_predict_progress.setObjectName("label_predict_progress")
+        self.verticalLayout_30.addWidget(self.label_predict_progress, 0, QtCore.Qt.AlignHCenter)
+        self.frame_predict_page_up_progress_bar = QtWidgets.QFrame(self.frame_predict_page_up_progress_and_label)
+        self.frame_predict_page_up_progress_bar.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_predict_page_up_progress_bar.setFrameShadow(QtWidgets.QFrame.Plain)
+        self.frame_predict_page_up_progress_bar.setObjectName("frame_predict_page_up_progress_bar")
+        self.verticalLayout_32 = QtWidgets.QVBoxLayout(self.frame_predict_page_up_progress_bar)
+        self.verticalLayout_32.setContentsMargins(-1, -1, 0, -1)
+        self.verticalLayout_32.setSpacing(0)
+        self.verticalLayout_32.setObjectName("verticalLayout_32")
+        self.progress_bar_page_predict = QtWidgets.QProgressBar(self.frame_predict_page_up_progress_bar)
+        self.progress_bar_page_predict.setEnabled(False)
+        self.progress_bar_page_predict.setStyleSheet("color: rgb(130, 130, 130)")
+        self.progress_bar_page_predict.setProperty("value", 0)
+        self.progress_bar_page_predict.setObjectName("progress_bar_page_predict")
+        self.verticalLayout_32.addWidget(self.progress_bar_page_predict)
+        self.verticalLayout_30.addWidget(self.frame_predict_page_up_progress_bar)
+        self.verticalLayout_11.addWidget(self.frame_predict_page_up_progress_and_label)
+        self.horizontalLayout_3.addWidget(self.frame_predict_page_up_list_and_progress)
         self.verticalLayout_7.addWidget(self.frame_predict_page_up)
         self.frame_predict_page_buttons = QtWidgets.QFrame(self.frame_predict_page)
         self.frame_predict_page_buttons.setMaximumSize(QtCore.QSize(16777215, 150))
@@ -351,48 +392,7 @@ class Ui_MainWindow(object):
         self.frame_predict_page_buttons_delete.setObjectName("frame_predict_page_buttons_delete")
         self.verticalLayout_14 = QtWidgets.QVBoxLayout(self.frame_predict_page_buttons_delete)
         self.verticalLayout_14.setObjectName("verticalLayout_14")
-        self.btn_predict_page_delete_selected_images = QtWidgets.QPushButton(self.frame_predict_page_buttons_delete)
-        self.btn_predict_page_delete_selected_images.setEnabled(False)
-        self.btn_predict_page_delete_selected_images.setMinimumSize(QtCore.QSize(0, 20))
-        self.btn_predict_page_delete_selected_images.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.btn_predict_page_delete_selected_images.setStyleSheet("QPushButton {\n"
-"    color: rgb(43, 49, 56);\n"
-"    background-color: rgb(33, 37, 43);\n"
-"    border: 2px outset rgb(37, 40, 45);\n"
-"    border-radius: 3px;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    color: rgb(85, 170, 255);\n"
-"}")
-        icon7 = QtGui.QIcon()
-        icon7.addPixmap(QtGui.QPixmap(":/assets/icons/delete-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.btn_predict_page_delete_selected_images.setIcon(icon7)
-        self.btn_predict_page_delete_selected_images.setObjectName("btn_predict_page_delete_selected_images")
-        self.verticalLayout_14.addWidget(self.btn_predict_page_delete_selected_images)
-        self.pushButton_3 = QtWidgets.QPushButton(self.frame_predict_page_buttons_delete)
-        self.pushButton_3.setEnabled(True)
-        self.pushButton_3.setMinimumSize(QtCore.QSize(0, 20))
-        self.pushButton_3.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.pushButton_3.setStyleSheet("QPushButton {\n"
-"    color: rgb(140, 166, 179);\n"
-"    background-color: rgb(33, 37, 43);\n"
-"    border: 2px outset rgb(70, 76, 85);\n"
-"    border-radius: 3px;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    color: rgb(85, 170, 255);\n"
-"    background-color: rgb(42, 47, 54);\n"
-"}")
-        self.pushButton_3.setObjectName("pushButton_3")
-        self.verticalLayout_14.addWidget(self.pushButton_3)
-        self.horizontalLayout_8.addWidget(self.frame_predict_page_buttons_delete)
-        self.frame_predict_page_buttons_check_uncheck_images = QtWidgets.QFrame(self.frame_predict_page_buttons)
-        self.frame_predict_page_buttons_check_uncheck_images.setFrameShape(QtWidgets.QFrame.NoFrame)
-        self.frame_predict_page_buttons_check_uncheck_images.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_predict_page_buttons_check_uncheck_images.setObjectName("frame_predict_page_buttons_check_uncheck_images")
-        self.verticalLayout_12 = QtWidgets.QVBoxLayout(self.frame_predict_page_buttons_check_uncheck_images)
-        self.verticalLayout_12.setObjectName("verticalLayout_12")
-        self.btn_predict_page_check_all = QtWidgets.QPushButton(self.frame_predict_page_buttons_check_uncheck_images)
+        self.btn_predict_page_check_all = QtWidgets.QPushButton(self.frame_predict_page_buttons_delete)
         self.btn_predict_page_check_all.setEnabled(False)
         self.btn_predict_page_check_all.setMinimumSize(QtCore.QSize(0, 20))
         self.btn_predict_page_check_all.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
@@ -405,12 +405,12 @@ class Ui_MainWindow(object):
 "QPushButton:hover {\n"
 "    color: rgb(85, 170, 255);\n"
 "}")
-        icon8 = QtGui.QIcon()
-        icon8.addPixmap(QtGui.QPixmap(":/assets/icons/check-all-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.btn_predict_page_check_all.setIcon(icon8)
+        icon7 = QtGui.QIcon()
+        icon7.addPixmap(QtGui.QPixmap(":/assets/icons/check-all-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.btn_predict_page_check_all.setIcon(icon7)
         self.btn_predict_page_check_all.setObjectName("btn_predict_page_check_all")
-        self.verticalLayout_12.addWidget(self.btn_predict_page_check_all)
-        self.btn_predict_page_uncheck_all = QtWidgets.QPushButton(self.frame_predict_page_buttons_check_uncheck_images)
+        self.verticalLayout_14.addWidget(self.btn_predict_page_check_all)
+        self.btn_predict_page_uncheck_all = QtWidgets.QPushButton(self.frame_predict_page_buttons_delete)
         self.btn_predict_page_uncheck_all.setEnabled(False)
         self.btn_predict_page_uncheck_all.setMinimumSize(QtCore.QSize(0, 20))
         self.btn_predict_page_uncheck_all.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
@@ -423,12 +423,37 @@ class Ui_MainWindow(object):
 "QPushButton:hover {\n"
 "    color: rgb(85, 170, 255);\n"
 "}")
-        icon9 = QtGui.QIcon()
-        icon9.addPixmap(QtGui.QPixmap(":/assets/icons/uncheck-all-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.btn_predict_page_uncheck_all.setIcon(icon9)
+        icon8 = QtGui.QIcon()
+        icon8.addPixmap(QtGui.QPixmap(":/assets/icons/uncheck-all-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.btn_predict_page_uncheck_all.setIcon(icon8)
         self.btn_predict_page_uncheck_all.setObjectName("btn_predict_page_uncheck_all")
-        self.verticalLayout_12.addWidget(self.btn_predict_page_uncheck_all)
-        self.horizontalLayout_8.addWidget(self.frame_predict_page_buttons_check_uncheck_images)
+        self.verticalLayout_14.addWidget(self.btn_predict_page_uncheck_all)
+        self.horizontalLayout_8.addWidget(self.frame_predict_page_buttons_delete)
+        self.frame_predict_page_buttons_check_uncheck_images = QtWidgets.QFrame(self.frame_predict_page_buttons)
+        self.frame_predict_page_buttons_check_uncheck_images.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.frame_predict_page_buttons_check_uncheck_images.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_predict_page_buttons_check_uncheck_images.setObjectName("frame_predict_page_buttons_check_uncheck_images")
+        self.verticalLayout_12 = QtWidgets.QVBoxLayout(self.frame_predict_page_buttons_check_uncheck_images)
+        self.verticalLayout_12.setObjectName("verticalLayout_12")
+        self.btn_predict_page_delete_selected_images = QtWidgets.QPushButton(self.frame_predict_page_buttons_check_uncheck_images)
+        self.btn_predict_page_delete_selected_images.setEnabled(False)
+        self.btn_predict_page_delete_selected_images.setMinimumSize(QtCore.QSize(0, 20))
+        self.btn_predict_page_delete_selected_images.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.btn_predict_page_delete_selected_images.setStyleSheet("QPushButton {\n"
+"    color: rgb(43, 49, 56);\n"
+"    background-color: rgb(33, 37, 43);\n"
+"    border: 2px outset rgb(37, 40, 45);\n"
+"    border-radius: 3px;\n"
+"}\n"
+"QPushButton:hover {\n"
+"    color: rgb(85, 170, 255);\n"
+"}")
+        icon9 = QtGui.QIcon()
+        icon9.addPixmap(QtGui.QPixmap(":/assets/icons/delete-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.btn_predict_page_delete_selected_images.setIcon(icon9)
+        self.btn_predict_page_delete_selected_images.setObjectName("btn_predict_page_delete_selected_images")
+        self.verticalLayout_12.addWidget(self.btn_predict_page_delete_selected_images)
+        self.horizontalLayout_8.addWidget(self.frame_predict_page_buttons_check_uncheck_images, 0, QtCore.Qt.AlignTop)
         self.frame_predict_page_buttons_predict_button = QtWidgets.QFrame(self.frame_predict_page_buttons)
         self.frame_predict_page_buttons_predict_button.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_predict_page_buttons_predict_button.setFrameShadow(QtWidgets.QFrame.Raised)
@@ -496,7 +521,7 @@ class Ui_MainWindow(object):
         font.setBold(True)
         font.setWeight(75)
         self.label_results_page_images.setFont(font)
-        self.label_results_page_images.setStyleSheet("QLabel {color: rgb(200, 200, 200)}")
+        self.label_results_page_images.setStyleSheet("QLabel {color: rgb(148, 231, 247)}")
         self.label_results_page_images.setObjectName("label_results_page_images")
         self.verticalLayout_9.addWidget(self.label_results_page_images, 0, QtCore.Qt.AlignHCenter)
         self.images_results_page_import_list = QtWidgets.QListWidget(self.frame_results_page_up_list)
@@ -624,7 +649,7 @@ class Ui_MainWindow(object):
 "QPushButton:hover {\n"
 "    color: rgb(85, 170, 255);\n"
 "}")
-        self.btn_results_page_check_all.setIcon(icon8)
+        self.btn_results_page_check_all.setIcon(icon7)
         self.btn_results_page_check_all.setObjectName("btn_results_page_check_all")
         self.verticalLayout_18.addWidget(self.btn_results_page_check_all)
         self.btn_results_page_uncheck_all = QtWidgets.QPushButton(self.frame_results_page_buttons_check_uncheck_images)
@@ -640,7 +665,7 @@ class Ui_MainWindow(object):
 "QPushButton:hover {\n"
 "    color: rgb(85, 170, 255);\n"
 "}")
-        self.btn_results_page_uncheck_all.setIcon(icon9)
+        self.btn_results_page_uncheck_all.setIcon(icon8)
         self.btn_results_page_uncheck_all.setObjectName("btn_results_page_uncheck_all")
         self.verticalLayout_18.addWidget(self.btn_results_page_uncheck_all)
         self.horizontalLayout_5.addWidget(self.frame_results_page_buttons_check_uncheck_images)
@@ -663,24 +688,10 @@ class Ui_MainWindow(object):
 "QPushButton:hover {\n"
 "    color: rgb(85, 170, 255);\n"
 "}")
-        self.btn_results_page_delete_selected_images.setIcon(icon7)
+        self.btn_results_page_delete_selected_images.setIcon(icon9)
         self.btn_results_page_delete_selected_images.setObjectName("btn_results_page_delete_selected_images")
         self.verticalLayout_16.addWidget(self.btn_results_page_delete_selected_images)
-        self.pushButton = QtWidgets.QPushButton(self.frame_results_page_buttons_delete)
-        self.pushButton.setEnabled(False)
-        self.pushButton.setMinimumSize(QtCore.QSize(0, 20))
-        self.pushButton.setStyleSheet("QPushButton {\n"
-"    color: rgb(43, 49, 56);\n"
-"    background-color: rgb(33, 37, 43);\n"
-"    border: 2px outset rgb(37, 40, 45);\n"
-"    border-radius: 3px;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    color: rgb(85, 170, 255);\n"
-"}")
-        self.pushButton.setObjectName("pushButton")
-        self.verticalLayout_16.addWidget(self.pushButton)
-        self.horizontalLayout_5.addWidget(self.frame_results_page_buttons_delete)
+        self.horizontalLayout_5.addWidget(self.frame_results_page_buttons_delete, 0, QtCore.Qt.AlignTop)
         self.frame = QtWidgets.QFrame(self.frame_results_page_buttons)
         self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
@@ -765,7 +776,7 @@ class Ui_MainWindow(object):
         font.setBold(True)
         font.setWeight(75)
         self.label_calculate_page_images.setFont(font)
-        self.label_calculate_page_images.setStyleSheet("QLabel {color: rgb(200, 200, 200)}")
+        self.label_calculate_page_images.setStyleSheet("QLabel {color: rgb(148, 231, 247)}")
         self.label_calculate_page_images.setObjectName("label_calculate_page_images")
         self.verticalLayout_22.addWidget(self.label_calculate_page_images, 0, QtCore.Qt.AlignHCenter)
         self.images_calculation_page_import_list = QtWidgets.QListWidget(self.frame_calculation_page_up_list)
@@ -800,7 +811,7 @@ class Ui_MainWindow(object):
         font.setBold(True)
         font.setWeight(75)
         self.label_calculate_page_modifications.setFont(font)
-        self.label_calculate_page_modifications.setStyleSheet("QLabel {color: rgb(200, 200, 200)}")
+        self.label_calculate_page_modifications.setStyleSheet("QLabel {color: rgb(231, 133, 255)}")
         self.label_calculate_page_modifications.setObjectName("label_calculate_page_modifications")
         self.verticalLayout_23.addWidget(self.label_calculate_page_modifications, 0, QtCore.Qt.AlignHCenter)
         self.frame_calculation_page_modifications_options = QtWidgets.QFrame(self.frame_calculation_page_modifications)
@@ -952,7 +963,7 @@ class Ui_MainWindow(object):
 "QPushButton:hover {\n"
 "    color: rgb(85, 170, 255);\n"
 "}")
-        self.btn_calculation_page_delete_selected_images.setIcon(icon7)
+        self.btn_calculation_page_delete_selected_images.setIcon(icon9)
         self.btn_calculation_page_delete_selected_images.setObjectName("btn_calculation_page_delete_selected_images")
         self.verticalLayout_25.addWidget(self.btn_calculation_page_delete_selected_images)
         self.btn_calculation_page_clear_images = QtWidgets.QPushButton(self.frame_calculation_page_buttons_delete_clear_images)
@@ -987,7 +998,7 @@ class Ui_MainWindow(object):
 "QPushButton:hover {\n"
 "    color: rgb(85, 170, 255);\n"
 "}")
-        self.btn_calculation_page_check_all.setIcon(icon8)
+        self.btn_calculation_page_check_all.setIcon(icon7)
         self.btn_calculation_page_check_all.setObjectName("btn_calculation_page_check_all")
         self.verticalLayout_26.addWidget(self.btn_calculation_page_check_all)
         self.btn_calculation_page_uncheck_all = QtWidgets.QPushButton(self.frame_calculation_page_buttons_check_uncheck_images)
@@ -1001,7 +1012,7 @@ class Ui_MainWindow(object):
 "QPushButton:hover {\n"
 "    color: rgb(85, 170, 255);\n"
 "}")
-        self.btn_calculation_page_uncheck_all.setIcon(icon9)
+        self.btn_calculation_page_uncheck_all.setIcon(icon8)
         self.btn_calculation_page_uncheck_all.setObjectName("btn_calculation_page_uncheck_all")
         self.verticalLayout_26.addWidget(self.btn_calculation_page_uncheck_all)
         self.horizontalLayout_7.addWidget(self.frame_calculation_page_buttons_check_uncheck_images)
@@ -1026,12 +1037,12 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "FracSegment"))
         self.label_predict_page_selected_picture.setText(_translate("MainWindow", "Please load and select image."))
         self.label_predict_page_images.setText(_translate("MainWindow", "Images: 0 Checked: 0"))
+        self.label_predict_progress.setText(_translate("MainWindow", "Prediction Proggress"))
         self.btn_predict_page_load_images.setText(_translate("MainWindow", "Load Images"))
         self.btn_predict_page_clear_images.setText(_translate("MainWindow", "Clear Image list"))
-        self.btn_predict_page_delete_selected_images.setText(_translate("MainWindow", "Delete selected Images"))
-        self.pushButton_3.setText(_translate("MainWindow", "Button"))
         self.btn_predict_page_check_all.setText(_translate("MainWindow", "Check All"))
         self.btn_predict_page_uncheck_all.setText(_translate("MainWindow", "Uncheck All"))
+        self.btn_predict_page_delete_selected_images.setText(_translate("MainWindow", "Delete selected Images"))
         self.btn_predict_page_predict.setText(_translate("MainWindow", "Predict"))
         self.label_results_page_selected_picture.setText(_translate("MainWindow", "No results"))
         self.label_results_page_images.setText(_translate("MainWindow", "Images: 0 Checked: 0"))
@@ -1042,7 +1053,6 @@ class Ui_MainWindow(object):
         self.btn_results_page_check_all.setText(_translate("MainWindow", "Check All"))
         self.btn_results_page_uncheck_all.setText(_translate("MainWindow", "Uncheck All"))
         self.btn_results_page_delete_selected_images.setText(_translate("MainWindow", "Delete selected Images"))
-        self.pushButton.setText(_translate("MainWindow", "Button"))
         self.btn_results_page_custom_calculation.setText(_translate("MainWindow", "Custom calculation"))
         self.label.setText(_translate("MainWindow", "Help Page"))
         self.label_calculate_page_selected_picture.setText(_translate("MainWindow", "No results"))
