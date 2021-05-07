@@ -6,7 +6,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from ui_main import Ui_MainWindow
 from PIL.ImageQt import ImageQt
 from BackEnd.segmenting import segment
-from BackEnd.analyze_dimples import analyze, saveImagesAnalysisToCSV, find_max_area
+from BackEnd.analyze_dimples import analyze, saveImagesAnalysisToCSV, find_max_area, saveImagesToHistPlots
 import cv2
 import io
 from PIL import Image
@@ -562,6 +562,7 @@ class MainWindow(QMainWindow):
         if path and predicted_images_nparray:
             _, images_analysis = analyze(predicted_images_nparray, self.default_flags, checked_min_max_values)
             saveImagesAnalysisToCSV(list(images_analysis.values()), list(images_analysis.keys()), path)
+            saveImagesToHistPlots(list(images_analysis.values()), list(images_analysis.keys()), path)
 
     def evnSaveSelectedImagesButtonClickedPageResults(self):
         """
@@ -610,6 +611,7 @@ class MainWindow(QMainWindow):
         if path and predicted_images_nparray and predicted_images_pixmap:
             _, images_analysis = analyze(predicted_images_nparray, self.default_flags, checked_min_max_values)
             saveImagesAnalysisToCSV(list(images_analysis.values()), list(images_analysis.keys()), path)
+            saveImagesToHistPlots(list(images_analysis.values()), list(images_analysis.keys()), path)
 
             if not os.path.exists(f"{path}/files/predicted_images/"):
                 os.makedirs(f"{path}/files/predicted_images/")
@@ -936,6 +938,7 @@ class MainWindow(QMainWindow):
 
         if path and calculated_images_save:
             saveImagesAnalysisToCSV(list(calculated_images_save.values()), list(calculated_images_save.keys()), path)
+            saveImagesToHistPlots(list(calculated_images_save.values()), list(calculated_images_save.keys()), path)
 
     def evnClearImagesButtonClickedPagePredict(self):
         if self.imageListPathDict and showDialog('Clear all images', 'Are you sure?', QMessageBox.Information):
