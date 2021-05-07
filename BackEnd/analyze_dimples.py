@@ -116,32 +116,66 @@ def saveImagesAnalysisToCSV(images_analysis: list, file_names: list, path: str):
         saveAnalysisToCSV(images_analysis[index], file_name, path)
 
 
-def createAndSaveHistPlot(image_analysis: dict, num_of_bins: int):
+def saveImagesToHistPlots(images_analysis: list, file_names: list, path: str, num_of_bins: int = 15):
+    """
+    If given a list of dictionaries, we send each dictionary to the createAndSaveHistPlot function and then we create
+    a graph for each image and then we save it with the corresponding file name into a png file.
+
+    :param images_analysis: a list of dictionaries containing the properties we analyzed in a prediction.
+    :param num_of_bins: the number of intervals.
+    :param file_names: a list of file name that correspond to the given images analysis
+    :param path: folder path.
+    """
+    for index in range(images_analysis.__len__()):
+        file_name = file_names[index].split('.')[0]
+        createAndSaveHistPlot(images_analysis[index], num_of_bins, file_name, path)
+
+
+def createAndSaveHistPlot(image_analysis: dict, num_of_bins: int, file_name: str, path: str = "."):
     """
     The function takes a dictionary of an image analysis that contains properties of a single image,
-    and makes a plot of the distribution based on the area.
+    and makes a histogram plot based on the area as the x axis and the frequency as the y-axis.
+
 
     :param image_analysis: a dictionary containing the properties we wanted to analyze in a prediction.
     :param num_of_bins: the number of intervals.
+    :param file_name: string, the name of the image, it will be used for the name of the csv file,example: image_graph.png
+    :param path:string,folder path,default is "." .
 
     """
     intervals = findIntervals(image_analysis["area"], num_of_bins=num_of_bins)
+    # left_intervals  = [interval.left for interval in intervals]
+
     df = pd.DataFrame({
         "area": image_analysis["area"],
         "intervals": image_analysis["interval_range"]
     })
-    ax_dims = (13, 10)
+    ax_dims = (15, 15)
     fig, ax = pyplot.subplots(figsize=ax_dims)
-    ax = sns.countplot(ax=ax, data=df, x="intervals", palette="ch:s=.25,rot=-.25")
-    ax.xlabel(xlabel="Intervals in μm", labelpad=5.5)
-    ax.figure.savefig(f'csv_files/distribution_graph.png')
+    ax = sns.histplot(ax=ax, data=df, x="intervals", multiple="dodge",
+                      shrink=0.5, stat="frequency", color="skyblue")
+    ax.set_xlabel('Intervals in μm',
+                  fontsize='xx-large')
+    ax.set_ylabel('Frequency',
+                  fontsize='x-large')
+    x = range(0, len(intervals))
+    ax.set_xticks(x)
+    ax.set_xticklabels(labels=intervals, rotation=45, size=15)
+    y = range(0, 31)
+    ax.set_yticks(y)
+    ax.margins(0.2, 0.2)
+    ax.autoscale(enable=True, axis="x", tight=True)
+    fig.tight_layout()
+    if not os.path.exists(f"{path}/files/graphs/"):
+        os.makedirs(f"{path}/files/graphs/")
+    ax.figure.savefig(f"{path}/files/graphs/{file_name}_graph.png", dpi=120)
 
 
 # noinspection DuplicatedCode
 def analyze(images: dict
             , flags: dict
             , min_max_values: dict
-            , num_of_bins=10) -> Tuple[dict, dict]:
+            , num_of_bins=15) -> Tuple[dict, dict]:
     """
     Analyze black and white images, and finds contours in these images
     and calculates different properties for each contour

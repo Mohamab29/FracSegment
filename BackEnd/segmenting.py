@@ -163,7 +163,6 @@ def segment(paths: list) -> Union[np.ndarray, list]:
 
     # we load the trained model
     model = keras.models.load_model(f'../assets/models/{MODEL_NAME}.h5')
-
     # the masks of each image will be contained in this varible
     predicted_masks = []
     for img in original_images:
@@ -172,5 +171,4 @@ def segment(paths: list) -> Union[np.ndarray, list]:
         patched_img = patch_back(prediction, original_shape)
         predicted_masks.append(clean_mask(patched_img))
 
-    del model
     return predicted_masks
