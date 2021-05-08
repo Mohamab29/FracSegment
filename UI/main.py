@@ -207,6 +207,7 @@ class MainWindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.animation = QtCore.QPropertyAnimation(self.ui.frame_left_menu, b"minimumWidth")
+        self.ui.stackedWidget.setCurrentWidget(self.ui.frame_predict_page)
         self.imageListPathDict = {}
         self.PredictedImagesPixMap = {}
         self.PredictedImagesNpArray = {}

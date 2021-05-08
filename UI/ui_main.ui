@@ -2219,7 +2219,7 @@ QPushButton:hover {
                       </property>
                       <property name="icon">
                        <iconset resource="icons.qrc">
-                        <normaloff>:/assets/icons/check-all-icon.png</normaloff>:/assets/icons/check-all-icon.png</iconset>
+                        <normaloff>:/assets/icons/graph-icon.png</normaloff>:/assets/icons/graph-icon.png</iconset>
                       </property>
                      </widget>
                     </item>

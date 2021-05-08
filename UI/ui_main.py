@@ -1040,7 +1040,9 @@ class Ui_MainWindow(object):
 "QPushButton:hover {\n"
 "    color: rgb(85, 170, 255);\n"
 "}")
-        self.btn_calculation_page_save_graphs.setIcon(icon7)
+        icon15 = QtGui.QIcon()
+        icon15.addPixmap(QtGui.QPixmap(":/assets/icons/graph-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.btn_calculation_page_save_graphs.setIcon(icon15)
         self.btn_calculation_page_save_graphs.setObjectName("btn_calculation_page_save_graphs")
         self.verticalLayout_33.addWidget(self.btn_calculation_page_save_graphs)
         self.horizontalLayout_7.addWidget(self.frame_calculation_page_buttons_save_graphs, 0, QtCore.Qt.AlignTop)
