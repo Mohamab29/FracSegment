@@ -1023,11 +1023,27 @@ class Ui_MainWindow(object):
         self.btn_calculation_page_uncheck_all.setObjectName("btn_calculation_page_uncheck_all")
         self.verticalLayout_26.addWidget(self.btn_calculation_page_uncheck_all)
         self.horizontalLayout_7.addWidget(self.frame_calculation_page_buttons_check_uncheck_images)
-        self.frame_7 = QtWidgets.QFrame(self.frame_calculate_page_buttons)
-        self.frame_7.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frame_7.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_7.setObjectName("frame_7")
-        self.horizontalLayout_7.addWidget(self.frame_7)
+        self.frame_calculation_page_buttons_save_graphs = QtWidgets.QFrame(self.frame_calculate_page_buttons)
+        self.frame_calculation_page_buttons_save_graphs.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_calculation_page_buttons_save_graphs.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_calculation_page_buttons_save_graphs.setObjectName("frame_calculation_page_buttons_save_graphs")
+        self.verticalLayout_33 = QtWidgets.QVBoxLayout(self.frame_calculation_page_buttons_save_graphs)
+        self.verticalLayout_33.setObjectName("verticalLayout_33")
+        self.btn_calculation_page_save_graphs = QtWidgets.QPushButton(self.frame_calculation_page_buttons_save_graphs)
+        self.btn_calculation_page_save_graphs.setEnabled(False)
+        self.btn_calculation_page_save_graphs.setStyleSheet("QPushButton {\n"
+"    color: rgb(43, 49, 56);\n"
+"    background-color: rgb(33, 37, 43);\n"
+"    border: 2px outset rgb(37, 40, 45);\n"
+"    border-radius: 3px;\n"
+"}\n"
+"QPushButton:hover {\n"
+"    color: rgb(85, 170, 255);\n"
+"}")
+        self.btn_calculation_page_save_graphs.setIcon(icon7)
+        self.btn_calculation_page_save_graphs.setObjectName("btn_calculation_page_save_graphs")
+        self.verticalLayout_33.addWidget(self.btn_calculation_page_save_graphs)
+        self.horizontalLayout_7.addWidget(self.frame_calculation_page_buttons_save_graphs, 0, QtCore.Qt.AlignTop)
         self.verticalLayout_20.addWidget(self.frame_calculate_page_buttons)
         self.stackedWidget.addWidget(self.frame_calculation_page)
         self.verticalLayout_5.addWidget(self.stackedWidget)
@@ -1036,7 +1052,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(3)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -1077,6 +1093,7 @@ class Ui_MainWindow(object):
         self.btn_calculation_page_clear_images.setText(_translate("MainWindow", "Clear Image list"))
         self.btn_calculation_page_check_all.setText(_translate("MainWindow", "Check All"))
         self.btn_calculation_page_uncheck_all.setText(_translate("MainWindow", "Uncheck All"))
+        self.btn_calculation_page_save_graphs.setText(_translate("MainWindow", "Save Graphs"))
 import icons_rc
 
 

@@ -477,7 +477,7 @@ QPushButton:hover {
           <item>
            <widget class="QStackedWidget" name="stackedWidget">
             <property name="currentIndex">
-             <number>0</number>
+             <number>3</number>
             </property>
             <widget class="QWidget" name="frame_predict_page">
              <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -2189,14 +2189,41 @@ QPushButton:hover {
                    </layout>
                   </widget>
                  </item>
-                 <item>
-                  <widget class="QFrame" name="frame_7">
+                 <item alignment="Qt::AlignTop">
+                  <widget class="QFrame" name="frame_calculation_page_buttons_save_graphs">
                    <property name="frameShape">
                     <enum>QFrame::StyledPanel</enum>
                    </property>
                    <property name="frameShadow">
                     <enum>QFrame::Raised</enum>
                    </property>
+                   <layout class="QVBoxLayout" name="verticalLayout_33">
+                    <item>
+                     <widget class="QPushButton" name="btn_calculation_page_save_graphs">
+                      <property name="enabled">
+                       <bool>false</bool>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">QPushButton {
+	color: rgb(43, 49, 56);
+    background-color: rgb(33, 37, 43);
+	border: 2px outset rgb(37, 40, 45);
+	border-radius: 3px;
+}
+QPushButton:hover {
+	color: rgb(85, 170, 255);
+}</string>
+                      </property>
+                      <property name="text">
+                       <string>Save Graphs</string>
+                      </property>
+                      <property name="icon">
+                       <iconset resource="icons.qrc">
+                        <normaloff>:/assets/icons/check-all-icon.png</normaloff>:/assets/icons/check-all-icon.png</iconset>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
                   </widget>
                  </item>
                 </layout>

@@ -41,19 +41,23 @@ def setListItemItemStyle(item):
     item.setFont(font)
 
 
-def showDialog(title, message, icon):
+def showDialog(title, message, icon, only_ok = False):
     """
     Shows Dialog when we need it.
 
     :param title: a Dialog title.
     :param message: a Dialog message.
     :param icon: a Dialog icon.
+    :param only_ok: Boolean, In case we want to show only the ok button. in the dialog.
     """
     msg_box = QMessageBox()
     msg_box.setIcon(icon)
     msg_box.setText(message)
     msg_box.setWindowTitle(title)
-    msg_box.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+    if not only_ok:
+        msg_box.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+    else:
+        msg_box.setStandardButtons(QMessageBox.Ok)
 
     qr = msg_box.frameGeometry()
     cp = QDesktopWidget().availableGeometry().center()
@@ -313,6 +317,7 @@ class MainWindow(QMainWindow):
                                                        "calculation",
                                                        [(self.ui.btn_results_page_clear_images, False)]))
         self.ui.btn_calculation_page_save_images.clicked.connect(self.evnSaveImagesButtonClickedPageCalculation)
+        self.ui.btn_calculation_page_save_graphs.clicked.connect(self.evnSaveGraphsButtonClickedPageCalculation)
         self.ui.btn_calculation_page_save_csvs.clicked.connect(self.evnSaveCsvsButtonClickedPageCalculation)
         self.ui.images_calculation_page_import_list.itemClicked.connect(
             lambda item: self.evnImageListItemClickedPageCalculation(item,
@@ -512,6 +517,7 @@ class MainWindow(QMainWindow):
                     (self.ui.btn_calculation_page_clear_images, True),
                     (self.ui.btn_calculation_page_send, True),
                     (self.ui.btn_calculation_page_uncheck_all, True),
+                    (self.ui.btn_calculation_page_save_graphs, True),
                     (self.ui.frame_calculation_page_modifications_options_min_spin_box, True),
                     (self.ui.frame_calculation_page_modifications_options_max_spin_box, True),
                     (self.ui.frame_calculation_page_modifications_options_max_label, True),
@@ -560,7 +566,7 @@ class MainWindow(QMainWindow):
         if path and predicted_images_nparray:
             _, images_analysis = analyze(predicted_images_nparray, self.default_flags, checked_min_max_values)
             saveImagesAnalysisToCSV(list(images_analysis.values()), list(images_analysis.keys()), path)
-            saveImagesToHistPlots(list(images_analysis.values()), list(images_analysis.keys()), path)
+            showDialog(f'Save completed', f'Saving csvs is completed!', QMessageBox.Information ,True)
 
     def evnSaveSelectedImagesButtonClickedPageResults(self):
         """
@@ -584,6 +590,8 @@ class MainWindow(QMainWindow):
                 image_path = f"{path}/files/predicted_images/{image_name}"
                 image_type = image_name.split('.')[-1]
                 pixmap_image.save(image_path, image_type)
+
+            showDialog(f'Save completed', f'Saving images is completed!', QMessageBox.Information ,True)
 
     def evnSaveImageAndCsvsButtonClickedPageResults(self):
         """
@@ -609,7 +617,6 @@ class MainWindow(QMainWindow):
         if path and predicted_images_nparray and predicted_images_pixmap:
             _, images_analysis = analyze(predicted_images_nparray, self.default_flags, checked_min_max_values)
             saveImagesAnalysisToCSV(list(images_analysis.values()), list(images_analysis.keys()), path)
-            saveImagesToHistPlots(list(images_analysis.values()), list(images_analysis.keys()), path)
 
             if not os.path.exists(f"{path}/files/predicted_images/"):
                 os.makedirs(f"{path}/files/predicted_images/")
@@ -619,6 +626,8 @@ class MainWindow(QMainWindow):
                 image_path = f"{path}/files/predicted_images/{image_name}"
                 image_type = image_name.split('.')[-1]
                 pixmap_image.save(image_path, image_type)
+
+            showDialog(f'Save completed', f'Saving images and csvs is completed!', QMessageBox.Information ,True)
 
     def evnCurrentItemChanged(self, item, label, dict, page):
         """
@@ -731,6 +740,7 @@ class MainWindow(QMainWindow):
         if not countCheckedItems(widget_list, 'num_of_check_items'):
             widgets_tuples = [(self.ui.btn_calculation_page_clear_images, False),
                               (self.ui.btn_calculation_page_save_images, False),
+                              (self.ui.btn_calculation_page_save_graphs, False),
                               (self.ui.btn_calculation_page_save_csvs, False),
                               (self.ui.btn_calculation_page_send, False),
                               (self.ui.frame_calculation_page_modifications_options_min_spin_box, False),
@@ -745,6 +755,7 @@ class MainWindow(QMainWindow):
         else:
             widgets_tuples = [(self.ui.btn_calculation_page_clear_images, True),
                               (self.ui.btn_calculation_page_save_images, True),
+                              (self.ui.btn_calculation_page_save_graphs, True),
                               (self.ui.btn_calculation_page_save_csvs, True),
                               (self.ui.btn_calculation_page_send, True),
                               (self.ui.frame_calculation_page_modifications_options_min_spin_box, True),
@@ -920,9 +931,15 @@ class MainWindow(QMainWindow):
             for image_name in checked_images:
                 image_path = f"{path}/files/drawn_images/{image_name}"
                 cv2.imwrite(image_path, self.imagesDrawn[image_name])
+            showDialog(f'Save completed', f'Saving images is completed!', QMessageBox.Information ,True)
 
     def evnSaveCsvsButtonClickedPageCalculation(self):
+        self.saveItems(saveImagesAnalysisToCSV,'Csvs')
 
+    def evnSaveGraphsButtonClickedPageCalculation(self):
+        self.saveItems(saveImagesToHistPlots,'Graphs')
+
+    def saveItems(self,save_function, items_name):
         calculated_images_save = {}
         calculation_page_list = self.ui.images_calculation_page_import_list
 
@@ -935,8 +952,8 @@ class MainWindow(QMainWindow):
         path = QFileDialog.getExistingDirectory(self, "Choose Folder")
 
         if path and calculated_images_save:
-            saveImagesAnalysisToCSV(list(calculated_images_save.values()), list(calculated_images_save.keys()), path)
-            saveImagesToHistPlots(list(calculated_images_save.values()), list(calculated_images_save.keys()), path)
+            save_function(list(calculated_images_save.values()), list(calculated_images_save.keys()), path)
+            showDialog(f'Save completed', f'Saving {items_name} is completed!', QMessageBox.Information ,True)
 
     def evnClearImagesButtonClickedPagePredict(self):
         if self.imageListPathDict and showDialog('Clear all images', 'Are you sure?', QMessageBox.Information):
@@ -989,6 +1006,7 @@ class MainWindow(QMainWindow):
                               (self.ui.btn_calculation_page_check_all, False),
                               (self.ui.btn_calculation_page_delete_selected_images, False),
                               (self.ui.btn_calculation_page_save_images, False),
+                              (self.ui.btn_calculation_page_save_graphs, False),
                               (self.ui.btn_calculation_page_save_csvs, False),
                               (self.ui.btn_calculation_page_send, False),
                               (self.ui.frame_calculation_page_modifications_options_min_spin_box, False),
@@ -1092,6 +1110,7 @@ class MainWindow(QMainWindow):
                               (self.ui.btn_calculation_page_delete_selected_images, True),
                               (self.ui.btn_calculation_page_save_csvs, True),
                               (self.ui.btn_calculation_page_save_images, True),
+                              (self.ui.btn_calculation_page_save_graphs, True),
                               (self.ui.btn_calculation_page_send, True),
                               (self.ui.btn_calculation_page_clear_images, True),
                               (self.ui.frame_calculation_page_modifications_options_min_spin_box, True),
@@ -1134,6 +1153,7 @@ class MainWindow(QMainWindow):
                               (self.ui.btn_calculation_page_uncheck_all, False),
                               (self.ui.btn_calculation_page_delete_selected_images, False),
                               (self.ui.btn_calculation_page_save_images, False),
+                              (self.ui.btn_calculation_page_save_graphs, False),
                               (self.ui.btn_calculation_page_save_csvs, False),
                               (self.ui.btn_calculation_page_send, False),
                               (self.ui.btn_calculation_page_clear_images, False),
