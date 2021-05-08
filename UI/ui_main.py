@@ -314,14 +314,16 @@ class Ui_MainWindow(object):
         self.verticalLayout_32.setSpacing(0)
         self.verticalLayout_32.setObjectName("verticalLayout_32")
         self.progress_bar_page_predict = QtWidgets.QProgressBar(self.frame_predict_page_up_progress_bar)
-        self.progress_bar_page_predict.setEnabled(False)
+        self.progress_bar_page_predict.setEnabled(True)
         self.progress_bar_page_predict.setStyleSheet("QProgressBar {\n"
 "    text-align: center;\n"
 "}\n"
 "QProgressBar::chunk {\n"
-"    background-color: rgb(127, 0, 217)\n"
-"}")
-        self.progress_bar_page_predict.setProperty("value", 20)
+"    background-color: rgb(85, 170, 255);\n"
+"}\n"
+"\n"
+"")
+        self.progress_bar_page_predict.setProperty("value", 0)
         self.progress_bar_page_predict.setObjectName("progress_bar_page_predict")
         self.verticalLayout_32.addWidget(self.progress_bar_page_predict)
         self.verticalLayout_30.addWidget(self.frame_predict_page_up_progress_bar)
@@ -458,9 +460,6 @@ class Ui_MainWindow(object):
         self.btn_predict_page_delete_selected_images.setIcon(icon9)
         self.btn_predict_page_delete_selected_images.setObjectName("btn_predict_page_delete_selected_images")
         self.verticalLayout_12.addWidget(self.btn_predict_page_delete_selected_images)
-        self.btn_predict_page_stop_prediction = QtWidgets.QPushButton(self.frame_predict_page_buttons_check_uncheck_images)
-        self.btn_predict_page_stop_prediction.setObjectName("btn_predict_page_stop_prediction")
-        self.verticalLayout_12.addWidget(self.btn_predict_page_stop_prediction)
         self.horizontalLayout_8.addWidget(self.frame_predict_page_buttons_check_uncheck_images, 0, QtCore.Qt.AlignTop)
         self.frame_predict_page_buttons_predict_button = QtWidgets.QFrame(self.frame_predict_page_buttons)
         self.frame_predict_page_buttons_predict_button.setFrameShape(QtWidgets.QFrame.NoFrame)
@@ -1051,7 +1050,6 @@ class Ui_MainWindow(object):
         self.btn_predict_page_check_all.setText(_translate("MainWindow", "Check All"))
         self.btn_predict_page_uncheck_all.setText(_translate("MainWindow", "Uncheck All"))
         self.btn_predict_page_delete_selected_images.setText(_translate("MainWindow", "Delete selected Images"))
-        self.btn_predict_page_stop_prediction.setText(_translate("MainWindow", "stop"))
         self.btn_predict_page_predict.setText(_translate("MainWindow", "Predict"))
         self.label_results_page_selected_picture.setText(_translate("MainWindow", "No results"))
         self.label_results_page_images.setText(_translate("MainWindow", "Images: 0 Checked: 0"))

@@ -150,7 +150,7 @@ def load_images(paths: list) -> Union[np.ndarray, list]:
     return images
 
 
-def segment(paths: list) -> Union[np.ndarray, list]:
+def segment(paths: list, pbsignal) -> Union[np.ndarray, list]:
     """
     the main function that handles the image segmentation after the User has chosen to predict selected images.
 
@@ -165,10 +165,17 @@ def segment(paths: list) -> Union[np.ndarray, list]:
     model = keras.models.load_model(f'../assets/models/{MODEL_NAME}.h5')
     # the masks of each image will be contained in this varible
     predicted_masks = []
+    total_images_size = original_images.__len__()
+    already_predicted_size = 0
+    overall_percentage = 0
+
     for img in original_images:
-        patches, original_shape = split_to_patches(img)
-        prediction = model.predict(x=patches, verbose=1, use_multiprocessing=True)
-        patched_img = patch_back(prediction, original_shape)
-        predicted_masks.append(clean_mask(patched_img))
+            patches, original_shape = split_to_patches(img)
+            prediction = model.predict(x=patches, verbose=1, use_multiprocessing=True)
+            patched_img = patch_back(prediction, original_shape)
+            predicted_masks.append(clean_mask(patched_img))
+            already_predicted_size += 1
+            overall_percentage = (100 * already_predicted_size) / total_images_size
+            pbsignal(overall_percentage)
 
     return predicted_masks

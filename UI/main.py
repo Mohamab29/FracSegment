@@ -382,12 +382,13 @@ class MainWindow(QMainWindow):
 
             updateNumOfImages(import_list, self.ui.label_results_page_images)
 
+
             if showDialog('Prediction Succeeded', 'Move to the results page?', QMessageBox.Question):
                 self.ui.stackedWidget.setCurrentWidget(self.ui.frame_results_page)
 
-    # def evnStopButtonClicked(self):
-    #     self.thread['prediction'].stop()
-    #     self.thread['progress'].stop()
+            self.ui.progress_bar_page_predict.setValue(0)
+
+
 
     def evnPredictButtonClicked(self):
         """
@@ -440,10 +441,7 @@ class MainWindow(QMainWindow):
                                                                   checked_items=checked_items)
                 self.thread['prediction'].start()
                 self.thread['prediction'].after_prediction.connect(self.evnAfterPrediction)
-
-                self.thread['progress'] = ProgressThreadClass(parent=None, index=2)
-                self.thread['progress'].start()
-                self.thread['progress'].any_signal.connect(self.evtUpdateProgress)
+                self.thread['prediction'].update_progress.connect(self.evtUpdateProgress)
 
     def evtUpdateProgress(self, val):
         self.ui.progress_bar_page_predict.setValue(val)
@@ -464,15 +462,12 @@ class MainWindow(QMainWindow):
             list_item_calc_name = list_item_name.replace('_predicted', '_calculated')
             if results_page_list.item(index).checkState() == 2:
                 if list_item_calc_name not in self.imagesForCalculationNpArray.keys():
-                    self.imagesForCalculationNpArray[list_item_calc_name] = \
-                        self.PredictedImagesNpArray[list_item_name]
+
                     checked_items[list_item_calc_name] = self.PredictedImagesNpArray[list_item_name]
-                    self.imagesMaxValues[list_item_calc_name] = find_max_area(
-                        self.PredictedImagesNpArray[list_item_name])
-                    self.imagesMinValues[
-                        list_item_calc_name] = self.ui.frame_calculation_page_modifications_options_min_spin_box.value()
-                    checked_min_max_values[list_item_calc_name] = (
-                        self.imagesMinValues[list_item_calc_name], self.imagesMaxValues[list_item_calc_name])
+                    max_value = find_max_area(self.PredictedImagesNpArray[list_item_name])
+                    min_value = self.ui.frame_calculation_page_modifications_options_min_spin_box.value()
+
+                    checked_min_max_values[list_item_calc_name] = (min_value, max_value)
                 else:
                     already_calculated_images.append(list_item_calc_name)
 
@@ -536,6 +531,9 @@ class MainWindow(QMainWindow):
                     label.setPixmap(QtGui.QPixmap(convertCvImage2QtImageRGB(last_image.copy(), "RGB")))
                     imageLabelFrame(label, QFrame.StyledPanel, QFrame.Sunken, 3)
                 updateNumOfImages(import_list, self.ui.label_calculate_page_images)
+                for name in checked_items.keys():
+                    self.imagesForCalculationNpArray[name] = checked_items[name]
+                    self.imagesMinValues[name], self.imagesMaxValues[name] = checked_min_max_values[name]
 
                 if showDialog('Calculation Succeeded', 'Move to the calculation page?', QMessageBox.Question):
                     self.ui.stackedWidget.setCurrentWidget(self.ui.frame_calculation_page)
@@ -1167,35 +1165,12 @@ class PredictionThreadClass(QtCore.QThread):
 
     def run(self):
         print('Starting the prediction thread...')
-        segmented_images = self.func(self.checked_items)
+        segmented_images = self.func(self.checked_items, self.update_progress.emit)
         self.after_prediction.emit(segmented_images)
 
     def stop(self):
         self.is_running = False
         print('Stopping the prediction thread...')
-        self.terminate()
-
-
-class ProgressThreadClass(QtCore.QThread):
-    any_signal = QtCore.pyqtSignal(int)
-
-    def __init__(self, parent=None, index=0):
-        super(ProgressThreadClass, self).__init__(parent)
-        self.index = index
-        self.is_running = True
-
-    def run(self):
-        print('Starting the progress bar thread...')
-        cnt = 0
-        while True:
-            cnt += 1
-            if cnt == 99: cnt = 0
-            time.sleep(0.01)
-            self.any_signal.emit(cnt)
-
-    def stop(self):
-        self.is_running = False
-        print('Stopping the progress bar thread...')
         self.terminate()
 
 
