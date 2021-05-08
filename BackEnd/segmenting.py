@@ -150,10 +150,12 @@ def load_images(paths: list) -> Union[np.ndarray, list]:
     return images
 
 
-def segment(paths: list, pbsignal) -> Union[np.ndarray, list]:
+def segment(paths: list, pb_signal) -> Union[np.ndarray, list]:
     """
     the main function that handles the image segmentation after the User has chosen to predict selected images.
 
+    :param pb_signal: Progress bar signal is an emit function from the thread class that we use in order to send the values
+    to the progress bar and update it at the end of each iteration.
     :param paths: a list of images we want to segment.
     :returns: a list of predicted masks corresponding to each given image or an empty np.ndarray if an empty list is passed.
     """
@@ -163,7 +165,7 @@ def segment(paths: list, pbsignal) -> Union[np.ndarray, list]:
 
     # we load the trained model
     model = keras.models.load_model(f'../assets/models/{MODEL_NAME}.h5')
-    # the masks of each image will be contained in this varible
+    # the masks of each image will be contained in this variable
     predicted_masks = []
     total_images_size = original_images.__len__()
     already_predicted_size = 0
@@ -176,6 +178,6 @@ def segment(paths: list, pbsignal) -> Union[np.ndarray, list]:
             predicted_masks.append(clean_mask(patched_img))
             already_predicted_size += 1
             overall_percentage = (100 * already_predicted_size) / total_images_size
-            pbsignal(overall_percentage)
+            pb_signal(overall_percentage)
 
     return predicted_masks

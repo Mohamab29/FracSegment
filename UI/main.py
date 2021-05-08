@@ -41,7 +41,7 @@ def setListItemItemStyle(item):
     item.setFont(font)
 
 
-def showDialog(title, message, icon, only_ok = False):
+def showDialog(title, message, icon, only_ok=False):
     """
     Shows Dialog when we need it.
 
@@ -388,13 +388,10 @@ class MainWindow(QMainWindow):
 
             updateNumOfImages(import_list, self.ui.label_results_page_images)
 
-
             if showDialog('Prediction Succeeded', 'Move to the results page?', QMessageBox.Question):
                 self.ui.stackedWidget.setCurrentWidget(self.ui.frame_results_page)
 
             self.ui.progress_bar_page_predict.setValue(0)
-
-
 
     def evnPredictButtonClicked(self):
         """
@@ -567,7 +564,7 @@ class MainWindow(QMainWindow):
         if path and predicted_images_nparray:
             _, images_analysis = analyze(predicted_images_nparray, self.default_flags, checked_min_max_values)
             saveImagesAnalysisToCSV(list(images_analysis.values()), list(images_analysis.keys()), path)
-            showDialog(f'Save completed', f'Saving csvs is completed!', QMessageBox.Information ,True)
+            showDialog(f'Save completed', f'Saving csvs is completed!', QMessageBox.Information, True)
 
     def evnSaveSelectedImagesButtonClickedPageResults(self):
         """
@@ -592,7 +589,7 @@ class MainWindow(QMainWindow):
                 image_type = image_name.split('.')[-1]
                 pixmap_image.save(image_path, image_type)
 
-            showDialog(f'Save completed', f'Saving images is completed!', QMessageBox.Information ,True)
+            showDialog(f'Save completed', f'Saving images is completed!', QMessageBox.Information, True)
 
     def evnSaveImageAndCsvsButtonClickedPageResults(self):
         """
@@ -628,7 +625,7 @@ class MainWindow(QMainWindow):
                 image_type = image_name.split('.')[-1]
                 pixmap_image.save(image_path, image_type)
 
-            showDialog(f'Save completed', f'Saving images and csvs is completed!', QMessageBox.Information ,True)
+            showDialog(f'Save completed', f'Saving images and csvs is completed!', QMessageBox.Information, True)
 
     def evnCurrentItemChanged(self, item, label, dict, page):
         """
@@ -932,15 +929,15 @@ class MainWindow(QMainWindow):
             for image_name in checked_images:
                 image_path = f"{path}/files/drawn_images/{image_name}"
                 cv2.imwrite(image_path, self.imagesDrawn[image_name])
-            showDialog(f'Save completed', f'Saving images is completed!', QMessageBox.Information ,True)
+            showDialog(f'Save completed', f'Saving images is completed!', QMessageBox.Information, True)
 
     def evnSaveCsvsButtonClickedPageCalculation(self):
-        self.saveItems(saveImagesAnalysisToCSV,'Csvs')
+        self.saveItems(saveImagesAnalysisToCSV, 'Csvs')
 
     def evnSaveGraphsButtonClickedPageCalculation(self):
-        self.saveItems(saveImagesToHistPlots,'Graphs')
+        self.saveItems(saveImagesToHistPlots, 'Graphs')
 
-    def saveItems(self,save_function, items_name):
+    def saveItems(self, save_function, items_name):
         calculated_images_save = {}
         calculation_page_list = self.ui.images_calculation_page_import_list
 
@@ -954,7 +951,7 @@ class MainWindow(QMainWindow):
 
         if path and calculated_images_save:
             save_function(list(calculated_images_save.values()), list(calculated_images_save.keys()), path)
-            showDialog(f'Save completed', f'Saving {items_name} is completed!', QMessageBox.Information ,True)
+            showDialog(f'Save completed', f'Saving {items_name} is completed!', QMessageBox.Information, True)
 
     def evnClearImagesButtonClickedPagePredict(self):
         if self.imageListPathDict and showDialog('Clear all images', 'Are you sure?', QMessageBox.Information):
