@@ -4,7 +4,6 @@ import numpy as np
 import cv2
 import random
 import pandas as pd
-import matplotlib as plt
 from matplotlib import pyplot
 import seaborn as sns
 
