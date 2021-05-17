@@ -522,7 +522,9 @@ class MainWindow(QMainWindow):
                     (self.ui.frame_calculation_page_modifications_options_min_label, True),
                     (self.ui.check_box_show_and_calculate_centroid, True),
                     (self.ui.check_box_show_external_contures, True),
-                    (self.ui.check_box_show_internal_contures, True)
+                    (self.ui.check_box_show_internal_contures, True),
+                    (self.ui.check_box_merge_with_the_real_image, True)
+
                 ]
 
                 toggleWidgetAndChangeStyle(widgets_tuples)
@@ -747,7 +749,8 @@ class MainWindow(QMainWindow):
                               (self.ui.frame_calculation_page_modifications_options_min_label, False),
                               (self.ui.check_box_show_and_calculate_centroid, False),
                               (self.ui.check_box_show_external_contures, False),
-                              (self.ui.check_box_show_internal_contures, False)
+                              (self.ui.check_box_show_internal_contures, False),
+                              (self.ui.check_box_merge_with_the_real_image, False)
                               ]
             toggleWidgetAndChangeStyle(widgets_tuples)
         else:
@@ -762,7 +765,8 @@ class MainWindow(QMainWindow):
                               (self.ui.frame_calculation_page_modifications_options_min_label, True),
                               (self.ui.check_box_show_and_calculate_centroid, True),
                               (self.ui.check_box_show_external_contures, True),
-                              (self.ui.check_box_show_internal_contures, True)
+                              (self.ui.check_box_show_internal_contures, True),
+                              (self.ui.check_box_merge_with_the_real_image, True)
                               ]
             toggleWidgetAndChangeStyle(widgets_tuples)
 
@@ -1013,7 +1017,8 @@ class MainWindow(QMainWindow):
                               (self.ui.frame_calculation_page_modifications_options_min_label, False),
                               (self.ui.check_box_show_and_calculate_centroid, False),
                               (self.ui.check_box_show_external_contures, False),
-                              (self.ui.check_box_show_internal_contures, False)
+                              (self.ui.check_box_show_internal_contures, False),
+                              (self.ui.check_box_merge_with_the_real_image, False)
                               ]
             toggleWidgetAndChangeStyle(widgets_tuples)
             updateNumOfImages(self.ui.images_calculation_page_import_list, self.ui.label_calculate_page_images)
@@ -1051,121 +1056,117 @@ class MainWindow(QMainWindow):
                     self.imagesAnalyse[image_name] = images_analyzed[image_name].copy()
 
     def evnCheckAllButtonClickedPagePredict(self):
-        if showDialog('Check all images', 'Are you sure?', QMessageBox.Information):
-            for index in range(self.ui.images_predict_page_import_list.count()):
-                if self.ui.images_predict_page_import_list.item(index).checkState() == 0:
-                    self.ui.images_predict_page_import_list.item(index).setCheckState(2)
+        for index in range(self.ui.images_predict_page_import_list.count()):
+            if self.ui.images_predict_page_import_list.item(index).checkState() == 0:
+                self.ui.images_predict_page_import_list.item(index).setCheckState(2)
 
-            widgets_tuples = [(self.ui.btn_predict_page_check_all, False),
-                              (self.ui.btn_predict_page_uncheck_all, True),
-                              (self.ui.btn_predict_page_predict, True),
-                              (self.ui.btn_predict_page_delete_selected_images, True)]
-            toggleWidgetAndChangeStyle(widgets_tuples)
-            updateNumOfImages(self.ui.images_predict_page_import_list,
-                              self.ui.label_predict_page_images)
+        widgets_tuples = [(self.ui.btn_predict_page_check_all, False),
+                          (self.ui.btn_predict_page_uncheck_all, True),
+                          (self.ui.btn_predict_page_predict, True),
+                          (self.ui.btn_predict_page_delete_selected_images, True)]
+        toggleWidgetAndChangeStyle(widgets_tuples)
+        updateNumOfImages(self.ui.images_predict_page_import_list,
+                          self.ui.label_predict_page_images)
 
     def evnUncheckAllButtonClickedPagePredict(self):
-        if showDialog('Uncheck all images', 'Are you sure?', QMessageBox.Information):
-            for index in range(self.ui.images_predict_page_import_list.count()):
-                if self.ui.images_predict_page_import_list.item(index).checkState() == 2:
-                    self.ui.images_predict_page_import_list.item(index).setCheckState(0)
+        for index in range(self.ui.images_predict_page_import_list.count()):
+            if self.ui.images_predict_page_import_list.item(index).checkState() == 2:
+                self.ui.images_predict_page_import_list.item(index).setCheckState(0)
 
-            widgets_tuples = [(self.ui.btn_predict_page_check_all, True),
-                              (self.ui.btn_predict_page_uncheck_all, False),
-                              (self.ui.btn_predict_page_predict, False),
-                              (self.ui.btn_predict_page_delete_selected_images, False)]
+        widgets_tuples = [(self.ui.btn_predict_page_check_all, True),
+                          (self.ui.btn_predict_page_uncheck_all, False),
+                          (self.ui.btn_predict_page_predict, False),
+                          (self.ui.btn_predict_page_delete_selected_images, False)]
 
-            toggleWidgetAndChangeStyle(widgets_tuples)
-            updateNumOfImages(self.ui.images_predict_page_import_list,
-                              self.ui.label_predict_page_images)
+        toggleWidgetAndChangeStyle(widgets_tuples)
+        updateNumOfImages(self.ui.images_predict_page_import_list,
+                          self.ui.label_predict_page_images)
 
     def evnCheckAllButtonClickedPageResults(self):
-        if showDialog('Check all images', 'Are you sure?', QMessageBox.Information):
-            for index in range(self.ui.images_results_page_import_list.count()):
-                if self.ui.images_results_page_import_list.item(index).checkState() == 0:
-                    self.ui.images_results_page_import_list.item(index).setCheckState(2)
+        for index in range(self.ui.images_results_page_import_list.count()):
+            if self.ui.images_results_page_import_list.item(index).checkState() == 0:
+                self.ui.images_results_page_import_list.item(index).setCheckState(2)
 
-            widgets_tuples = [(self.ui.btn_results_page_check_all, False),
-                              (self.ui.btn_results_page_uncheck_all, True),
-                              (self.ui.btn_results_page_delete_selected_images, True),
-                              (self.ui.btn_results_page_custom_calculation, True),
-                              (self.ui.btn_results_page_save_images, True),
-                              (self.ui.btn_results_page_save_csvs, True),
-                              (self.ui.btn_results_page_save_images_and_csvs, True),
-                              ]
+        widgets_tuples = [(self.ui.btn_results_page_check_all, False),
+                          (self.ui.btn_results_page_uncheck_all, True),
+                          (self.ui.btn_results_page_delete_selected_images, True),
+                          (self.ui.btn_results_page_custom_calculation, True),
+                          (self.ui.btn_results_page_save_images, True),
+                          (self.ui.btn_results_page_save_csvs, True),
+                          (self.ui.btn_results_page_save_images_and_csvs, True),
+                          ]
 
-            toggleWidgetAndChangeStyle(widgets_tuples)
-            updateNumOfImages(self.ui.images_results_page_import_list, self.ui.label_results_page_images)
+        toggleWidgetAndChangeStyle(widgets_tuples)
+        updateNumOfImages(self.ui.images_results_page_import_list, self.ui.label_results_page_images)
 
     def evnCheckAllButtonClickedPageCalculation(self):
-        if showDialog('Check all images', 'Are you sure?', QMessageBox.Information):
-            for index in range(self.ui.images_calculation_page_import_list.count()):
-                if self.ui.images_calculation_page_import_list.item(index).checkState() == 0:
-                    self.ui.images_calculation_page_import_list.item(index).setCheckState(2)
+        for index in range(self.ui.images_calculation_page_import_list.count()):
+            if self.ui.images_calculation_page_import_list.item(index).checkState() == 0:
+                self.ui.images_calculation_page_import_list.item(index).setCheckState(2)
 
-            widgets_tuples = [(self.ui.btn_calculation_page_check_all, False),
-                              (self.ui.btn_calculation_page_uncheck_all, True),
-                              (self.ui.btn_calculation_page_delete_selected_images, True),
-                              (self.ui.btn_calculation_page_save_csvs, True),
-                              (self.ui.btn_calculation_page_save_images, True),
-                              (self.ui.btn_calculation_page_save_graphs, True),
-                              (self.ui.btn_calculation_page_send, True),
-                              (self.ui.btn_calculation_page_clear_images, True),
-                              (self.ui.frame_calculation_page_modifications_options_min_spin_box, True),
-                              (self.ui.frame_calculation_page_modifications_options_max_spin_box, True),
-                              (self.ui.frame_calculation_page_modifications_options_max_label, True),
-                              (self.ui.frame_calculation_page_modifications_options_min_label, True),
-                              (self.ui.check_box_show_and_calculate_centroid, True),
-                              (self.ui.check_box_show_external_contures, True),
-                              (self.ui.check_box_show_internal_contures, True)
-                              ]
+        widgets_tuples = [(self.ui.btn_calculation_page_check_all, False),
+                          (self.ui.btn_calculation_page_uncheck_all, True),
+                          (self.ui.btn_calculation_page_delete_selected_images, True),
+                          (self.ui.btn_calculation_page_save_csvs, True),
+                          (self.ui.btn_calculation_page_save_images, True),
+                          (self.ui.btn_calculation_page_save_graphs, True),
+                          (self.ui.btn_calculation_page_send, True),
+                          (self.ui.btn_calculation_page_clear_images, True),
+                          (self.ui.frame_calculation_page_modifications_options_min_spin_box, True),
+                          (self.ui.frame_calculation_page_modifications_options_max_spin_box, True),
+                          (self.ui.frame_calculation_page_modifications_options_max_label, True),
+                          (self.ui.frame_calculation_page_modifications_options_min_label, True),
+                          (self.ui.check_box_show_and_calculate_centroid, True),
+                          (self.ui.check_box_show_external_contures, True),
+                          (self.ui.check_box_show_internal_contures, True),
+                          (self.ui.check_box_merge_with_the_real_image, True)
+                          ]
 
-            toggleWidgetAndChangeStyle(widgets_tuples)
-            updateNumOfImages(self.ui.images_calculation_page_import_list, self.ui.label_calculate_page_images)
+        toggleWidgetAndChangeStyle(widgets_tuples)
+        updateNumOfImages(self.ui.images_calculation_page_import_list, self.ui.label_calculate_page_images)
 
     def evnUncheckAllButtonClickedPageResults(self):
-        if showDialog('Uncheck all images', 'Are you sure?', QMessageBox.Information):
-            for index in range(self.ui.images_results_page_import_list.count()):
-                if self.ui.images_results_page_import_list.item(index).checkState() == 2:
-                    self.ui.images_results_page_import_list.item(index).setCheckState(0)
+        for index in range(self.ui.images_results_page_import_list.count()):
+            if self.ui.images_results_page_import_list.item(index).checkState() == 2:
+                self.ui.images_results_page_import_list.item(index).setCheckState(0)
 
-            widgets_tuples = [(self.ui.btn_results_page_check_all, True),
-                              (self.ui.btn_results_page_uncheck_all, False),
-                              (self.ui.btn_results_page_delete_selected_images, False),
-                              (self.ui.btn_results_page_custom_calculation, False),
-                              (self.ui.btn_results_page_save_images, False),
-                              (self.ui.btn_results_page_save_csvs, False),
-                              (self.ui.btn_results_page_save_images_and_csvs, False)
-                              ]
+        widgets_tuples = [(self.ui.btn_results_page_check_all, True),
+                          (self.ui.btn_results_page_uncheck_all, False),
+                          (self.ui.btn_results_page_delete_selected_images, False),
+                          (self.ui.btn_results_page_custom_calculation, False),
+                          (self.ui.btn_results_page_save_images, False),
+                          (self.ui.btn_results_page_save_csvs, False),
+                          (self.ui.btn_results_page_save_images_and_csvs, False)
+                          ]
 
-            toggleWidgetAndChangeStyle(widgets_tuples)
-            updateNumOfImages(self.ui.images_results_page_import_list, self.ui.label_results_page_images)
+        toggleWidgetAndChangeStyle(widgets_tuples)
+        updateNumOfImages(self.ui.images_results_page_import_list, self.ui.label_results_page_images)
 
     def evnUncheckAllButtonClickedPageCalculation(self):
-        if showDialog('Uncheck all images', 'Are you sure?', QMessageBox.Information):
-            for index in range(self.ui.images_calculation_page_import_list.count()):
-                if self.ui.images_calculation_page_import_list.item(index).checkState() == 2:
-                    self.ui.images_calculation_page_import_list.item(index).setCheckState(0)
+        for index in range(self.ui.images_calculation_page_import_list.count()):
+            if self.ui.images_calculation_page_import_list.item(index).checkState() == 2:
+                self.ui.images_calculation_page_import_list.item(index).setCheckState(0)
 
-            widgets_tuples = [(self.ui.btn_calculation_page_check_all, True),
-                              (self.ui.btn_calculation_page_uncheck_all, False),
-                              (self.ui.btn_calculation_page_delete_selected_images, False),
-                              (self.ui.btn_calculation_page_save_images, False),
-                              (self.ui.btn_calculation_page_save_graphs, False),
-                              (self.ui.btn_calculation_page_save_csvs, False),
-                              (self.ui.btn_calculation_page_send, False),
-                              (self.ui.btn_calculation_page_clear_images, False),
-                              (self.ui.frame_calculation_page_modifications_options_min_spin_box, False),
-                              (self.ui.frame_calculation_page_modifications_options_max_spin_box, False),
-                              (self.ui.frame_calculation_page_modifications_options_max_label, False),
-                              (self.ui.frame_calculation_page_modifications_options_min_label, False),
-                              (self.ui.check_box_show_and_calculate_centroid, False),
-                              (self.ui.check_box_show_external_contures, False),
-                              (self.ui.check_box_show_internal_contures, False)
-                              ]
+        widgets_tuples = [(self.ui.btn_calculation_page_check_all, True),
+                          (self.ui.btn_calculation_page_uncheck_all, False),
+                          (self.ui.btn_calculation_page_delete_selected_images, False),
+                          (self.ui.btn_calculation_page_save_images, False),
+                          (self.ui.btn_calculation_page_save_graphs, False),
+                          (self.ui.btn_calculation_page_save_csvs, False),
+                          (self.ui.btn_calculation_page_send, False),
+                          (self.ui.btn_calculation_page_clear_images, False),
+                          (self.ui.frame_calculation_page_modifications_options_min_spin_box, False),
+                          (self.ui.frame_calculation_page_modifications_options_max_spin_box, False),
+                          (self.ui.frame_calculation_page_modifications_options_max_label, False),
+                          (self.ui.frame_calculation_page_modifications_options_min_label, False),
+                          (self.ui.check_box_show_and_calculate_centroid, False),
+                          (self.ui.check_box_show_external_contures, False),
+                          (self.ui.check_box_show_internal_contures, False),
+                          (self.ui.check_box_merge_with_the_real_image, False)
+                          ]
 
-            toggleWidgetAndChangeStyle(widgets_tuples)
-            updateNumOfImages(self.ui.images_calculation_page_import_list, self.ui.label_calculate_page_images)
+        toggleWidgetAndChangeStyle(widgets_tuples)
+        updateNumOfImages(self.ui.images_calculation_page_import_list, self.ui.label_calculate_page_images)
 
 
 class PredictionThreadClass(QtCore.QThread):

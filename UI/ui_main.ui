@@ -1838,6 +1838,19 @@ QListWidget::item {
                            </widget>
                           </item>
                           <item>
+                           <widget class="QCheckBox" name="check_box_merge_with_the_real_image">
+                            <property name="enabled">
+                             <bool>false</bool>
+                            </property>
+                            <property name="styleSheet">
+                             <string notr="true">color: rgb(56, 61, 70);</string>
+                            </property>
+                            <property name="text">
+                             <string>Merge with the real image</string>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
                            <widget class="QFrame" name="frame_calculation_page_modifications_options_double_spin_box">
                             <property name="frameShape">
                              <enum>QFrame::StyledPanel</enum>
