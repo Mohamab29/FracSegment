@@ -279,6 +279,21 @@ class Ui_MainWindow(object):
 "\n"
 "QListWidget::item {\n"
 "    color: rgb(255, 255, 255);\n"
+"}\n"
+"\n"
+"QListWidget::indicator {\n"
+"    border: 2px solid rgb(52, 59, 72);\n"
+"    width: 10px;\n"
+"    height: 10px;\n"
+"    background: rgb(44, 49, 60);\n"
+"}\n"
+"QListWidget::indicator:hover {\n"
+"    border: 2px solid rgb(58, 66, 81);\n"
+"}\n"
+"QListWidget::indicator:checked {\n"
+"    background: 3px solid rgb(52, 59, 72);\n"
+"    border: 3px solid rgb(52, 59, 72);    \n"
+"    background-image: url(./assets/icons/icon-check-small.png)\n"
 "}")
         self.images_predict_page_import_list.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.images_predict_page_import_list.setFrameShadow(QtWidgets.QFrame.Plain)
@@ -538,6 +553,21 @@ class Ui_MainWindow(object):
 "\n"
 "QListWidget::item {\n"
 "    color: rgb(255, 255, 255);\n"
+"}\n"
+"\n"
+"QListWidget::indicator {\n"
+"    border: 2px solid rgb(52, 59, 72);\n"
+"    width: 10px;\n"
+"    height: 10px;\n"
+"    background: rgb(44, 49, 60);\n"
+"}\n"
+"QListWidget::indicator:hover {\n"
+"    border: 2px solid rgb(58, 66, 81);\n"
+"}\n"
+"QListWidget::indicator:checked {\n"
+"    background: 3px solid rgb(52, 59, 72);\n"
+"    border: 3px solid rgb(52, 59, 72);    \n"
+"    background-image: url(./assets/icons/icon-check-small.png)\n"
 "}")
         self.images_results_page_import_list.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.images_results_page_import_list.setFrameShadow(QtWidgets.QFrame.Plain)
@@ -798,6 +828,21 @@ class Ui_MainWindow(object):
 "\n"
 "QListWidget::item {\n"
 "    color: rgb(255, 255, 255);\n"
+"}\n"
+"\n"
+"QListWidget::indicator {\n"
+"    border: 2px solid rgb(52, 59, 72);\n"
+"    width: 10px;\n"
+"    height: 10px;\n"
+"    background: rgb(44, 49, 60);\n"
+"}\n"
+"QListWidget::indicator:hover {\n"
+"    border: 2px solid rgb(58, 66, 81);\n"
+"}\n"
+"QListWidget::indicator:checked {\n"
+"    background: 3px solid rgb(52, 59, 72);\n"
+"    border: 3px solid rgb(52, 59, 72);    \n"
+"    background-image: url(./assets/icons/icon-check-small.png)\n"
 "}")
         self.images_calculation_page_import_list.setFrameShadow(QtWidgets.QFrame.Plain)
         self.images_calculation_page_import_list.setLineWidth(2)
@@ -830,25 +875,77 @@ class Ui_MainWindow(object):
         self.verticalLayout_27.setObjectName("verticalLayout_27")
         self.check_box_show_and_calculate_centroid = QtWidgets.QCheckBox(self.frame_calculation_page_modifications_options)
         self.check_box_show_and_calculate_centroid.setEnabled(False)
-        self.check_box_show_and_calculate_centroid.setStyleSheet("color: rgb(56, 61, 70);")
+        self.check_box_show_and_calculate_centroid.setStyleSheet("QCheckBox::indicator {\n"
+"    border: 3px solid rgb(52, 59, 72);\n"
+"    width: 15px;\n"
+"    height: 15px;\n"
+"    border-radius: 10px;\n"
+"    background: rgb(44, 49, 60);\n"
+"}\n"
+"QCheckBox::indicator:hover {\n"
+"    border: 3px solid rgb(58, 66, 81);\n"
+"}\n"
+"QCheckBox::indicator:checked {\n"
+"    background: 3px solid rgb(52, 59, 72);\n"
+"    border: 3px solid rgb(52, 59, 72);    \n"
+"}")
         self.check_box_show_and_calculate_centroid.setChecked(True)
         self.check_box_show_and_calculate_centroid.setObjectName("check_box_show_and_calculate_centroid")
         self.verticalLayout_27.addWidget(self.check_box_show_and_calculate_centroid)
         self.check_box_show_internal_contures = QtWidgets.QCheckBox(self.frame_calculation_page_modifications_options)
         self.check_box_show_internal_contures.setEnabled(False)
-        self.check_box_show_internal_contures.setStyleSheet("color: rgb(56, 61, 70);")
+        self.check_box_show_internal_contures.setStyleSheet("QCheckBox::indicator {\n"
+"    border: 3px solid rgb(52, 59, 72);\n"
+"    width: 15px;\n"
+"    height: 15px;\n"
+"    border-radius: 10px;\n"
+"    background: rgb(44, 49, 60);\n"
+"}\n"
+"QCheckBox::indicator:hover {\n"
+"    border: 3px solid rgb(58, 66, 81);\n"
+"}\n"
+"QCheckBox::indicator:checked {\n"
+"    background: 3px solid rgb(52, 59, 72);\n"
+"    border: 3px solid rgb(52, 59, 72);    \n"
+"}")
         self.check_box_show_internal_contures.setChecked(True)
         self.check_box_show_internal_contures.setObjectName("check_box_show_internal_contures")
         self.verticalLayout_27.addWidget(self.check_box_show_internal_contures)
         self.check_box_show_external_contures = QtWidgets.QCheckBox(self.frame_calculation_page_modifications_options)
         self.check_box_show_external_contures.setEnabled(False)
-        self.check_box_show_external_contures.setStyleSheet("color: rgb(56, 61, 70);")
+        self.check_box_show_external_contures.setStyleSheet("QCheckBox::indicator {\n"
+"    border: 3px solid rgb(52, 59, 72);\n"
+"    width: 15px;\n"
+"    height: 15px;\n"
+"    border-radius: 10px;\n"
+"    background: rgb(44, 49, 60);\n"
+"}\n"
+"QCheckBox::indicator:hover {\n"
+"    border: 3px solid rgb(58, 66, 81);\n"
+"}\n"
+"QCheckBox::indicator:checked {\n"
+"    background: 3px solid rgb(52, 59, 72);\n"
+"    border: 3px solid rgb(52, 59, 72);    \n"
+"}")
         self.check_box_show_external_contures.setChecked(True)
         self.check_box_show_external_contures.setObjectName("check_box_show_external_contures")
         self.verticalLayout_27.addWidget(self.check_box_show_external_contures)
         self.check_box_merge_with_the_real_image = QtWidgets.QCheckBox(self.frame_calculation_page_modifications_options)
         self.check_box_merge_with_the_real_image.setEnabled(False)
-        self.check_box_merge_with_the_real_image.setStyleSheet("color: rgb(56, 61, 70);")
+        self.check_box_merge_with_the_real_image.setStyleSheet("QCheckBox::indicator {\n"
+"    border: 3px solid rgb(52, 59, 72);\n"
+"    width: 15px;\n"
+"    height: 15px;\n"
+"    border-radius: 10px;\n"
+"    background: rgb(44, 49, 60);\n"
+"}\n"
+"QCheckBox::indicator:hover {\n"
+"    border: 3px solid rgb(58, 66, 81);\n"
+"}\n"
+"QCheckBox::indicator:checked {\n"
+"    background: 3px solid rgb(52, 59, 72);\n"
+"    border: 3px solid rgb(52, 59, 72);    \n"
+"}")
         self.check_box_merge_with_the_real_image.setObjectName("check_box_merge_with_the_real_image")
         self.verticalLayout_27.addWidget(self.check_box_merge_with_the_real_image)
         self.frame_calculation_page_modifications_options_double_spin_box = QtWidgets.QFrame(self.frame_calculation_page_modifications_options)
@@ -870,7 +967,35 @@ class Ui_MainWindow(object):
         self.verticalLayout_29.addWidget(self.frame_calculation_page_modifications_options_min_label, 0, QtCore.Qt.AlignHCenter)
         self.frame_calculation_page_modifications_options_min_spin_box = QtWidgets.QDoubleSpinBox(self.frame_calculation_page_modifications_options_double_spin_box_min)
         self.frame_calculation_page_modifications_options_min_spin_box.setEnabled(False)
-        self.frame_calculation_page_modifications_options_min_spin_box.setStyleSheet("color: rgb(56, 61, 70);")
+        self.frame_calculation_page_modifications_options_min_spin_box.setStyleSheet("QDoubleSpinBox{\n"
+"    background-color: rgb(27, 29, 35);\n"
+"    border-radius: 5px;\n"
+"    border: 2px solid rgb(33, 37, 43);\n"
+"    padding: 5px;\n"
+"    padding-left: 10px;\n"
+"}\n"
+"QDoubleSpinBox:hover{\n"
+"    border: 2px solid rgb(64, 71, 88);\n"
+"}\n"
+"QDoubleSpinBox::drop-down {\n"
+"    subcontrol-origin: padding;\n"
+"    subcontrol-position: top right;\n"
+"    width: 25px; \n"
+"    border-left-width: 3px;\n"
+"    border-left-color: rgba(39, 44, 54, 150);\n"
+"    border-left-style: solid;\n"
+"    border-top-right-radius: 3px;\n"
+"    border-bottom-right-radius: 3px;    \n"
+"    background-image: url(:/icons/images/icons/cil-arrow-bottom.png);\n"
+"    background-position: center;\n"
+"    background-repeat: no-reperat;\n"
+" }\n"
+"QDoubleSpinBox QAbstractItemView {\n"
+"    color: rgb(255, 121, 198);    \n"
+"    background-color: rgb(33, 37, 43);\n"
+"    padding: 10px;\n"
+"    selection-background-color: rgb(39, 44, 54);\n"
+"}")
         self.frame_calculation_page_modifications_options_min_spin_box.setMinimum(300.0)
         self.frame_calculation_page_modifications_options_min_spin_box.setMaximum(100000000.0)
         self.frame_calculation_page_modifications_options_min_spin_box.setProperty("value", 300.0)
@@ -890,7 +1015,35 @@ class Ui_MainWindow(object):
         self.verticalLayout_28.addWidget(self.frame_calculation_page_modifications_options_max_label, 0, QtCore.Qt.AlignHCenter)
         self.frame_calculation_page_modifications_options_max_spin_box = QtWidgets.QDoubleSpinBox(self.frame_calculation_page_modifications_options_double_spin_box_max)
         self.frame_calculation_page_modifications_options_max_spin_box.setEnabled(False)
-        self.frame_calculation_page_modifications_options_max_spin_box.setStyleSheet("color: rgb(56, 61, 70);")
+        self.frame_calculation_page_modifications_options_max_spin_box.setStyleSheet("QDoubleSpinBox{\n"
+"    background-color: rgb(27, 29, 35);\n"
+"    border-radius: 5px;\n"
+"    border: 2px solid rgb(33, 37, 43);\n"
+"    padding: 5px;\n"
+"    padding-left: 10px;\n"
+"}\n"
+"QDoubleSpinBox:hover{\n"
+"    border: 2px solid rgb(64, 71, 88);\n"
+"}\n"
+"QDoubleSpinBox::drop-down {\n"
+"    subcontrol-origin: padding;\n"
+"    subcontrol-position: top right;\n"
+"    width: 25px; \n"
+"    border-left-width: 3px;\n"
+"    border-left-color: rgba(39, 44, 54, 150);\n"
+"    border-left-style: solid;\n"
+"    border-top-right-radius: 3px;\n"
+"    border-bottom-right-radius: 3px;    \n"
+"    background-image: url(:/icons/images/icons/cil-arrow-bottom.png);\n"
+"    background-position: center;\n"
+"    background-repeat: no-reperat;\n"
+" }\n"
+"QDoubleSpinBox QAbstractItemView {\n"
+"    color: rgb(255, 121, 198);    \n"
+"    background-color: rgb(33, 37, 43);\n"
+"    padding: 10px;\n"
+"    selection-background-color: rgb(39, 44, 54);\n"
+"}")
         self.frame_calculation_page_modifications_options_max_spin_box.setMinimum(300.0)
         self.frame_calculation_page_modifications_options_max_spin_box.setMaximum(1000000.0)
         self.frame_calculation_page_modifications_options_max_spin_box.setProperty("value", 1000000.0)
@@ -1059,7 +1212,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(3)
+        self.stackedWidget.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):

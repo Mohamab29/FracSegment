@@ -28,19 +28,6 @@ def toggleWidgetAndChangeStyle(pair):
         widget.setEnabled(term)
         widget.setStyleSheet(widgets_style[widget_class_name][str(term)])
 
-
-def setListItemItemStyle(item):
-    """
-    Change mode (enable/disable) and button design (darker/lither).
-
-    :param item: a QListWidgetItem of one of the lists in the app.
-    """
-    font = QtGui.QFont()
-    # font.setBold(True)
-    font.setWeight(75)
-    item.setFont(font)
-
-
 def showDialog(title, message, icon, only_ok=False):
     """
     Shows Dialog when we need it.
@@ -196,7 +183,6 @@ def addImageNameToList(image_name, list):
     list_item = QtWidgets.QListWidgetItem()
     list_item.setCheckState(QtCore.Qt.Checked)
     list_item.setText(image_name)
-    setListItemItemStyle(list_item)
     list.addItem(list_item)
 
 
@@ -208,6 +194,7 @@ class MainWindow(QMainWindow):
         self.ui.setupUi(self)
         self.animation = QtCore.QPropertyAnimation(self.ui.frame_left_menu, b"minimumWidth")
         self.ui.stackedWidget.setCurrentWidget(self.ui.frame_predict_page)
+
         self.imageListPathDict = {}
         self.PredictedImagesPixMap = {}
         self.PredictedImagesNpArray = {}
@@ -833,13 +820,9 @@ class MainWindow(QMainWindow):
 
             else:
                 width_extended = standard
-                self.ui.btn_page_predict.setText('')
-                self.ui.btn_page_results.setText('')
-                self.ui.btn_page_calculation.setText('')
-                self.ui.btn_page_help.setText('')
 
             # ANIMATION
-            self.animation.setDuration(10)
+            self.animation.setDuration(400)
             self.animation.setStartValue(width)
             self.animation.setEndValue(width_extended)
             self.animation.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
@@ -865,20 +848,19 @@ class MainWindow(QMainWindow):
         """
         new_image_flag = False
         for i in range(len(pictures_input_path)):
-            if pictures_input_path[i].split('/')[-1] not in self.imageListPathDict:
+            image_name = pictures_input_path[i].split('/')[-1]
+            if image_name not in self.imageListPathDict:
                 new_image_flag = True
-                self.imageListPathDict[pictures_input_path[i].split('/')[-1]] = pictures_input_path[i]
-                list_item = QtWidgets.QListWidgetItem()
-                list_item.setCheckState(QtCore.Qt.Checked)
-                list_item.setText(pictures_input_path[i].split('/')[-1])
-                setListItemItemStyle(list_item)
-                self.ui.images_predict_page_import_list.addItem(list_item)
+                self.imageListPathDict[image_name] = pictures_input_path[i]
+                addImageNameToList(image_name, self.ui.images_predict_page_import_list)
 
         if new_image_flag:
             widgets_tuples = [(self.ui.btn_predict_page_predict, True),
                               (self.ui.btn_predict_page_clear_images, True),
                               (self.ui.btn_predict_page_uncheck_all, True),
-                              (self.ui.btn_predict_page_delete_selected_images, True)]
+                              (self.ui.btn_predict_page_delete_selected_images, True),
+                              (self.ui.images_predict_page_import_list, True)
+                              ]
             toggleWidgetAndChangeStyle(widgets_tuples)
 
         label = self.ui.label_predict_page_selected_picture

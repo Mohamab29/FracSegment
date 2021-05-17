@@ -640,6 +640,21 @@ QPushButton:hover {
 
 QListWidget::item {
     color: rgb(255, 255, 255);
+}
+
+QListWidget::indicator {
+    border: 2px solid rgb(52, 59, 72);
+	width: 10px;
+	height: 10px;
+    background: rgb(44, 49, 60);
+}
+QListWidget::indicator:hover {
+    border: 2px solid rgb(58, 66, 81);
+}
+QListWidget::indicator:checked {
+    background: 3px solid rgb(52, 59, 72);
+	border: 3px solid rgb(52, 59, 72);	
+	background-image: url(./assets/icons/icon-check-small.png)
 }</string>
                          </property>
                          <property name="frameShape">
@@ -1182,6 +1197,21 @@ QPushButton:hover {
 
 QListWidget::item {
     color: rgb(255, 255, 255);
+}
+
+QListWidget::indicator {
+    border: 2px solid rgb(52, 59, 72);
+	width: 10px;
+	height: 10px;
+    background: rgb(44, 49, 60);
+}
+QListWidget::indicator:hover {
+    border: 2px solid rgb(58, 66, 81);
+}
+QListWidget::indicator:checked {
+    background: 3px solid rgb(52, 59, 72);
+	border: 3px solid rgb(52, 59, 72);	
+	background-image: url(./assets/icons/icon-check-small.png)
 }</string>
                       </property>
                       <property name="frameShape">
@@ -1718,6 +1748,21 @@ QPushButton:hover {
 
 QListWidget::item {
     color: rgb(255, 255, 255);
+}
+
+QListWidget::indicator {
+    border: 2px solid rgb(52, 59, 72);
+	width: 10px;
+	height: 10px;
+    background: rgb(44, 49, 60);
+}
+QListWidget::indicator:hover {
+    border: 2px solid rgb(58, 66, 81);
+}
+QListWidget::indicator:checked {
+    background: 3px solid rgb(52, 59, 72);
+	border: 3px solid rgb(52, 59, 72);	
+	background-image: url(./assets/icons/icon-check-small.png)
 }</string>
                          </property>
                          <property name="frameShadow">
@@ -1795,7 +1840,20 @@ QListWidget::item {
                              <bool>false</bool>
                             </property>
                             <property name="styleSheet">
-                             <string notr="true">color: rgb(56, 61, 70);</string>
+                             <string notr="true">QCheckBox::indicator {
+    border: 3px solid rgb(52, 59, 72);
+	width: 15px;
+	height: 15px;
+	border-radius: 10px;
+    background: rgb(44, 49, 60);
+}
+QCheckBox::indicator:hover {
+    border: 3px solid rgb(58, 66, 81);
+}
+QCheckBox::indicator:checked {
+    background: 3px solid rgb(52, 59, 72);
+	border: 3px solid rgb(52, 59, 72);	
+}</string>
                             </property>
                             <property name="text">
                              <string>Show and calculate centroid</string>
@@ -1811,7 +1869,20 @@ QListWidget::item {
                              <bool>false</bool>
                             </property>
                             <property name="styleSheet">
-                             <string notr="true">color: rgb(56, 61, 70);</string>
+                             <string notr="true">QCheckBox::indicator {
+    border: 3px solid rgb(52, 59, 72);
+	width: 15px;
+	height: 15px;
+	border-radius: 10px;
+    background: rgb(44, 49, 60);
+}
+QCheckBox::indicator:hover {
+    border: 3px solid rgb(58, 66, 81);
+}
+QCheckBox::indicator:checked {
+    background: 3px solid rgb(52, 59, 72);
+	border: 3px solid rgb(52, 59, 72);	
+}</string>
                             </property>
                             <property name="text">
                              <string>Show Internal Contours</string>
@@ -1827,7 +1898,20 @@ QListWidget::item {
                              <bool>false</bool>
                             </property>
                             <property name="styleSheet">
-                             <string notr="true">color: rgb(56, 61, 70);</string>
+                             <string notr="true">QCheckBox::indicator {
+    border: 3px solid rgb(52, 59, 72);
+	width: 15px;
+	height: 15px;
+	border-radius: 10px;
+    background: rgb(44, 49, 60);
+}
+QCheckBox::indicator:hover {
+    border: 3px solid rgb(58, 66, 81);
+}
+QCheckBox::indicator:checked {
+    background: 3px solid rgb(52, 59, 72);
+	border: 3px solid rgb(52, 59, 72);	
+}</string>
                             </property>
                             <property name="text">
                              <string>Show External Contours</string>
@@ -1843,7 +1927,20 @@ QListWidget::item {
                              <bool>false</bool>
                             </property>
                             <property name="styleSheet">
-                             <string notr="true">color: rgb(56, 61, 70);</string>
+                             <string notr="true">QCheckBox::indicator {
+    border: 3px solid rgb(52, 59, 72);
+	width: 15px;
+	height: 15px;
+	border-radius: 10px;
+    background: rgb(44, 49, 60);
+}
+QCheckBox::indicator:hover {
+    border: 3px solid rgb(58, 66, 81);
+}
+QCheckBox::indicator:checked {
+    background: 3px solid rgb(52, 59, 72);
+	border: 3px solid rgb(52, 59, 72);	
+}</string>
                             </property>
                             <property name="text">
                              <string>Merge with the real image</string>
@@ -1893,7 +1990,35 @@ QListWidget::item {
                                    <bool>false</bool>
                                   </property>
                                   <property name="styleSheet">
-                                   <string notr="true">color: rgb(56, 61, 70);</string>
+                                   <string notr="true">QDoubleSpinBox{
+	background-color: rgb(27, 29, 35);
+	border-radius: 5px;
+	border: 2px solid rgb(33, 37, 43);
+	padding: 5px;
+	padding-left: 10px;
+}
+QDoubleSpinBox:hover{
+	border: 2px solid rgb(64, 71, 88);
+}
+QDoubleSpinBox::drop-down {
+	subcontrol-origin: padding;
+	subcontrol-position: top right;
+	width: 25px; 
+	border-left-width: 3px;
+	border-left-color: rgba(39, 44, 54, 150);
+	border-left-style: solid;
+	border-top-right-radius: 3px;
+	border-bottom-right-radius: 3px;	
+	background-image: url(:/icons/images/icons/cil-arrow-bottom.png);
+	background-position: center;
+	background-repeat: no-reperat;
+ }
+QDoubleSpinBox QAbstractItemView {
+	color: rgb(255, 121, 198);	
+	background-color: rgb(33, 37, 43);
+	padding: 10px;
+	selection-background-color: rgb(39, 44, 54);
+}</string>
                                   </property>
                                   <property name="minimum">
                                    <double>300.000000000000000</double>
@@ -1943,7 +2068,35 @@ QListWidget::item {
                                    <bool>false</bool>
                                   </property>
                                   <property name="styleSheet">
-                                   <string notr="true">color: rgb(56, 61, 70);</string>
+                                   <string notr="true">QDoubleSpinBox{
+	background-color: rgb(27, 29, 35);
+	border-radius: 5px;
+	border: 2px solid rgb(33, 37, 43);
+	padding: 5px;
+	padding-left: 10px;
+}
+QDoubleSpinBox:hover{
+	border: 2px solid rgb(64, 71, 88);
+}
+QDoubleSpinBox::drop-down {
+	subcontrol-origin: padding;
+	subcontrol-position: top right;
+	width: 25px; 
+	border-left-width: 3px;
+	border-left-color: rgba(39, 44, 54, 150);
+	border-left-style: solid;
+	border-top-right-radius: 3px;
+	border-bottom-right-radius: 3px;	
+	background-image: url(:/icons/images/icons/cil-arrow-bottom.png);
+	background-position: center;
+	background-repeat: no-reperat;
+ }
+QDoubleSpinBox QAbstractItemView {
+	color: rgb(255, 121, 198);	
+	background-color: rgb(33, 37, 43);
+	padding: 10px;
+	selection-background-color: rgb(39, 44, 54);
+}</string>
                                   </property>
                                   <property name="minimum">
                                    <double>300.000000000000000</double>
