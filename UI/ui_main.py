@@ -1411,7 +1411,7 @@ class Ui_MainWindow(object):
         self.btn_calculation_page_check_all.setText(_translate("MainWindow", "Check All"))
         self.btn_calculation_page_uncheck_all.setText(_translate("MainWindow", "Uncheck All"))
         self.btn_calculation_page_save_graphs.setText(_translate("MainWindow", "Save Graphs"))
-        self.label_2.setText(_translate("MainWindow", " By: Vladis Markin & Mohamman abumuh"))
+        self.label_2.setText(_translate("MainWindow", " By: Vladis Markin & Mohamed Abomokh"))
         self.label_3.setText(_translate("MainWindow", "v1.0.0   "))
 import icons_rc
 
