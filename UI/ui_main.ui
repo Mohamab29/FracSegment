@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1000</width>
-    <height>660</height>
+    <height>721</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -205,7 +205,7 @@ QPushButton:hover {
          </property>
          <property name="maximumSize">
           <size>
-           <width>70</width>
+           <width>50</width>
            <height>16777215</height>
           </size>
          </property>
@@ -277,14 +277,20 @@ QPushButton:hover {
 	color: rgb(200, 200, 200);
 	background-color: rgb(33, 37, 43);
 	border: 0px solid;
+    text-align: left;
+	padding-left: 10px;
 }
 QPushButton:hover {
 	color: rgb(85, 150, 186);
 	background-color: rgb(50, 56, 68);
+}
+
+QPushButton:pressed {
+	background-color: rgb(189, 147, 249);
 }</string>
                </property>
                <property name="text">
-                <string/>
+                <string>    Predict</string>
                </property>
                <property name="icon">
                 <iconset resource="icons.qrc">
@@ -323,14 +329,20 @@ QPushButton:hover {
 	color: rgb(200, 200, 200);
 	background-color: rgb(33, 37, 43);
 	border: 0px solid;
+    text-align: left;
+	padding-left: 10px;
 }
 QPushButton:hover {
 	color: rgb(85, 150, 186);
 	background-color: rgb(50, 56, 68);
+}
+
+QPushButton:pressed {
+	background-color: rgb(189, 147, 249);
 }</string>
                </property>
                <property name="text">
-                <string/>
+                <string>    Results</string>
                </property>
                <property name="icon">
                 <iconset resource="icons.qrc">
@@ -366,14 +378,20 @@ QPushButton:hover {
 	color: rgb(200, 200, 200);
 	background-color: rgb(33, 37, 43);
 	border: 0px solid;
+    text-align: left;
+	padding-left: 10px;
 }
 QPushButton:hover {
 	color: rgb(85, 150, 186);
 	background-color: rgb(50, 56, 68);
+}
+
+QPushButton:pressed {
+	background-color: rgb(189, 147, 249);
 }</string>
                </property>
                <property name="text">
-                <string/>
+                <string>    Calculation</string>
                </property>
                <property name="icon">
                 <iconset resource="icons.qrc">
@@ -474,6 +492,18 @@ QPushButton:hover {
           <enum>QFrame::Raised</enum>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_5">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
           <item>
            <widget class="QStackedWidget" name="stackedWidget">
             <property name="currentIndex">
@@ -636,6 +666,9 @@ QPushButton:hover {
                          <property name="styleSheet">
                           <string notr="true">QListWidget {
     background-color: rgb(33, 37, 43);
+	border: 2px solid rgb(52, 59, 72);
+    border-radius: 15px;
+	padding-top: 9px;
 }
 
 QListWidget::item {
@@ -722,11 +755,20 @@ QListWidget::indicator:checked {
                        </item>
                        <item>
                         <widget class="QFrame" name="frame_predict_page_up_progress_bar">
+                         <property name="styleSheet">
+                          <string notr="true">QFrame{
+border: 2px solid rgb(52, 59, 72);
+border-radius: 15px;
+}</string>
+                         </property>
                          <property name="frameShape">
-                          <enum>QFrame::StyledPanel</enum>
+                          <enum>QFrame::NoFrame</enum>
                          </property>
                          <property name="frameShadow">
                           <enum>QFrame::Plain</enum>
+                         </property>
+                         <property name="lineWidth">
+                          <number>0</number>
                          </property>
                          <layout class="QVBoxLayout" name="verticalLayout_32">
                           <property name="spacing">
@@ -782,6 +824,21 @@ QProgressBar::chunk {
                  <enum>QFrame::Raised</enum>
                 </property>
                 <layout class="QHBoxLayout" name="horizontalLayout_8">
+                 <property name="spacing">
+                  <number>0</number>
+                 </property>
+                 <property name="leftMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
                  <item>
                   <widget class="QFrame" name="frame_predict_page_buttons_load_clear_images">
                    <property name="frameShape">
@@ -814,6 +871,11 @@ QProgressBar::chunk {
                         <height>20</height>
                        </size>
                       </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>11</pointsize>
+                       </font>
+                      </property>
                       <property name="cursor">
                        <cursorShape>PointingHandCursor</cursorShape>
                       </property>
@@ -833,6 +895,13 @@ QProgressBar::chunk {
 QPushButton:hover {
 	color: rgb(85, 170, 255);
     background-color: rgb(42, 47, 54);
+}
+
+QPushButton:pressed {
+	border: 2px outset rgb(70, 76, 85);
+	border-radius: 3px;
+	color: rgb(85, 170, 255);
+	background-color: rgb(104, 107, 112);
 }</string>
                       </property>
                       <property name="text">
@@ -841,6 +910,12 @@ QPushButton:hover {
                       <property name="icon">
                        <iconset resource="icons.qrc">
                         <normaloff>:/assets/icons/load-icon.png</normaloff>:/assets/icons/load-icon.png</iconset>
+                      </property>
+                      <property name="iconSize">
+                       <size>
+                        <width>20</width>
+                        <height>20</height>
+                       </size>
                       </property>
                       <property name="autoDefault">
                        <bool>false</bool>
@@ -866,6 +941,7 @@ QPushButton:hover {
                       </property>
                       <property name="font">
                        <font>
+                        <pointsize>11</pointsize>
                         <weight>50</weight>
                         <bold>false</bold>
                        </font>
@@ -897,6 +973,12 @@ QPushButton:hover {
                        <iconset resource="icons.qrc">
                         <normaloff>:/assets/icons/clear-icon.png</normaloff>:/assets/icons/clear-icon.png</iconset>
                       </property>
+                      <property name="iconSize">
+                       <size>
+                        <width>20</width>
+                        <height>20</height>
+                       </size>
+                      </property>
                      </widget>
                     </item>
                    </layout>
@@ -922,6 +1004,11 @@ QPushButton:hover {
                         <height>20</height>
                        </size>
                       </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>11</pointsize>
+                       </font>
+                      </property>
                       <property name="cursor">
                        <cursorShape>PointingHandCursor</cursorShape>
                       </property>
@@ -943,6 +1030,12 @@ QPushButton:hover {
                        <iconset resource="icons.qrc">
                         <normaloff>:/assets/icons/check-all-icon.png</normaloff>:/assets/icons/check-all-icon.png</iconset>
                       </property>
+                      <property name="iconSize">
+                       <size>
+                        <width>20</width>
+                        <height>20</height>
+                       </size>
+                      </property>
                      </widget>
                     </item>
                     <item>
@@ -955,6 +1048,11 @@ QPushButton:hover {
                         <width>0</width>
                         <height>20</height>
                        </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>11</pointsize>
+                       </font>
                       </property>
                       <property name="cursor">
                        <cursorShape>PointingHandCursor</cursorShape>
@@ -976,6 +1074,12 @@ QPushButton:hover {
                       <property name="icon">
                        <iconset resource="icons.qrc">
                         <normaloff>:/assets/icons/uncheck-all-icon.png</normaloff>:/assets/icons/uncheck-all-icon.png</iconset>
+                      </property>
+                      <property name="iconSize">
+                       <size>
+                        <width>20</width>
+                        <height>20</height>
+                       </size>
                       </property>
                      </widget>
                     </item>
@@ -1002,6 +1106,11 @@ QPushButton:hover {
                         <height>20</height>
                        </size>
                       </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>11</pointsize>
+                       </font>
+                      </property>
                       <property name="cursor">
                        <cursorShape>PointingHandCursor</cursorShape>
                       </property>
@@ -1022,6 +1131,12 @@ QPushButton:hover {
                       <property name="icon">
                        <iconset resource="icons.qrc">
                         <normaloff>:/assets/icons/delete-icon.png</normaloff>:/assets/icons/delete-icon.png</iconset>
+                      </property>
+                      <property name="iconSize">
+                       <size>
+                        <width>20</width>
+                        <height>20</height>
+                       </size>
                       </property>
                      </widget>
                     </item>
@@ -1045,8 +1160,13 @@ QPushButton:hover {
                       <property name="minimumSize">
                        <size>
                         <width>0</width>
-                        <height>45</height>
+                        <height>55</height>
                        </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>11</pointsize>
+                       </font>
                       </property>
                       <property name="cursor">
                        <cursorShape>PointingHandCursor</cursorShape>
@@ -1068,6 +1188,12 @@ QPushButton:hover {
                       <property name="icon">
                        <iconset resource="icons.qrc">
                         <normaloff>:/assets/icons/play-icon.png</normaloff>:/assets/icons/play-icon.png</iconset>
+                      </property>
+                      <property name="iconSize">
+                       <size>
+                        <width>24</width>
+                        <height>24</height>
+                       </size>
                       </property>
                      </widget>
                     </item>
@@ -1193,6 +1319,9 @@ QPushButton:hover {
                       <property name="styleSheet">
                        <string notr="true">QListWidget {
     background-color: rgb(33, 37, 43);
+	border: 2px solid rgb(52, 59, 72);
+    border-radius: 15px;
+	padding-top: 9px;
 }
 
 QListWidget::item {
@@ -1246,6 +1375,21 @@ QListWidget::indicator:checked {
                  <enum>QFrame::Raised</enum>
                 </property>
                 <layout class="QHBoxLayout" name="horizontalLayout_5">
+                 <property name="spacing">
+                  <number>0</number>
+                 </property>
+                 <property name="leftMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
                  <item>
                   <widget class="QFrame" name="frame_results_page_buttons_save_and_clear_images">
                    <property name="frameShape">
@@ -1265,6 +1409,11 @@ QListWidget::indicator:checked {
                         <width>0</width>
                         <height>20</height>
                        </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>8</pointsize>
+                       </font>
                       </property>
                       <property name="cursor">
                        <cursorShape>PointingHandCursor</cursorShape>
@@ -1287,6 +1436,12 @@ QPushButton:hover {
                        <iconset resource="icons.qrc">
                         <normaloff>:/assets/icons/save-icon.png</normaloff>:/assets/icons/save-icon.png</iconset>
                       </property>
+                      <property name="iconSize">
+                       <size>
+                        <width>20</width>
+                        <height>20</height>
+                       </size>
+                      </property>
                      </widget>
                     </item>
                     <item>
@@ -1299,6 +1454,11 @@ QPushButton:hover {
                         <width>0</width>
                         <height>20</height>
                        </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>11</pointsize>
+                       </font>
                       </property>
                       <property name="cursor">
                        <cursorShape>PointingHandCursor</cursorShape>
@@ -1320,6 +1480,12 @@ QPushButton:hover {
                       <property name="icon">
                        <iconset resource="icons.qrc">
                         <normaloff>:/assets/icons/clear-icon.png</normaloff>:/assets/icons/clear-icon.png</iconset>
+                      </property>
+                      <property name="iconSize">
+                       <size>
+                        <width>20</width>
+                        <height>20</height>
+                       </size>
                       </property>
                      </widget>
                     </item>
@@ -1346,6 +1512,11 @@ QPushButton:hover {
                         <height>20</height>
                        </size>
                       </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>11</pointsize>
+                       </font>
+                      </property>
                       <property name="cursor">
                        <cursorShape>PointingHandCursor</cursorShape>
                       </property>
@@ -1367,6 +1538,12 @@ QPushButton:hover {
                        <iconset resource="icons.qrc">
                         <normaloff>:/assets/icons/save-images-icon.png</normaloff>:/assets/icons/save-images-icon.png</iconset>
                       </property>
+                      <property name="iconSize">
+                       <size>
+                        <width>20</width>
+                        <height>20</height>
+                       </size>
+                      </property>
                      </widget>
                     </item>
                     <item>
@@ -1379,6 +1556,11 @@ QPushButton:hover {
                         <width>0</width>
                         <height>20</height>
                        </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>11</pointsize>
+                       </font>
                       </property>
                       <property name="cursor">
                        <cursorShape>PointingHandCursor</cursorShape>
@@ -1400,6 +1582,12 @@ QPushButton:hover {
                       <property name="icon">
                        <iconset resource="icons.qrc">
                         <normaloff>:/assets/icons/save-csv-icon.png</normaloff>:/assets/icons/save-csv-icon.png</iconset>
+                      </property>
+                      <property name="iconSize">
+                       <size>
+                        <width>20</width>
+                        <height>20</height>
+                       </size>
                       </property>
                      </widget>
                     </item>
@@ -1426,6 +1614,11 @@ QPushButton:hover {
                         <height>20</height>
                        </size>
                       </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>11</pointsize>
+                       </font>
+                      </property>
                       <property name="cursor">
                        <cursorShape>PointingHandCursor</cursorShape>
                       </property>
@@ -1447,6 +1640,12 @@ QPushButton:hover {
                        <iconset resource="icons.qrc">
                         <normaloff>:/assets/icons/check-all-icon.png</normaloff>:/assets/icons/check-all-icon.png</iconset>
                       </property>
+                      <property name="iconSize">
+                       <size>
+                        <width>20</width>
+                        <height>20</height>
+                       </size>
+                      </property>
                      </widget>
                     </item>
                     <item>
@@ -1459,6 +1658,11 @@ QPushButton:hover {
                         <width>0</width>
                         <height>20</height>
                        </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>11</pointsize>
+                       </font>
                       </property>
                       <property name="cursor">
                        <cursorShape>PointingHandCursor</cursorShape>
@@ -1480,6 +1684,12 @@ QPushButton:hover {
                       <property name="icon">
                        <iconset resource="icons.qrc">
                         <normaloff>:/assets/icons/uncheck-all-icon.png</normaloff>:/assets/icons/uncheck-all-icon.png</iconset>
+                      </property>
+                      <property name="iconSize">
+                       <size>
+                        <width>20</width>
+                        <height>20</height>
+                       </size>
                       </property>
                      </widget>
                     </item>
@@ -1506,6 +1716,11 @@ QPushButton:hover {
                         <height>20</height>
                        </size>
                       </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>8</pointsize>
+                       </font>
+                      </property>
                       <property name="cursor">
                        <cursorShape>PointingHandCursor</cursorShape>
                       </property>
@@ -1526,6 +1741,12 @@ QPushButton:hover {
                       <property name="icon">
                        <iconset resource="icons.qrc">
                         <normaloff>:/assets/icons/delete-icon.png</normaloff>:/assets/icons/delete-icon.png</iconset>
+                      </property>
+                      <property name="iconSize">
+                       <size>
+                        <width>20</width>
+                        <height>20</height>
+                       </size>
                       </property>
                      </widget>
                     </item>
@@ -1549,14 +1770,19 @@ QPushButton:hover {
                       <x>0</x>
                       <y>10</y>
                       <width>156</width>
-                      <height>45</height>
+                      <height>55</height>
                      </rect>
                     </property>
                     <property name="minimumSize">
                      <size>
                       <width>0</width>
-                      <height>45</height>
+                      <height>55</height>
                      </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>11</pointsize>
+                     </font>
                     </property>
                     <property name="cursor">
                      <cursorShape>PointingHandCursor</cursorShape>
@@ -1578,6 +1804,12 @@ QPushButton:hover {
                     <property name="icon">
                      <iconset resource="icons.qrc">
                       <normaloff>:/assets/icons/calc-icon.png</normaloff>:/assets/icons/calc-icon.png</iconset>
+                    </property>
+                    <property name="iconSize">
+                     <size>
+                      <width>24</width>
+                      <height>24</height>
+                     </size>
                     </property>
                    </widget>
                   </widget>
@@ -1744,6 +1976,9 @@ QPushButton:hover {
                          <property name="styleSheet">
                           <string notr="true">QListWidget {
     background-color: rgb(33, 37, 43);
+	border: 2px solid rgb(52, 59, 72);
+    border-radius: 15px;
+	padding-top: 9px;
 }
 
 QListWidget::item {
@@ -1956,6 +2191,9 @@ QCheckBox::indicator:checked {
                              <enum>QFrame::Raised</enum>
                             </property>
                             <layout class="QHBoxLayout" name="horizontalLayout_9">
+                             <property name="topMargin">
+                              <number>0</number>
+                             </property>
                              <item>
                               <widget class="QFrame" name="frame_calculation_page_modifications_options_double_spin_box_min">
                                <property name="frameShape">
@@ -2120,6 +2358,12 @@ QDoubleSpinBox QAbstractItemView {
                             <property name="enabled">
                              <bool>false</bool>
                             </property>
+                            <property name="minimumSize">
+                             <size>
+                              <width>0</width>
+                              <height>20</height>
+                             </size>
+                            </property>
                             <property name="styleSheet">
                              <string notr="true">QPushButton {
 	color: rgb(43, 49, 56);
@@ -2133,6 +2377,12 @@ QPushButton:hover {
                             </property>
                             <property name="text">
                              <string>Send</string>
+                            </property>
+                            <property name="iconSize">
+                             <size>
+                              <width>16</width>
+                              <height>16</height>
+                             </size>
                             </property>
                            </widget>
                           </item>
@@ -2169,6 +2419,21 @@ QPushButton:hover {
                  <enum>QFrame::Raised</enum>
                 </property>
                 <layout class="QHBoxLayout" name="horizontalLayout_7">
+                 <property name="spacing">
+                  <number>0</number>
+                 </property>
+                 <property name="leftMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
                  <item>
                   <widget class="QFrame" name="frame_calculation_page_buttons_save_images_csvs">
                    <property name="frameShape">
@@ -2182,6 +2447,17 @@ QPushButton:hover {
                      <widget class="QPushButton" name="btn_calculation_page_save_images">
                       <property name="enabled">
                        <bool>false</bool>
+                      </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>11</pointsize>
+                       </font>
                       </property>
                       <property name="styleSheet">
                        <string notr="true">QPushButton {
@@ -2201,12 +2477,29 @@ QPushButton:hover {
                        <iconset resource="icons.qrc">
                         <normaloff>:/assets/icons/save-images-icon.png</normaloff>:/assets/icons/save-images-icon.png</iconset>
                       </property>
+                      <property name="iconSize">
+                       <size>
+                        <width>20</width>
+                        <height>20</height>
+                       </size>
+                      </property>
                      </widget>
                     </item>
                     <item>
                      <widget class="QPushButton" name="btn_calculation_page_save_csvs">
                       <property name="enabled">
                        <bool>false</bool>
+                      </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>11</pointsize>
+                       </font>
                       </property>
                       <property name="styleSheet">
                        <string notr="true">QPushButton {
@@ -2225,6 +2518,12 @@ QPushButton:hover {
                       <property name="icon">
                        <iconset resource="icons.qrc">
                         <normaloff>:/assets/icons/save-csv-icon.png</normaloff>:/assets/icons/save-csv-icon.png</iconset>
+                      </property>
+                      <property name="iconSize">
+                       <size>
+                        <width>20</width>
+                        <height>20</height>
+                       </size>
                       </property>
                      </widget>
                     </item>
@@ -2245,6 +2544,17 @@ QPushButton:hover {
                       <property name="enabled">
                        <bool>false</bool>
                       </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>11</pointsize>
+                       </font>
+                      </property>
                       <property name="styleSheet">
                        <string notr="true">QPushButton {
 	color: rgb(43, 49, 56);
@@ -2263,12 +2573,29 @@ QPushButton:hover {
                        <iconset resource="icons.qrc">
                         <normaloff>:/assets/icons/delete-icon.png</normaloff>:/assets/icons/delete-icon.png</iconset>
                       </property>
+                      <property name="iconSize">
+                       <size>
+                        <width>20</width>
+                        <height>20</height>
+                       </size>
+                      </property>
                      </widget>
                     </item>
                     <item>
                      <widget class="QPushButton" name="btn_calculation_page_clear_images">
                       <property name="enabled">
                        <bool>false</bool>
+                      </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>11</pointsize>
+                       </font>
                       </property>
                       <property name="styleSheet">
                        <string notr="true">QPushButton {
@@ -2287,6 +2614,12 @@ QPushButton:hover {
                       <property name="icon">
                        <iconset resource="icons.qrc">
                         <normaloff>:/assets/icons/clear-icon.png</normaloff>:/assets/icons/clear-icon.png</iconset>
+                      </property>
+                      <property name="iconSize">
+                       <size>
+                        <width>20</width>
+                        <height>20</height>
+                       </size>
                       </property>
                      </widget>
                     </item>
@@ -2307,6 +2640,17 @@ QPushButton:hover {
                       <property name="enabled">
                        <bool>false</bool>
                       </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>11</pointsize>
+                       </font>
+                      </property>
                       <property name="styleSheet">
                        <string notr="true">QPushButton {
 	color: rgb(43, 49, 56);
@@ -2325,12 +2669,29 @@ QPushButton:hover {
                        <iconset resource="icons.qrc">
                         <normaloff>:/assets/icons/check-all-icon.png</normaloff>:/assets/icons/check-all-icon.png</iconset>
                       </property>
+                      <property name="iconSize">
+                       <size>
+                        <width>20</width>
+                        <height>20</height>
+                       </size>
+                      </property>
                      </widget>
                     </item>
                     <item>
                      <widget class="QPushButton" name="btn_calculation_page_uncheck_all">
                       <property name="enabled">
                        <bool>false</bool>
+                      </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>11</pointsize>
+                       </font>
                       </property>
                       <property name="styleSheet">
                        <string notr="true">QPushButton {
@@ -2349,6 +2710,12 @@ QPushButton:hover {
                       <property name="icon">
                        <iconset resource="icons.qrc">
                         <normaloff>:/assets/icons/uncheck-all-icon.png</normaloff>:/assets/icons/uncheck-all-icon.png</iconset>
+                      </property>
+                      <property name="iconSize">
+                       <size>
+                        <width>20</width>
+                        <height>20</height>
+                       </size>
                       </property>
                      </widget>
                     </item>
@@ -2369,6 +2736,17 @@ QPushButton:hover {
                       <property name="enabled">
                        <bool>false</bool>
                       </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>11</pointsize>
+                       </font>
+                      </property>
                       <property name="styleSheet">
                        <string notr="true">QPushButton {
 	color: rgb(43, 49, 56);
@@ -2387,6 +2765,12 @@ QPushButton:hover {
                        <iconset resource="icons.qrc">
                         <normaloff>:/assets/icons/graph-icon.png</normaloff>:/assets/icons/graph-icon.png</iconset>
                       </property>
+                      <property name="iconSize">
+                       <size>
+                        <width>20</width>
+                        <height>20</height>
+                       </size>
+                      </property>
                      </widget>
                     </item>
                    </layout>
@@ -2397,6 +2781,56 @@ QPushButton:hover {
               </item>
              </layout>
             </widget>
+           </widget>
+          </item>
+          <item>
+           <widget class="QFrame" name="credit_frame">
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(44, 49, 58)</string>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_10">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QLabel" name="label_2">
+               <property name="styleSheet">
+                <string notr="true">color: rgb(91, 102, 135)</string>
+               </property>
+               <property name="text">
+                <string> By: Vladis Markin &amp; Mohamman abumuh</string>
+               </property>
+              </widget>
+             </item>
+             <item alignment="Qt::AlignRight">
+              <widget class="QLabel" name="label_3">
+               <property name="styleSheet">
+                <string notr="true">color: rgb(91, 102, 135)</string>
+               </property>
+               <property name="text">
+                <string>v1.0.0   </string>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </item>
          </layout>

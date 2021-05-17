@@ -814,15 +814,15 @@ class MainWindow(QMainWindow):
             # SET MAX WIDTH
             if width == 50:
                 width_extended = max_extend
-                self.ui.btn_page_predict.setText('Predict')
-                self.ui.btn_page_results.setText('Results')
-                self.ui.btn_page_calculation.setText('Calculation')
+                # self.ui.btn_page_predict.setText('Predict')
+                # self.ui.btn_page_results.setText('Results')
+                # self.ui.btn_page_calculation.setText('Calculation')
 
             else:
                 width_extended = standard
 
             # ANIMATION
-            self.animation.setDuration(400)
+            self.animation.setDuration(350)
             self.animation.setStartValue(width)
             self.animation.setEndValue(width_extended)
             self.animation.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
