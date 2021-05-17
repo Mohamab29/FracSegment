@@ -115,7 +115,7 @@ def saveImagesAnalysisToCSV(images_analysis: list, file_names: list, path: str):
         saveAnalysisToCSV(images_analysis[index], file_name, path)
 
 
-def saveImagesToHistPlots(images_analysis: list, file_names: list, path: str, num_of_bins: int = 5):
+def saveImagesToHistPlots(images_analysis: list, file_names: list, path: str, num_of_bins: int = 15):
     """
     If given a list of dictionaries, we send each dictionary to the createAndSaveHistPlot function and then we create
     a graph for each image and then we save it with the corresponding file name into a png file.

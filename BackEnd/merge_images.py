@@ -21,7 +21,7 @@ def resize_two_images(left_img: np.ndarray, right_img: np.ndarray) -> Tuple[np.n
     return img1, img2
 
 
-def merge_images(img1: np.ndarray, img2: np.ndarray, alpha: float = 0.5) -> Tuple[np.ndarray, np.ndarray]:
+def merge_images(img1: np.ndarray, img2: np.ndarray, alpha: float = 0.5) -> np.ndarray:
     """
     merging two
     :param img1: 3D numpy array.
@@ -32,6 +32,6 @@ def merge_images(img1: np.ndarray, img2: np.ndarray, alpha: float = 0.5) -> Tupl
     """
     resized_img1, resized_img2 = resize_two_images(img1.copy(), img2.copy())
 
-    merged_img = cv2.addWeighted(resized_img1, alpha, resized_img2, 1 - alpha, 0)
+    merged_img = cv2.addWeighted(resized_img2, alpha, resized_img1, 1 - alpha, 0)
 
     return merged_img
