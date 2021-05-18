@@ -1063,11 +1063,12 @@ class MainWindow(QMainWindow):
                     self.imagesAnalyse[image_name] = images_analyzed[image_name].copy()
 
             if merge_images_checked.isChecked():
+                alpha = self.ui.slider.value()
                 for image_name in checked_calculate_items.keys():
                     if image_name in self.imagesDrawn:
                         original_name = image_name.replace("_calculated", "")
                         self.imagesDrawn[image_name] = merge_images(self.imageListOriginalImage[original_name],
-                                                                    self.imagesDrawn[image_name])
+                                                                    self.imagesDrawn[image_name], alpha=alpha / 100)
 
     def evnCheckAllButtonClickedPagePredict(self):
         for index in range(self.ui.images_predict_page_import_list.count()):
