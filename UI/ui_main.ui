@@ -648,7 +648,7 @@ QPushButton:hover {
                           </font>
                          </property>
                          <property name="styleSheet">
-                          <string notr="true">QLabel {color: rgb(255, 255, 255)}</string>
+                          <string notr="true">color:  #858da6</string>
                          </property>
                          <property name="text">
                           <string>Images: 0 Checked: 0</string>
@@ -746,7 +746,7 @@ QListWidget::indicator:checked {
                           </font>
                          </property>
                          <property name="styleSheet">
-                          <string notr="true">QLabel {color: rgb(255, 255, 255)}</string>
+                          <string notr="true">color:  #858da6</string>
                          </property>
                          <property name="text">
                           <string>Prediction Proggress</string>
@@ -774,8 +774,17 @@ border-radius: 15px;
                           <property name="spacing">
                            <number>0</number>
                           </property>
+                          <property name="leftMargin">
+                           <number>6</number>
+                          </property>
+                          <property name="topMargin">
+                           <number>6</number>
+                          </property>
                           <property name="rightMargin">
-                           <number>9</number>
+                           <number>6</number>
+                          </property>
+                          <property name="bottomMargin">
+                           <number>7</number>
                           </property>
                           <item>
                            <widget class="QProgressBar" name="progress_bar_page_predict">
@@ -784,13 +793,17 @@ border-radius: 15px;
                             </property>
                             <property name="styleSheet">
                              <string notr="true">QProgressBar {
+    min-height: 13px;
+    max-height: 13px;
+    border-radius: 6px;
     text-align: center;
+    background-color: #343b48;
+	color:  rgb(91, 102, 135);
 }
 QProgressBar::chunk {
-    background-color: rgb(85, 170, 255);
-}
-
-</string>
+    border-radius: 6px;
+    background-color: #bd93f9;
+}</string>
                             </property>
                             <property name="value">
                              <number>0</number>
@@ -1126,7 +1139,7 @@ QPushButton:hover {
 }</string>
                       </property>
                       <property name="text">
-                       <string>Delete selected Images</string>
+                       <string>Delete Images</string>
                       </property>
                       <property name="icon">
                        <iconset resource="icons.qrc">
@@ -1307,7 +1320,7 @@ QPushButton:hover {
                        </font>
                       </property>
                       <property name="styleSheet">
-                       <string notr="true">QLabel {color: rgb(255, 255, 255)}</string>
+                       <string notr="true">color:  #858da6</string>
                       </property>
                       <property name="text">
                        <string>Images: 0 Checked: 0</string>
@@ -1412,7 +1425,7 @@ QListWidget::indicator:checked {
                       </property>
                       <property name="font">
                        <font>
-                        <pointsize>8</pointsize>
+                        <pointsize>11</pointsize>
                        </font>
                       </property>
                       <property name="cursor">
@@ -1718,7 +1731,7 @@ QPushButton:hover {
                       </property>
                       <property name="font">
                        <font>
-                        <pointsize>8</pointsize>
+                        <pointsize>11</pointsize>
                        </font>
                       </property>
                       <property name="cursor">
@@ -1736,7 +1749,7 @@ QPushButton:hover {
 }</string>
                       </property>
                       <property name="text">
-                       <string>Delete selected Images</string>
+                       <string>Delete Images</string>
                       </property>
                       <property name="icon">
                        <iconset resource="icons.qrc">
@@ -1952,7 +1965,7 @@ QPushButton:hover {
                           </font>
                          </property>
                          <property name="styleSheet">
-                          <string notr="true">QLabel {color: rgb(255, 255, 255)}</string>
+                          <string notr="true">color:  #858da6</string>
                          </property>
                          <property name="text">
                           <string>Images: 0 Checked: 0</string>
@@ -1969,8 +1982,8 @@ QPushButton:hover {
                          </property>
                          <property name="font">
                           <font>
-                           <weight>75</weight>
-                           <bold>true</bold>
+                           <weight>50</weight>
+                           <bold>false</bold>
                           </font>
                          </property>
                          <property name="styleSheet">
@@ -2050,7 +2063,7 @@ QListWidget::indicator:checked {
                           </font>
                          </property>
                          <property name="styleSheet">
-                          <string notr="true">QLabel {color: rgb(255, 255, 255)}</string>
+                          <string notr="true">color:  #858da6</string>
                          </property>
                          <property name="text">
                           <string>Modifications</string>
@@ -2075,7 +2088,10 @@ QListWidget::indicator:checked {
                              <bool>false</bool>
                             </property>
                             <property name="styleSheet">
-                             <string notr="true">QCheckBox::indicator {
+                             <string notr="true">QCheckBox{
+	color: #353a3d
+}
+QCheckBox::indicator {
     border: 3px solid rgb(52, 59, 72);
 	width: 15px;
 	height: 15px;
@@ -2104,7 +2120,10 @@ QCheckBox::indicator:checked {
                              <bool>false</bool>
                             </property>
                             <property name="styleSheet">
-                             <string notr="true">QCheckBox::indicator {
+                             <string notr="true">QCheckBox{
+	color: #353a3d
+}
+QCheckBox::indicator {
     border: 3px solid rgb(52, 59, 72);
 	width: 15px;
 	height: 15px;
@@ -2133,7 +2152,10 @@ QCheckBox::indicator:checked {
                              <bool>false</bool>
                             </property>
                             <property name="styleSheet">
-                             <string notr="true">QCheckBox::indicator {
+                             <string notr="true">QCheckBox{
+	color: #353a3d
+}
+QCheckBox::indicator {
     border: 3px solid rgb(52, 59, 72);
 	width: 15px;
 	height: 15px;
@@ -2162,7 +2184,10 @@ QCheckBox::indicator:checked {
                              <bool>false</bool>
                             </property>
                             <property name="styleSheet">
-                             <string notr="true">QCheckBox::indicator {
+                             <string notr="true">QCheckBox{
+	color: #353a3d
+}
+QCheckBox::indicator {
     border: 3px solid rgb(52, 59, 72);
 	width: 15px;
 	height: 15px;
@@ -2567,7 +2592,7 @@ QPushButton:hover {
 }</string>
                       </property>
                       <property name="text">
-                       <string>Delete selected Images</string>
+                       <string>Delete Images</string>
                       </property>
                       <property name="icon">
                        <iconset resource="icons.qrc">

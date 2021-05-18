@@ -284,7 +284,7 @@ class Ui_MainWindow(object):
         font.setStrikeOut(False)
         font.setKerning(True)
         self.label_predict_page_images.setFont(font)
-        self.label_predict_page_images.setStyleSheet("QLabel {color: rgb(255, 255, 255)}")
+        self.label_predict_page_images.setStyleSheet("color:  #858da6")
         self.label_predict_page_images.setObjectName("label_predict_page_images")
         self.verticalLayout_31.addWidget(self.label_predict_page_images, 0, QtCore.Qt.AlignHCenter)
         self.images_predict_page_import_list = QtWidgets.QListWidget(self.frame_predict_page_up_list)
@@ -336,7 +336,7 @@ class Ui_MainWindow(object):
         font.setBold(True)
         font.setWeight(75)
         self.label_predict_progress.setFont(font)
-        self.label_predict_progress.setStyleSheet("QLabel {color: rgb(255, 255, 255)}")
+        self.label_predict_progress.setStyleSheet("color:  #858da6")
         self.label_predict_progress.setObjectName("label_predict_progress")
         self.verticalLayout_30.addWidget(self.label_predict_progress, 0, QtCore.Qt.AlignHCenter)
         self.frame_predict_page_up_progress_bar = QtWidgets.QFrame(self.frame_predict_page_up_progress_and_label)
@@ -349,19 +349,23 @@ class Ui_MainWindow(object):
         self.frame_predict_page_up_progress_bar.setLineWidth(0)
         self.frame_predict_page_up_progress_bar.setObjectName("frame_predict_page_up_progress_bar")
         self.verticalLayout_32 = QtWidgets.QVBoxLayout(self.frame_predict_page_up_progress_bar)
-        self.verticalLayout_32.setContentsMargins(-1, -1, 9, -1)
+        self.verticalLayout_32.setContentsMargins(6, 6, 6, 7)
         self.verticalLayout_32.setSpacing(0)
         self.verticalLayout_32.setObjectName("verticalLayout_32")
         self.progress_bar_page_predict = QtWidgets.QProgressBar(self.frame_predict_page_up_progress_bar)
         self.progress_bar_page_predict.setEnabled(True)
         self.progress_bar_page_predict.setStyleSheet("QProgressBar {\n"
+"    min-height: 13px;\n"
+"    max-height: 13px;\n"
+"    border-radius: 6px;\n"
 "    text-align: center;\n"
+"    background-color: #343b48;\n"
+"    color:  rgb(91, 102, 135);\n"
 "}\n"
 "QProgressBar::chunk {\n"
-"    background-color: rgb(85, 170, 255);\n"
-"}\n"
-"\n"
-"")
+"    border-radius: 6px;\n"
+"    background-color: #bd93f9;\n"
+"}")
         self.progress_bar_page_predict.setProperty("value", 0)
         self.progress_bar_page_predict.setObjectName("progress_bar_page_predict")
         self.verticalLayout_32.addWidget(self.progress_bar_page_predict)
@@ -598,7 +602,7 @@ class Ui_MainWindow(object):
         font.setBold(True)
         font.setWeight(75)
         self.label_results_page_images.setFont(font)
-        self.label_results_page_images.setStyleSheet("QLabel {color: rgb(255, 255, 255)}")
+        self.label_results_page_images.setStyleSheet("color:  #858da6")
         self.label_results_page_images.setObjectName("label_results_page_images")
         self.verticalLayout_9.addWidget(self.label_results_page_images, 0, QtCore.Qt.AlignHCenter)
         self.images_results_page_import_list = QtWidgets.QListWidget(self.frame_results_page_up_list)
@@ -653,7 +657,7 @@ class Ui_MainWindow(object):
         self.btn_results_page_save_images_and_csvs.setEnabled(False)
         self.btn_results_page_save_images_and_csvs.setMinimumSize(QtCore.QSize(0, 20))
         font = QtGui.QFont()
-        font.setPointSize(8)
+        font.setPointSize(11)
         self.btn_results_page_save_images_and_csvs.setFont(font)
         self.btn_results_page_save_images_and_csvs.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btn_results_page_save_images_and_csvs.setStyleSheet("QPushButton {\n"
@@ -800,7 +804,7 @@ class Ui_MainWindow(object):
         self.btn_results_page_delete_selected_images.setEnabled(False)
         self.btn_results_page_delete_selected_images.setMinimumSize(QtCore.QSize(0, 20))
         font = QtGui.QFont()
-        font.setPointSize(8)
+        font.setPointSize(11)
         self.btn_results_page_delete_selected_images.setFont(font)
         self.btn_results_page_delete_selected_images.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.btn_results_page_delete_selected_images.setStyleSheet("QPushButton {\n"
@@ -905,14 +909,14 @@ class Ui_MainWindow(object):
         font.setBold(True)
         font.setWeight(75)
         self.label_calculate_page_images.setFont(font)
-        self.label_calculate_page_images.setStyleSheet("QLabel {color: rgb(255, 255, 255)}")
+        self.label_calculate_page_images.setStyleSheet("color:  #858da6")
         self.label_calculate_page_images.setObjectName("label_calculate_page_images")
         self.verticalLayout_22.addWidget(self.label_calculate_page_images, 0, QtCore.Qt.AlignHCenter)
         self.images_calculation_page_import_list = QtWidgets.QListWidget(self.frame_calculation_page_up_list)
         self.images_calculation_page_import_list.setMinimumSize(QtCore.QSize(150, 0))
         font = QtGui.QFont()
-        font.setBold(True)
-        font.setWeight(75)
+        font.setBold(False)
+        font.setWeight(50)
         self.images_calculation_page_import_list.setFont(font)
         self.images_calculation_page_import_list.setStyleSheet("QListWidget {\n"
 "    background-color: rgb(33, 37, 43);\n"
@@ -958,7 +962,7 @@ class Ui_MainWindow(object):
         font.setBold(True)
         font.setWeight(75)
         self.label_calculate_page_modifications.setFont(font)
-        self.label_calculate_page_modifications.setStyleSheet("QLabel {color: rgb(255, 255, 255)}")
+        self.label_calculate_page_modifications.setStyleSheet("color:  #858da6")
         self.label_calculate_page_modifications.setObjectName("label_calculate_page_modifications")
         self.verticalLayout_23.addWidget(self.label_calculate_page_modifications, 0, QtCore.Qt.AlignHCenter)
         self.frame_calculation_page_modifications_options = QtWidgets.QFrame(self.frame_calculation_page_modifications)
@@ -970,7 +974,10 @@ class Ui_MainWindow(object):
         self.verticalLayout_27.setObjectName("verticalLayout_27")
         self.check_box_show_and_calculate_centroid = QtWidgets.QCheckBox(self.frame_calculation_page_modifications_options)
         self.check_box_show_and_calculate_centroid.setEnabled(False)
-        self.check_box_show_and_calculate_centroid.setStyleSheet("QCheckBox::indicator {\n"
+        self.check_box_show_and_calculate_centroid.setStyleSheet("QCheckBox{\n"
+"    color: #353a3d\n"
+"}\n"
+"QCheckBox::indicator {\n"
 "    border: 3px solid rgb(52, 59, 72);\n"
 "    width: 15px;\n"
 "    height: 15px;\n"
@@ -989,7 +996,10 @@ class Ui_MainWindow(object):
         self.verticalLayout_27.addWidget(self.check_box_show_and_calculate_centroid)
         self.check_box_show_internal_contures = QtWidgets.QCheckBox(self.frame_calculation_page_modifications_options)
         self.check_box_show_internal_contures.setEnabled(False)
-        self.check_box_show_internal_contures.setStyleSheet("QCheckBox::indicator {\n"
+        self.check_box_show_internal_contures.setStyleSheet("QCheckBox{\n"
+"    color: #353a3d\n"
+"}\n"
+"QCheckBox::indicator {\n"
 "    border: 3px solid rgb(52, 59, 72);\n"
 "    width: 15px;\n"
 "    height: 15px;\n"
@@ -1008,7 +1018,10 @@ class Ui_MainWindow(object):
         self.verticalLayout_27.addWidget(self.check_box_show_internal_contures)
         self.check_box_show_external_contures = QtWidgets.QCheckBox(self.frame_calculation_page_modifications_options)
         self.check_box_show_external_contures.setEnabled(False)
-        self.check_box_show_external_contures.setStyleSheet("QCheckBox::indicator {\n"
+        self.check_box_show_external_contures.setStyleSheet("QCheckBox{\n"
+"    color: #353a3d\n"
+"}\n"
+"QCheckBox::indicator {\n"
 "    border: 3px solid rgb(52, 59, 72);\n"
 "    width: 15px;\n"
 "    height: 15px;\n"
@@ -1027,7 +1040,10 @@ class Ui_MainWindow(object):
         self.verticalLayout_27.addWidget(self.check_box_show_external_contures)
         self.check_box_merge_with_the_real_image = QtWidgets.QCheckBox(self.frame_calculation_page_modifications_options)
         self.check_box_merge_with_the_real_image.setEnabled(False)
-        self.check_box_merge_with_the_real_image.setStyleSheet("QCheckBox::indicator {\n"
+        self.check_box_merge_with_the_real_image.setStyleSheet("QCheckBox{\n"
+"    color: #353a3d\n"
+"}\n"
+"QCheckBox::indicator {\n"
 "    border: 3px solid rgb(52, 59, 72);\n"
 "    width: 15px;\n"
 "    height: 15px;\n"
@@ -1381,7 +1397,7 @@ class Ui_MainWindow(object):
         self.btn_predict_page_clear_images.setText(_translate("MainWindow", "Clear Image list"))
         self.btn_predict_page_check_all.setText(_translate("MainWindow", "Check All"))
         self.btn_predict_page_uncheck_all.setText(_translate("MainWindow", "Uncheck All"))
-        self.btn_predict_page_delete_selected_images.setText(_translate("MainWindow", "Delete selected Images"))
+        self.btn_predict_page_delete_selected_images.setText(_translate("MainWindow", "Delete Images"))
         self.btn_predict_page_predict.setText(_translate("MainWindow", "Predict"))
         self.label_results_page_selected_picture.setText(_translate("MainWindow", "No results"))
         self.label_results_page_images.setText(_translate("MainWindow", "Images: 0 Checked: 0"))
@@ -1391,7 +1407,7 @@ class Ui_MainWindow(object):
         self.btn_results_page_save_csvs.setText(_translate("MainWindow", "Save CSVs"))
         self.btn_results_page_check_all.setText(_translate("MainWindow", "Check All"))
         self.btn_results_page_uncheck_all.setText(_translate("MainWindow", "Uncheck All"))
-        self.btn_results_page_delete_selected_images.setText(_translate("MainWindow", "Delete selected Images"))
+        self.btn_results_page_delete_selected_images.setText(_translate("MainWindow", "Delete Images"))
         self.btn_results_page_custom_calculation.setText(_translate("MainWindow", "Custom calculation"))
         self.label.setText(_translate("MainWindow", "Help Page"))
         self.label_calculate_page_selected_picture.setText(_translate("MainWindow", "No results"))
@@ -1406,7 +1422,7 @@ class Ui_MainWindow(object):
         self.btn_calculation_page_send.setText(_translate("MainWindow", "Send"))
         self.btn_calculation_page_save_images.setText(_translate("MainWindow", "Save Images"))
         self.btn_calculation_page_save_csvs.setText(_translate("MainWindow", "Save to csvs"))
-        self.btn_calculation_page_delete_selected_images.setText(_translate("MainWindow", "Delete selected Images"))
+        self.btn_calculation_page_delete_selected_images.setText(_translate("MainWindow", "Delete Images"))
         self.btn_calculation_page_clear_images.setText(_translate("MainWindow", "Clear Image list"))
         self.btn_calculation_page_check_all.setText(_translate("MainWindow", "Check All"))
         self.btn_calculation_page_uncheck_all.setText(_translate("MainWindow", "Uncheck All"))
