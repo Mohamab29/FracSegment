@@ -2379,6 +2379,50 @@ QDoubleSpinBox QAbstractItemView {
                            </widget>
                           </item>
                           <item>
+                           <widget class="QFrame" name="frame_calculation_page_modifications_slider">
+                            <property name="frameShape">
+                             <enum>QFrame::StyledPanel</enum>
+                            </property>
+                            <property name="frameShadow">
+                             <enum>QFrame::Raised</enum>
+                            </property>
+                            <layout class="QHBoxLayout" name="horizontalLayout_11">
+                             <item>
+                              <widget class="QSlider" name="slider">
+                               <property name="enabled">
+                                <bool>false</bool>
+                               </property>
+                               <property name="styleSheet">
+                                <string notr="true"> color: rgb(52, 59, 72)</string>
+                               </property>
+                               <property name="maximum">
+                                <number>100</number>
+                               </property>
+                               <property name="singleStep">
+                                <number>10</number>
+                               </property>
+                               <property name="value">
+                                <number>50</number>
+                               </property>
+                               <property name="orientation">
+                                <enum>Qt::Horizontal</enum>
+                               </property>
+                              </widget>
+                             </item>
+                             <item>
+                              <widget class="QLabel" name="label_slider">
+                               <property name="styleSheet">
+                                <string notr="true">color: #353a3d</string>
+                               </property>
+                               <property name="text">
+                                <string>50%</string>
+                               </property>
+                              </widget>
+                             </item>
+                            </layout>
+                           </widget>
+                          </item>
+                          <item>
                            <widget class="QPushButton" name="btn_calculation_page_send">
                             <property name="enabled">
                              <bool>false</bool>

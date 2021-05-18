@@ -324,6 +324,17 @@ class MainWindow(QMainWindow):
         self.ui.frame_calculation_page_modifications_options_min_spin_box.valueChanged.connect(
             lambda: self.evnChangeMaxOrMinValuePageCalculation(self.imagesMinValues,
                                                                self.ui.frame_calculation_page_modifications_options_min_spin_box))
+        self.ui.slider.valueChanged.connect(self.evtSliderValueChanged)
+        self.ui.check_box_merge_with_the_real_image.stateChanged.connect(self.evtChackBoxMergeImagesChanged)
+
+    def evtSliderValueChanged(self):
+        self.ui.label_slider.setText(str(str(self.ui.slider.value()) + '%'))
+
+    def evtChackBoxMergeImagesChanged(self):
+        if self.ui.check_box_merge_with_the_real_image.isChecked():
+            toggleWidgetAndChangeStyle([(self.ui.slider, True), (self.ui.label_slider, True)])
+        else:
+            toggleWidgetAndChangeStyle([(self.ui.slider, False), (self.ui.label_slider, False)])
 
     def evnAfterPrediction(self, segmented_images):
 
@@ -514,7 +525,8 @@ class MainWindow(QMainWindow):
                     (self.ui.frame_calculation_page_modifications_options_max_label, True),
                     (self.ui.frame_calculation_page_modifications_options_min_label, True),
                     (self.ui.check_box_show_and_calculate_centroid, True),
-                    (self.ui.check_box_show_external_contures, True),
+                    (self.ui.check_box_show_external_contures, True), (self.ui.slider, True),
+                    (self.ui.label_slider, True),
                     (self.ui.check_box_show_internal_contures, True),
                     (self.ui.check_box_merge_with_the_real_image, True)
 
@@ -741,7 +753,8 @@ class MainWindow(QMainWindow):
                               (self.ui.frame_calculation_page_modifications_options_max_label, False),
                               (self.ui.frame_calculation_page_modifications_options_min_label, False),
                               (self.ui.check_box_show_and_calculate_centroid, False),
-                              (self.ui.check_box_show_external_contures, False),
+                              (self.ui.check_box_show_external_contures, False), (self.ui.slider, False),
+                              (self.ui.label_slider, False),
                               (self.ui.check_box_show_internal_contures, False),
                               (self.ui.check_box_merge_with_the_real_image, False)
                               ]
@@ -757,9 +770,10 @@ class MainWindow(QMainWindow):
                               (self.ui.frame_calculation_page_modifications_options_max_label, True),
                               (self.ui.frame_calculation_page_modifications_options_min_label, True),
                               (self.ui.check_box_show_and_calculate_centroid, True),
-                              (self.ui.check_box_show_external_contures, True),
+                              (self.ui.check_box_show_external_contures, True), (self.ui.slider, True),
+                              (self.ui.label_slider, True),
                               (self.ui.check_box_show_internal_contures, True),
-                              (self.ui.check_box_merge_with_the_real_image, True)
+                              (self.ui.check_box_merge_with_the_real_image, True),
                               ]
             toggleWidgetAndChangeStyle(widgets_tuples)
 
@@ -1005,7 +1019,8 @@ class MainWindow(QMainWindow):
                               (self.ui.frame_calculation_page_modifications_options_max_label, False),
                               (self.ui.frame_calculation_page_modifications_options_min_label, False),
                               (self.ui.check_box_show_and_calculate_centroid, False),
-                              (self.ui.check_box_show_external_contures, False),
+                              (self.ui.check_box_show_external_contures, False), (self.ui.slider, False),
+                              (self.ui.label_slider, False),
                               (self.ui.check_box_show_internal_contures, False),
                               (self.ui.check_box_merge_with_the_real_image, False)
                               ]
@@ -1116,7 +1131,8 @@ class MainWindow(QMainWindow):
                           (self.ui.frame_calculation_page_modifications_options_max_label, True),
                           (self.ui.frame_calculation_page_modifications_options_min_label, True),
                           (self.ui.check_box_show_and_calculate_centroid, True),
-                          (self.ui.check_box_show_external_contures, True),
+                          (self.ui.check_box_show_external_contures, True), (self.ui.slider, True),
+                          (self.ui.label_slider, True),
                           (self.ui.check_box_show_internal_contures, True),
                           (self.ui.check_box_merge_with_the_real_image, True)
                           ]
@@ -1159,7 +1175,8 @@ class MainWindow(QMainWindow):
                           (self.ui.frame_calculation_page_modifications_options_max_label, False),
                           (self.ui.frame_calculation_page_modifications_options_min_label, False),
                           (self.ui.check_box_show_and_calculate_centroid, False),
-                          (self.ui.check_box_show_external_contures, False),
+                          (self.ui.check_box_show_external_contures, False), (self.ui.slider, False),
+                          (self.ui.label_slider, False),
                           (self.ui.check_box_show_internal_contures, False),
                           (self.ui.check_box_merge_with_the_real_image, False)
                           ]
