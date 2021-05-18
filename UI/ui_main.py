@@ -1171,7 +1171,23 @@ class Ui_MainWindow(object):
         self.horizontalLayout_11.setObjectName("horizontalLayout_11")
         self.slider = QtWidgets.QSlider(self.frame_calculation_page_modifications_slider)
         self.slider.setEnabled(False)
-        self.slider.setStyleSheet(" color: rgb(52, 59, 72)")
+        self.slider.setStyleSheet("QSlider::groove:horizontal {\n"
+"    height: 5px;\n"
+"    margin: 0px;\n"
+"    background-color: rgb(68, 68, 68)\n"
+"    }\n"
+"QSlider::handle:horizontal {\n"
+"    background-color:rgb(90, 90, 90);\n"
+"    border: 1px solid;\n"
+"    border-radius: 4px;\n"
+"    height: 40px;\n"
+"    width: 10px;\n"
+"    margin: -15px 0px;\n"
+"    }\n"
+"\n"
+"QSlider::handle:hover {\n"
+"    background-color: #734aad\n"
+"    }")
         self.slider.setMaximum(100)
         self.slider.setSingleStep(10)
         self.slider.setProperty("value", 50)

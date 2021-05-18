@@ -2393,7 +2393,23 @@ QDoubleSpinBox QAbstractItemView {
                                 <bool>false</bool>
                                </property>
                                <property name="styleSheet">
-                                <string notr="true"> color: rgb(52, 59, 72)</string>
+                                <string notr="true">QSlider::groove:horizontal {
+    height: 5px;
+    margin: 0px;
+    background-color: rgb(68, 68, 68)
+    }
+QSlider::handle:horizontal {
+    background-color:rgb(90, 90, 90);
+	border: 1px solid;
+	border-radius: 4px;
+    height: 40px;
+    width: 10px;
+	margin: -15px 0px;
+    }
+
+QSlider::handle:hover {
+    background-color: #734aad
+    }</string>
                                </property>
                                <property name="maximum">
                                 <number>100</number>

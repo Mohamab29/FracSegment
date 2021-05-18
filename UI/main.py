@@ -525,14 +525,18 @@ class MainWindow(QMainWindow):
                     (self.ui.frame_calculation_page_modifications_options_max_label, True),
                     (self.ui.frame_calculation_page_modifications_options_min_label, True),
                     (self.ui.check_box_show_and_calculate_centroid, True),
-                    (self.ui.check_box_show_external_contures, True), (self.ui.slider, True),
-                    (self.ui.label_slider, True),
+                    (self.ui.check_box_show_external_contures, True),
                     (self.ui.check_box_show_internal_contures, True),
                     (self.ui.check_box_merge_with_the_real_image, True)
-
                 ]
 
-                toggleWidgetAndChangeStyle(widgets_tuples)
+                merge_images_check_box = self.ui.check_box_merge_with_the_real_image
+                if merge_images_check_box.isChecked():
+                    toggleWidgetAndChangeStyle(widgets_tuples +
+                                               [(self.ui.slider, True), (self.ui.label_slider, True)])
+                else:
+                    toggleWidgetAndChangeStyle(widgets_tuples)
+
                 import_list = self.ui.images_calculation_page_import_list
                 selected_calculation_list_size = len(import_list.selectedItems())
 
@@ -753,8 +757,7 @@ class MainWindow(QMainWindow):
                               (self.ui.frame_calculation_page_modifications_options_max_label, False),
                               (self.ui.frame_calculation_page_modifications_options_min_label, False),
                               (self.ui.check_box_show_and_calculate_centroid, False),
-                              (self.ui.check_box_show_external_contures, False), (self.ui.slider, False),
-                              (self.ui.label_slider, False),
+                              (self.ui.check_box_show_external_contures, False), (self.ui.slider, False), (self.ui.label_slider, False), 
                               (self.ui.check_box_show_internal_contures, False),
                               (self.ui.check_box_merge_with_the_real_image, False)
                               ]
@@ -770,12 +773,19 @@ class MainWindow(QMainWindow):
                               (self.ui.frame_calculation_page_modifications_options_max_label, True),
                               (self.ui.frame_calculation_page_modifications_options_min_label, True),
                               (self.ui.check_box_show_and_calculate_centroid, True),
-                              (self.ui.check_box_show_external_contures, True), (self.ui.slider, True),
-                              (self.ui.label_slider, True),
+                              (self.ui.check_box_show_external_contures, True),
                               (self.ui.check_box_show_internal_contures, True),
                               (self.ui.check_box_merge_with_the_real_image, True),
                               ]
-            toggleWidgetAndChangeStyle(widgets_tuples)
+
+            merge_images_check_box = self.ui.check_box_merge_with_the_real_image
+
+            if merge_images_check_box.isChecked():
+                toggleWidgetAndChangeStyle(widgets_tuples +
+                                           [(self.ui.slider, True), (self.ui.label_slider, True)])
+            else:
+                toggleWidgetAndChangeStyle(widgets_tuples)
+
 
     def evnImageListItemClickedPagePredict(self):
         """
@@ -1019,8 +1029,7 @@ class MainWindow(QMainWindow):
                               (self.ui.frame_calculation_page_modifications_options_max_label, False),
                               (self.ui.frame_calculation_page_modifications_options_min_label, False),
                               (self.ui.check_box_show_and_calculate_centroid, False),
-                              (self.ui.check_box_show_external_contures, False), (self.ui.slider, False),
-                              (self.ui.label_slider, False),
+                              (self.ui.check_box_show_external_contures, False), (self.ui.slider, False), (self.ui.label_slider, False),
                               (self.ui.check_box_show_internal_contures, False),
                               (self.ui.check_box_merge_with_the_real_image, False)
                               ]
@@ -1131,13 +1140,19 @@ class MainWindow(QMainWindow):
                           (self.ui.frame_calculation_page_modifications_options_max_label, True),
                           (self.ui.frame_calculation_page_modifications_options_min_label, True),
                           (self.ui.check_box_show_and_calculate_centroid, True),
-                          (self.ui.check_box_show_external_contures, True), (self.ui.slider, True),
-                          (self.ui.label_slider, True),
+                          (self.ui.check_box_show_external_contures, True),
                           (self.ui.check_box_show_internal_contures, True),
                           (self.ui.check_box_merge_with_the_real_image, True)
                           ]
 
-        toggleWidgetAndChangeStyle(widgets_tuples)
+        merge_images_check_box = self.ui.check_box_merge_with_the_real_image
+
+        if merge_images_check_box.isChecked():
+            toggleWidgetAndChangeStyle(widgets_tuples +
+                                       [(self.ui.slider, True), (self.ui.label_slider, True)])
+        else:
+            toggleWidgetAndChangeStyle(widgets_tuples)
+
         updateNumOfImages(self.ui.images_calculation_page_import_list, self.ui.label_calculate_page_images)
 
     def evnUncheckAllButtonClickedPageResults(self):
@@ -1175,8 +1190,7 @@ class MainWindow(QMainWindow):
                           (self.ui.frame_calculation_page_modifications_options_max_label, False),
                           (self.ui.frame_calculation_page_modifications_options_min_label, False),
                           (self.ui.check_box_show_and_calculate_centroid, False),
-                          (self.ui.check_box_show_external_contures, False), (self.ui.slider, False),
-                          (self.ui.label_slider, False),
+                          (self.ui.check_box_show_external_contures, False), (self.ui.slider, False), (self.ui.label_slider, False),
                           (self.ui.check_box_show_internal_contures, False),
                           (self.ui.check_box_merge_with_the_real_image, False)
                           ]

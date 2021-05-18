@@ -20,6 +20,6 @@ widgets_style = {'QDoubleSpinBox': {
                               "}"},
                  'QLabel': {'True': "color: rgb(255, 255, 255);",
                             'False': "color: rgb(32, 35, 41);"},
-                 'QSlider': {'True': "color: rgb(255, 255, 255);",
-                             'False': "color: rgb(32, 35, 41);"}
+                 'QSlider': {'True': "QSlider::groove:horizontal {\n    height: 5px;\n    margin: 0px;\n    background-color: #343b48;\n    }\nQSlider::handle:horizontal {\n    background-color:rgb(189, 147, 249);\n	border: 1px solid;\n	border-radius: 4px;\n    height: 40px;\n    width: 10px;\n	margin: -15px 0px;\n    }\n\nQSlider::handle:hover {\n    background-color: #734aad\n    }",
+                             'False': "QSlider::groove:horizontal {\n    height: 5px;\n    margin: 0px;\n    background-color: rgb(68, 68, 68)\n    }\nQSlider::handle:horizontal {\n    background-color:rgb(90, 90, 90);\n	border: 1px solid;\n	border-radius: 4px;\n    height: 40px;\n    width: 10px;\n	margin: -15px 0px;\n    }\n\nQSlider::handle:hover {\n    background-color: #734aad\n    }"}
                  }
