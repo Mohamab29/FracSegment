@@ -7,6 +7,7 @@ from ui_main import Ui_MainWindow
 from PIL.ImageQt import ImageQt
 from BackEnd.segmenting import segment
 from BackEnd.analyze_dimples import analyze, saveImagesAnalysisToCSV, find_max_area, saveImagesToHistPlots
+from BackEnd.merge_images import merge_images
 import cv2
 import io
 from PIL import Image
@@ -27,6 +28,7 @@ def toggleWidgetAndChangeStyle(pair):
         widget_class_name = widget.__class__.__name__
         widget.setEnabled(term)
         widget.setStyleSheet(widgets_style[widget_class_name][str(term)])
+
 
 def showDialog(title, message, icon, only_ok=False):
     """
@@ -196,6 +198,7 @@ class MainWindow(QMainWindow):
         self.ui.stackedWidget.setCurrentWidget(self.ui.frame_predict_page)
 
         self.imageListPathDict = {}
+        self.imageListOriginalImage = {}
         self.PredictedImagesPixMap = {}
         self.PredictedImagesNpArray = {}
         # In order to save in the prediction page to CSV, we need to send to the analyze function
@@ -388,6 +391,7 @@ class MainWindow(QMainWindow):
         import_list = self.ui.images_predict_page_import_list
         checked_items = []
         already_predicted_images = []
+        load_image = lambda x: cv2.imread(x)
 
         for index in range(import_list.count()):
             real_image_name = import_list.item(index).text()
@@ -395,7 +399,9 @@ class MainWindow(QMainWindow):
             predicted_image_name = f"{split_image_name[0]}_predicted.{split_image_name[1]}"
             if import_list.item(index).checkState() == 2:
                 if predicted_image_name not in self.PredictedImagesPixMap.keys():
-                    checked_items.append(self.imageListPathDict[real_image_name])
+                    image_path = self.imageListPathDict[real_image_name]
+                    checked_items.append(image_path)
+                    self.imageListOriginalImage[real_image_name] = load_image(image_path)
                 else:
                     already_predicted_images.append(real_image_name)
 
@@ -943,6 +949,7 @@ class MainWindow(QMainWindow):
         if self.imageListPathDict and showDialog('Clear all images', 'Are you sure?', QMessageBox.Information):
             self.ui.images_predict_page_import_list.clear()
             self.imageListPathDict.clear()
+            self.imageListOriginalImage.clear()
             imageLabelFrame(self.ui.label_predict_page_selected_picture, 0, 0, 0)
             self.ui.label_predict_page_selected_picture.setText("Please load and select image.")
 
@@ -1015,6 +1022,9 @@ class MainWindow(QMainWindow):
             show_external = self.ui.check_box_show_external_contures
             show_and_calculate_centroid = self.ui.check_box_show_and_calculate_centroid
             show_internal = self.ui.check_box_show_internal_contures
+            merge_images_checked = self.ui.check_box_merge_with_the_real_image
+
+            # flags for analyze function
             check_box_flags = {
                 'show_in_contours': show_internal.isChecked(),
                 'show_ex_contours': show_external.isChecked(),
@@ -1036,6 +1046,13 @@ class MainWindow(QMainWindow):
                 if image_name in images_drawn and image_name in images_analyzed:
                     self.imagesDrawn[image_name] = images_drawn[image_name].copy()
                     self.imagesAnalyse[image_name] = images_analyzed[image_name].copy()
+
+            if merge_images_checked.isChecked():
+                for image_name in checked_calculate_items.keys():
+                    if image_name in self.imagesDrawn:
+                        original_name = image_name.replace("_calculated", "")
+                        self.imagesDrawn[image_name] = merge_images(self.imageListOriginalImage[original_name],
+                                                                    self.imagesDrawn[image_name])
 
     def evnCheckAllButtonClickedPagePredict(self):
         for index in range(self.ui.images_predict_page_import_list.count()):
