@@ -335,7 +335,7 @@ class MainWindow(QMainWindow):
                                                        "calculation",
                                                        [(self.ui.btn_results_page_clear_images, False)]))
         self.ui.btn_calculation_page_save_images.clicked.connect(self.evnSaveImagesButtonClickedPageCalculation)
-        self.ui.btn_calculation_page_show_graphs.clicked.connect(self.evnSaveGraphsButtonClickedPageCalculation)
+        self.ui.btn_calculation_page_show_graphs.clicked.connect(self.evnShowGraphsButtonClickedPageCalculation)
         self.ui.btn_calculation_page_save_csvs.clicked.connect(self.evnSaveCsvsButtonClickedPageCalculation)
         self.ui.images_calculation_page_import_list.itemClicked.connect(
             lambda item: self.evnImageListItemClickedPageCalculation(item,
@@ -976,28 +976,28 @@ class MainWindow(QMainWindow):
     def evnSaveCsvsButtonClickedPageCalculation(self):
         self.saveItems(saveImagesAnalysisToCSV, 'Csvs')
 
-    def evnSaveGraphsButtonClickedPageCalculation(self):
-        # graphs_dict = {}
-        #
-        # calculation_page_list = self.ui.images_calculation_page_import_list
-        # for index in range(calculation_page_list.count()):
-        #     if calculation_page_list.item(index).checkState() == 2:
-        #         list_item = calculation_page_list.item(index)
-        #         list_item_name = list_item.text()
-        #         graphs_dict[list_item_name] = {
-        #             'area':,
-        #             'ratio':,
-        #             # 'deph':,
-        #             'graphs': Graphs(list_item_name)
-        #         }
-        #
-        #         label = graphs_dict[list_item_name]['graphs'].ui.label_graph
-        #         image = convertCvImage2QtImageRGB(graphs_dict[list_item.text()]['area'], "RGB")
-        #         label.setPixmap(image)
-        #         imageLabelFrame(label, QFrame.StyledPanel, QFrame.Sunken, 3)
-        #         self.graphs.show()
+    def evnShowGraphsButtonClickedPageCalculation(self):
+        graphs_dict = {}
 
-        # self.saveItems(saveImagesToHistPlots, 'Graphs')
+        calculation_page_list = self.ui.images_calculation_page_import_list
+        for index in range(calculation_page_list.count()):
+            if calculation_page_list.item(index).checkState() == 2:
+                list_item = calculation_page_list.item(index)
+                list_item_name = list_item.text()
+                graphs_dict[list_item_name] = {
+                    'area':,
+                    'ratio':,
+                    # 'deph':,
+                    'graphs': Graphs(list_item_name)
+                }
+
+                label = graphs_dict[list_item_name]['graphs'].ui.label_graph
+                image = convertCvImage2QtImageRGB(graphs_dict[list_item.text()]['area'], "RGB")
+                label.setPixmap(image)
+                imageLabelFrame(label, QFrame.StyledPanel, QFrame.Sunken, 3)
+                self.graphs.show()
+
+        self.saveItems(saveImagesToHistPlots, 'Graphs')
 
     def saveItems(self, save_function, items_name):
         calculated_images_save = {}

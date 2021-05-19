@@ -1,5 +1,7 @@
 import os
 from typing import Tuple, List, Dict
+
+import matplotlib.pyplot as plt
 import numpy as np
 import cv2
 import random
@@ -129,22 +131,34 @@ def saveImagesAnalysisToCSV(images_analysis: list, file_names: list, path: str):
         saveAnalysisToCSV(images_analysis[index], file_name, path)
 
 
-def saveImagesToHistPlots(images_analysis: list, file_names: list, path: str, num_of_bins: int = 15):
+# def saveImagesToHistPlots(images_analysis: list, file_names: list, path: str, num_of_bins: int = 15):
+#     """
+#     If given a list of dictionaries, we send each dictionary to the createAndSaveHistPlot function and then we create
+#     a graph for each image and then we save it with the corresponding file name into a png file.
+#
+#     :param images_analysis: a list of dictionaries containing the properties we analyzed in a prediction.
+#     :param num_of_bins: the number of intervals.
+#     :param file_names: a list of file name that correspond to the given images analysis
+#     :param path: folder path.
+#     """
+#     for index in range(images_analysis.__len__()):
+#         file_name = file_names[index].split('.')[0]
+#         createAndSaveHistPlot(images_analysis[index], num_of_bins, file_name, path)
+
+def from_fig_to_array(fig: plt.Figure) -> np.ndarray:
     """
-    If given a list of dictionaries, we send each dictionary to the createAndSaveHistPlot function and then we create
-    a graph for each image and then we save it with the corresponding file name into a png file.
 
-    :param images_analysis: a list of dictionaries containing the properties we analyzed in a prediction.
-    :param num_of_bins: the number of intervals.
-    :param file_names: a list of file name that correspond to the given images analysis
-    :param path: folder path.
+    :param fig: a matplotlib figure that we want to convert to an array
+    :return: 3D array of the figure
     """
-    for index in range(images_analysis.__len__()):
-        file_name = file_names[index].split('.')[0]
-        createAndSaveHistPlot(images_analysis[index], num_of_bins, file_name, path)
+    fig.canvas.draw()
+    image_from_plot = np.frombuffer(fig.canvas.tostring_rgb(), dtype=np.uint8)
+    image_from_plot = image_from_plot.reshape(fig.canvas.get_width_height()[::-1] + (3,))
+    image = cv2.cvtColor(image_from_plot, cv2.COLOR_BGR2RGB)
+    return image
 
 
-def createAndSaveHistPlot(image_analysis: dict, num_of_bins: int, file_name: str, path: str = "."):
+def createRatioBinPlot(image_analysis: dict, num_of_bins: int = 10) -> np.ndarray:
     """
     The function takes a dictionary of an image analysis that contains properties of a single image,
     and makes a histogram plot based on the area as the x axis and the frequency as the y-axis.
@@ -152,8 +166,43 @@ def createAndSaveHistPlot(image_analysis: dict, num_of_bins: int, file_name: str
 
     :param image_analysis: a dictionary containing the properties we wanted to analyze in a prediction.
     :param num_of_bins: the number of intervals.
-    :param file_name: string, the name of the image, it will be used for the name of the csv file,example: image_graph.png
-    :param path:string,folder path,default is "." .
+    :return: 3D numpy array, the plot is converted into a numpy array
+    """
+    df_ratios = pd.DataFrame({
+        "ratios": image_analysis["ratios"],
+    }
+    )
+
+    df_ratios['intervals'] = pd.cut(x=df_ratios['ratios'], bins=num_of_bins, right=False)
+
+    df_ratios = df_ratios.sort_values('intervals')
+
+    ax_dims = (15, 15)
+    fig, ax = pyplot.subplots(figsize=ax_dims)
+    pal = sns.color_palette("Set2")
+    ax = sns.countplot(ax=ax, data=df_ratios, x="intervals", palette=pal)
+    ax.set_ylabel('Count',
+                  fontsize='xx-large')
+    ax.set_xlabel('Intervals of ratio',
+                  fontsize='xx-large')
+
+    ax.set_xticklabels(labels=df_ratios['intervals'].unique(), rotation=45, size=15)
+
+    ax.figure.savefig(f"scatter_graph.png", dpi=120)
+    fig = ax.figure
+    print(from_fig_to_array(fig))
+    fig.show()
+
+
+def createAreaHistPlot(image_analysis: dict, num_of_bins: int) -> np.ndarray:
+    """
+    The function takes a dictionary of an image analysis that contains properties of a single image,
+    and makes a histogram plot based on the area as the x axis and the frequency as the y-axis.
+
+
+    :param image_analysis: a dictionary containing the properties we wanted to analyze in a prediction.
+    :param num_of_bins: the number of intervals.
+    :return: 3D numpy array, the plot is converted into a numpy array
 
     """
     intervals = findIntervals(image_analysis["area"], num_of_bins=num_of_bins)
@@ -174,14 +223,13 @@ def createAndSaveHistPlot(image_analysis: dict, num_of_bins: int, file_name: str
     x = range(0, len(intervals))
     ax.set_xticks(x)
     ax.set_xticklabels(labels=intervals, rotation=45, size=15)
-    y = range(0, 31)
-    ax.set_yticks(y)
     ax.margins(0.2, 0.2)
     ax.autoscale(enable=True, axis="x", tight=True)
     fig.tight_layout()
-    if not os.path.exists(f"{path}/files/graphs/"):
-        os.makedirs(f"{path}/files/graphs/")
-    ax.figure.savefig(f"{path}/files/graphs/{file_name}_graph.png", dpi=120)
+    # if not os.path.exists(f"{path}/files/graphs/"):
+    #     os.makedirs(f"{path}/files/graphs/")
+    # ax.figure.savefig(f"{path}/files/graphs/{file_name}_graph.png", dpi=120)
+    return from_fig_to_array(fig)
 
 
 # noinspection DuplicatedCode
