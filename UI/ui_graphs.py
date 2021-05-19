@@ -76,6 +76,7 @@ class Ui_Graphs(object):
 "    border: 2px solid rgb(52, 59, 72);\n"
 "    border-radius: 5px;    \n"
 "    background-color: rgb(52, 59, 72);\n"
+"    color: #fff\n"
 "}\n"
 " QPushButton:hover {\n"
 "    background-color: rgb(57, 65, 80);\n"

@@ -201,6 +201,16 @@ class Graphs(QWidget):
         self.ui = Ui_Graphs()
         self.ui.setupUi(self)
         self.setWindowTitle(picture_name)
+        self.center()
+
+    def center(self):
+        """
+        Centralizes the app window.
+        """
+        qr = self.frameGeometry()
+        cp = QDesktopWidget().availableGeometry().center()
+        qr.moveCenter(cp)
+        self.move(qr.topLeft())
 
 
 class MainWindow(QMainWindow):
@@ -967,12 +977,26 @@ class MainWindow(QMainWindow):
         self.saveItems(saveImagesAnalysisToCSV, 'Csvs')
 
     def evnSaveGraphsButtonClickedPageCalculation(self):
-        self.graphs = Graphs("Picture Name")
-        self.graphs.ui.label_graph.setText("VLadis")
+        # graphs_dict = {}
+        #
+        # calculation_page_list = self.ui.images_calculation_page_import_list
+        # for index in range(calculation_page_list.count()):
+        #     if calculation_page_list.item(index).checkState() == 2:
+        #         list_item = calculation_page_list.item(index)
+        #         list_item_name = list_item.text()
+        #         graphs_dict[list_item_name] = {
+        #             'area':,
+        #             'ratio':,
+        #             # 'deph':,
+        #             'graphs': Graphs(list_item_name)
+        #         }
+        #
+        #         label = graphs_dict[list_item_name]['graphs'].ui.label_graph
+        #         image = convertCvImage2QtImageRGB(graphs_dict[list_item.text()]['area'], "RGB")
+        #         label.setPixmap(image)
+        #         imageLabelFrame(label, QFrame.StyledPanel, QFrame.Sunken, 3)
+        #         self.graphs.show()
 
-        self.evnCurrentItemChanged(self.ui.images_calculation_page_import_list.currentItem(), self.graphs.ui.label_graph,
-                                   self.imagesDrawn, "calculation")
-        self.graphs.show()
         # self.saveItems(saveImagesToHistPlots, 'Graphs')
 
     def saveItems(self, save_function, items_name):
