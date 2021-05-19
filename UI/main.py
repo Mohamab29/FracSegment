@@ -7,7 +7,8 @@ from ui_main import Ui_MainWindow
 from ui_graphs import Ui_Graphs
 from PIL.ImageQt import ImageQt
 from BackEnd.segmenting import segment
-from BackEnd.analyze_dimples import analyze, saveImagesAnalysisToCSV, find_max_area, saveImagesToHistPlots
+from BackEnd.analyze_dimples import analyze, saveImagesAnalysisToCSV, find_max_area, createRatioBinPlot, \
+    createAreaHistPlot
 from BackEnd.merge_images import merge_images
 import cv2
 import io
@@ -140,7 +141,7 @@ def evnImageListItemDoubleClicked(item, dic, page):
 
     def pageCalculation():
         if item:
-            img = cv2.cvtColor(dic[item.text()],cv2.COLOR_BGR2RGB)
+            img = cv2.cvtColor(dic[item.text()], cv2.COLOR_BGR2RGB)
             pil_im = Image.fromarray(img).convert('RGB')
             pil_im.show()
 
@@ -196,7 +197,7 @@ class Graphs(QWidget):
     will appear as a free-floating window as we want.
     """
 
-    def __init__(self,picture_name):
+    def __init__(self, picture_name):
         super().__init__()
         self.ui = Ui_Graphs()
         self.ui.setupUi(self)
@@ -233,7 +234,7 @@ class MainWindow(QMainWindow):
             'show_in_contours': True,
             'show_ex_contours': True,
             'calc_centroid': True,
-            'show_ellipses':False
+            'show_ellipses': False
         }
 
         self.imagesForCalculationNpArray = {}
@@ -243,6 +244,8 @@ class MainWindow(QMainWindow):
         self.imagesAnalyse = {}
         self.imagesDrawn = {}
 
+        # for graphs pop windows
+        self.graphs_pops = {}
         self.imagesMaxValues = {}
         self.imagesMinValues = {}
         self.currentItemClickedNameCalcPage = ''
@@ -977,27 +980,26 @@ class MainWindow(QMainWindow):
         self.saveItems(saveImagesAnalysisToCSV, 'Csvs')
 
     def evnShowGraphsButtonClickedPageCalculation(self):
-        graphs_dict = {}
 
         calculation_page_list = self.ui.images_calculation_page_import_list
         for index in range(calculation_page_list.count()):
             if calculation_page_list.item(index).checkState() == 2:
                 list_item = calculation_page_list.item(index)
                 list_item_name = list_item.text()
-                graphs_dict[list_item_name] = {
-                    'area':,
-                    'ratio':,
-                    # 'deph':,
+                ratio_numpy_image = createRatioBinPlot(self.imagesAnalyse[list_item_name])
+                area_numpy_image = createAreaHistPlot(self.imagesAnalyse[list_item_name])
+                self.graphs_pops[list_item_name] = {
+                    'area': area_numpy_image,
+                    'ratio': ratio_numpy_image,
+                    # 'depth':,
                     'graphs': Graphs(list_item_name)
                 }
 
-                label = graphs_dict[list_item_name]['graphs'].ui.label_graph
-                image = convertCvImage2QtImageRGB(graphs_dict[list_item.text()]['area'], "RGB")
+                label = self.graphs_pops[list_item_name]['graphs'].ui.label_graph
+                image = convertCvImage2QtImageRGB(self.graphs_pops[list_item.text()]['area'], "RGB")
                 label.setPixmap(image)
                 imageLabelFrame(label, QFrame.StyledPanel, QFrame.Sunken, 3)
-                self.graphs.show()
-
-        self.saveItems(saveImagesToHistPlots, 'Graphs')
+                self.graphs_pops[list_item_name]['graphs'].show()
 
     def saveItems(self, save_function, items_name):
         calculated_images_save = {}

@@ -190,11 +190,10 @@ def createRatioBinPlot(image_analysis: dict, num_of_bins: int = 10) -> np.ndarra
 
     ax.figure.savefig(f"scatter_graph.png", dpi=120)
     fig = ax.figure
-    print(from_fig_to_array(fig))
-    fig.show()
+    return from_fig_to_array(fig)
 
 
-def createAreaHistPlot(image_analysis: dict, num_of_bins: int) -> np.ndarray:
+def createAreaHistPlot(image_analysis: dict, num_of_bins: int = 15) -> np.ndarray:
     """
     The function takes a dictionary of an image analysis that contains properties of a single image,
     and makes a histogram plot based on the area as the x axis and the frequency as the y-axis.
