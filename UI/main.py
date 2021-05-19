@@ -325,7 +325,7 @@ class MainWindow(QMainWindow):
                                                        "calculation",
                                                        [(self.ui.btn_results_page_clear_images, False)]))
         self.ui.btn_calculation_page_save_images.clicked.connect(self.evnSaveImagesButtonClickedPageCalculation)
-        self.ui.btn_calculation_page_save_graphs.clicked.connect(self.evnSaveGraphsButtonClickedPageCalculation)
+        self.ui.btn_calculation_page_show_graphs.clicked.connect(self.evnSaveGraphsButtonClickedPageCalculation)
         self.ui.btn_calculation_page_save_csvs.clicked.connect(self.evnSaveCsvsButtonClickedPageCalculation)
         self.ui.images_calculation_page_import_list.itemClicked.connect(
             lambda item: self.evnImageListItemClickedPageCalculation(item,
@@ -538,7 +538,7 @@ class MainWindow(QMainWindow):
                     (self.ui.btn_calculation_page_clear_images, True),
                     (self.ui.btn_calculation_page_show, True),
                     (self.ui.btn_calculation_page_uncheck_all, True),
-                    (self.ui.btn_calculation_page_save_graphs, True),
+                    (self.ui.btn_calculation_page_show_graphs, True),
                     (self.ui.frame_calculation_page_modifications_options_min_spin_box, True),
                     (self.ui.frame_calculation_page_modifications_options_max_spin_box, True),
                     (self.ui.frame_calculation_page_modifications_options_max_label, True),
@@ -766,7 +766,7 @@ class MainWindow(QMainWindow):
         if not countCheckedItems(widget_list, 'num_of_check_items'):
             widgets_tuples = [(self.ui.btn_calculation_page_clear_images, False),
                               (self.ui.btn_calculation_page_save_images, False),
-                              (self.ui.btn_calculation_page_save_graphs, False),
+                              (self.ui.btn_calculation_page_show_graphs, False),
                               (self.ui.btn_calculation_page_save_csvs, False),
                               (self.ui.btn_calculation_page_show, False),
                               (self.ui.frame_calculation_page_modifications_options_min_spin_box, False),
@@ -786,7 +786,7 @@ class MainWindow(QMainWindow):
         else:
             widgets_tuples = [(self.ui.btn_calculation_page_clear_images, True),
                               (self.ui.btn_calculation_page_save_images, True),
-                              (self.ui.btn_calculation_page_save_graphs, True),
+                              (self.ui.btn_calculation_page_show_graphs, True),
                               (self.ui.btn_calculation_page_save_csvs, True),
                               (self.ui.btn_calculation_page_show, True),
                               (self.ui.frame_calculation_page_modifications_options_min_spin_box, True),
@@ -969,6 +969,9 @@ class MainWindow(QMainWindow):
     def evnSaveGraphsButtonClickedPageCalculation(self):
         self.graphs = Graphs("Picture Name")
         self.graphs.ui.label_graph.setText("VLadis")
+
+        self.evnCurrentItemChanged(self.ui.images_calculation_page_import_list.currentItem(), self.graphs.ui.label_graph,
+                                   self.imagesDrawn, "calculation")
         self.graphs.show()
         # self.saveItems(saveImagesToHistPlots, 'Graphs')
 
@@ -1040,7 +1043,7 @@ class MainWindow(QMainWindow):
                               (self.ui.btn_calculation_page_check_all, False),
                               (self.ui.btn_calculation_page_delete_selected_images, False),
                               (self.ui.btn_calculation_page_save_images, False),
-                              (self.ui.btn_calculation_page_save_graphs, False),
+                              (self.ui.btn_calculation_page_show_graphs, False),
                               (self.ui.btn_calculation_page_save_csvs, False),
                               (self.ui.btn_calculation_page_show, False),
                               (self.ui.frame_calculation_page_modifications_options_min_spin_box, False),
@@ -1151,7 +1154,7 @@ class MainWindow(QMainWindow):
                           (self.ui.btn_calculation_page_delete_selected_images, True),
                           (self.ui.btn_calculation_page_save_csvs, True),
                           (self.ui.btn_calculation_page_save_images, True),
-                          (self.ui.btn_calculation_page_save_graphs, True),
+                          (self.ui.btn_calculation_page_show_graphs, True),
                           (self.ui.btn_calculation_page_show, True),
                           (self.ui.btn_calculation_page_clear_images, True),
                           (self.ui.frame_calculation_page_modifications_options_min_spin_box, True),
@@ -1196,7 +1199,7 @@ class MainWindow(QMainWindow):
                           (self.ui.btn_calculation_page_uncheck_all, False),
                           (self.ui.btn_calculation_page_delete_selected_images, False),
                           (self.ui.btn_calculation_page_save_images, False),
-                          (self.ui.btn_calculation_page_save_graphs, False),
+                          (self.ui.btn_calculation_page_show_graphs, False),
                           (self.ui.btn_calculation_page_save_csvs, False),
                           (self.ui.btn_calculation_page_show, False),
                           (self.ui.btn_calculation_page_clear_images, False),

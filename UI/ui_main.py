@@ -1369,13 +1369,13 @@ class Ui_MainWindow(object):
         self.frame_calculation_page_buttons_save_graphs.setObjectName("frame_calculation_page_buttons_save_graphs")
         self.verticalLayout_33 = QtWidgets.QVBoxLayout(self.frame_calculation_page_buttons_save_graphs)
         self.verticalLayout_33.setObjectName("verticalLayout_33")
-        self.btn_calculation_page_save_graphs = QtWidgets.QPushButton(self.frame_calculation_page_buttons_save_graphs)
-        self.btn_calculation_page_save_graphs.setEnabled(False)
-        self.btn_calculation_page_save_graphs.setMinimumSize(QtCore.QSize(0, 20))
+        self.btn_calculation_page_show_graphs = QtWidgets.QPushButton(self.frame_calculation_page_buttons_save_graphs)
+        self.btn_calculation_page_show_graphs.setEnabled(False)
+        self.btn_calculation_page_show_graphs.setMinimumSize(QtCore.QSize(0, 20))
         font = QtGui.QFont()
         font.setPointSize(11)
-        self.btn_calculation_page_save_graphs.setFont(font)
-        self.btn_calculation_page_save_graphs.setStyleSheet("QPushButton {\n"
+        self.btn_calculation_page_show_graphs.setFont(font)
+        self.btn_calculation_page_show_graphs.setStyleSheet("QPushButton {\n"
 "    color: rgb(43, 49, 56);\n"
 "    background-color: rgb(33, 37, 43);\n"
 "    border: 2px outset rgb(37, 40, 45);\n"
@@ -1386,10 +1386,10 @@ class Ui_MainWindow(object):
 "}")
         icon15 = QtGui.QIcon()
         icon15.addPixmap(QtGui.QPixmap(":/assets/icons/graph-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.btn_calculation_page_save_graphs.setIcon(icon15)
-        self.btn_calculation_page_save_graphs.setIconSize(QtCore.QSize(20, 20))
-        self.btn_calculation_page_save_graphs.setObjectName("btn_calculation_page_save_graphs")
-        self.verticalLayout_33.addWidget(self.btn_calculation_page_save_graphs)
+        self.btn_calculation_page_show_graphs.setIcon(icon15)
+        self.btn_calculation_page_show_graphs.setIconSize(QtCore.QSize(20, 20))
+        self.btn_calculation_page_show_graphs.setObjectName("btn_calculation_page_show_graphs")
+        self.verticalLayout_33.addWidget(self.btn_calculation_page_show_graphs)
         self.horizontalLayout_7.addWidget(self.frame_calculation_page_buttons_save_graphs, 0, QtCore.Qt.AlignTop)
         self.verticalLayout_20.addWidget(self.frame_calculate_page_buttons)
         self.stackedWidget.addWidget(self.frame_calculation_page)
@@ -1463,7 +1463,7 @@ class Ui_MainWindow(object):
         self.btn_calculation_page_clear_images.setText(_translate("MainWindow", "Clear Image list"))
         self.btn_calculation_page_check_all.setText(_translate("MainWindow", "Check All"))
         self.btn_calculation_page_uncheck_all.setText(_translate("MainWindow", "Uncheck All"))
-        self.btn_calculation_page_save_graphs.setText(_translate("MainWindow", "Save Graphs"))
+        self.btn_calculation_page_show_graphs.setText(_translate("MainWindow", "Show Graphs"))
         self.label_2.setText(_translate("MainWindow", " By: Vladis Markin & Mohamed Abomokh"))
         self.label_3.setText(_translate("MainWindow", "v1.0.0   "))
 import icons_rc
