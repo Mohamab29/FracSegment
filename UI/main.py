@@ -1,9 +1,10 @@
 import os
 import time
 
-from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog, QMessageBox, QDesktopWidget, QFrame
+from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog, QMessageBox, QDesktopWidget, QFrame, QWidget
 from PyQt5 import QtCore, QtGui, QtWidgets
 from ui_main import Ui_MainWindow
+from ui_graphs import Ui_Graphs
 from PIL.ImageQt import ImageQt
 from BackEnd.segmenting import segment
 from BackEnd.analyze_dimples import analyze, saveImagesAnalysisToCSV, find_max_area, saveImagesToHistPlots
@@ -188,12 +189,26 @@ def addImageNameToList(image_name, list):
     list.addItem(list_item)
 
 
+class Graphs(QWidget):
+    """
+    This "window" is a QWidget. If it has no parent, it
+    will appear as a free-floating window as we want.
+    """
+
+    def __init__(self,picture_name):
+        super().__init__()
+        self.ui = Ui_Graphs()
+        self.ui.setupUi(self)
+        self.setWindowTitle(picture_name)
+
+
 class MainWindow(QMainWindow):
     def __init__(self):
         QMainWindow.__init__(self)
 
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+
         self.animation = QtCore.QPropertyAnimation(self.ui.frame_left_menu, b"minimumWidth")
         self.ui.stackedWidget.setCurrentWidget(self.ui.frame_predict_page)
 
@@ -950,7 +965,10 @@ class MainWindow(QMainWindow):
         self.saveItems(saveImagesAnalysisToCSV, 'Csvs')
 
     def evnSaveGraphsButtonClickedPageCalculation(self):
-        self.saveItems(saveImagesToHistPlots, 'Graphs')
+        self.graphs = Graphs("Picture Name")
+        self.graphs.ui.label_graph.setText("VLadis")
+        self.graphs.show()
+        # self.saveItems(saveImagesToHistPlots, 'Graphs')
 
     def saveItems(self, save_function, items_name):
         calculated_images_save = {}
@@ -1073,8 +1091,8 @@ class MainWindow(QMainWindow):
                 self.ui.slider.setValue(0)
 
             self.merge_original_w_drawn(images_drawn, images_analyzed, checked_calculate_items)
-            self.evnCurrentItemChanged(import_list.currentItem(),self.ui.label_calculate_page_selected_picture,
-                                       self.imagesDrawn,"calculation")
+            self.evnCurrentItemChanged(import_list.currentItem(), self.ui.label_calculate_page_selected_picture,
+                                       self.imagesDrawn, "calculation")
 
     def evnCheckAllButtonClickedPagePredict(self):
         for index in range(self.ui.images_predict_page_import_list.count()):
