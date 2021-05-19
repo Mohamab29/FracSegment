@@ -139,7 +139,8 @@ def evnImageListItemDoubleClicked(item, dic, page):
 
     def pageCalculation():
         if item:
-            pil_im = Image.fromarray(dic[item.text()]).convert('RGB')
+            img = cv2.cvtColor(dic[item.text()],cv2.COLOR_BGR2RGB)
+            pil_im = Image.fromarray(img).convert('RGB')
             pil_im.show()
 
     {
@@ -206,7 +207,8 @@ class MainWindow(QMainWindow):
         self.default_flags = {
             'show_in_contours': True,
             'show_ex_contours': True,
-            'calc_centroid': True
+            'calc_centroid': True,
+            'show_ellipses':False
         }
 
         self.imagesForCalculationNpArray = {}
@@ -1049,12 +1051,13 @@ class MainWindow(QMainWindow):
             show_external = self.ui.check_box_show_external_contures
             show_and_calculate_centroid = self.ui.check_box_show_and_calculate_centroid
             show_internal = self.ui.check_box_show_internal_contures
-
+            show_ellipses = self.ui.check_box_show_ellipses
             # flags for analyze function
             check_box_flags = {
                 'show_in_contours': show_internal.isChecked(),
                 'show_ex_contours': show_external.isChecked(),
-                'calc_centroid': show_and_calculate_centroid.isChecked()
+                'calc_centroid': show_and_calculate_centroid.isChecked(),
+                'show_ellipses': show_ellipses.isChecked()
             }
 
             for index in range(import_list.count()):
@@ -1073,8 +1076,8 @@ class MainWindow(QMainWindow):
                 self.ui.slider.setValue(0)
 
             self.merge_original_w_drawn(images_drawn, images_analyzed, checked_calculate_items)
-            self.evnCurrentItemChanged(import_list.currentItem(),self.ui.label_calculate_page_selected_picture,
-                                       self.imagesDrawn,"calculation")
+            self.evnCurrentItemChanged(import_list.currentItem(), self.ui.label_calculate_page_selected_picture,
+                                       self.imagesDrawn, "calculation")
 
     def evnCheckAllButtonClickedPagePredict(self):
         for index in range(self.ui.images_predict_page_import_list.count()):

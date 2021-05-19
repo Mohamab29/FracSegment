@@ -58,6 +58,20 @@ def calcCentroid(cnt: np.ndarray) -> Tuple[int, int]:
     return cx, cy
 
 
+def calcRatio(cnt: np.ndarray) -> Tuple[float, tuple]:
+    """
+    The function calculates the centroid of a given contour.
+
+    :param cnt: 3D numpy array of the contour shape.
+    :return ratio: float, the ratio of the minor and major axes of an ellipse that fits the given contour
+    """
+    ellipse = cv2.fitEllipse(cnt)
+    (_, _), (d1, d2), angle = ellipse
+    semi_major_axis = max(d1, d2)
+    semi_minor_axis = min(d1, d2)
+    return (semi_minor_axis / semi_major_axis), ellipse
+
+
 def findIntervals(areas: list, num_of_bins: int) -> List[pd.Interval]:
     """
     :param areas: a list of contour areas.
@@ -202,7 +216,7 @@ def analyze(images: dict
 
         drawn_image = np.zeros(images[name].shape + (3,), dtype=np.uint8)
 
-        image_analysis = {"contour_index": [], "contour_type": [], "area": []}
+        image_analysis = {"contour_index": [], "contour_type": [], "area": [], "ratios": []}
         if flags["calc_centroid"]:
             image_analysis["centroid"] = []
         image_analysis["interval_range"] = []
@@ -215,7 +229,7 @@ def analyze(images: dict
             cnt_area = cv2.contourArea(cnt)
             cnt_color = random_color()
             if min_limit < cnt_area < max_limit:
-
+                cnt_ratio, ellipse = calcRatio(cnt)
                 if flags["show_in_contours"] and flags["show_ex_contours"]:
                     image_analysis["contour_index"].append(i)
                     cv2.drawContours(drawn_image, [cnt], -1, cnt_color, 2)
@@ -229,7 +243,10 @@ def analyze(images: dict
                         cv2.circle(
                             drawn_image, (cx, cy), radius=3,
                             color=cnt_color, thickness=-1)
+                    if flags["show_ellipses"]:
+                        cv2.ellipse(drawn_image, ellipse, (0, 0, 255), 3)
                     image_analysis["area"].append(cnt_area)
+                    image_analysis["ratios"].append(cnt_ratio)
 
                 elif flags["show_in_contours"] and not flags["show_ex_contours"]:
                     if hier != -1:
@@ -242,8 +259,10 @@ def analyze(images: dict
                             cv2.circle(
                                 drawn_image, (cx, cy), radius=3,
                                 color=cnt_color, thickness=-1)
-
+                        if flags["show_ellipses"]:
+                            cv2.ellipse(drawn_image, ellipse, (0, 0, 255), 3)
                         image_analysis["area"].append(cnt_area)
+                        image_analysis["ratios"].append(cnt_ratio)
 
                 elif flags["show_ex_contours"] and not flags["show_in_contours"]:
                     if hier == -1:
@@ -257,9 +276,13 @@ def analyze(images: dict
                             cv2.circle(
                                 drawn_image, (cx, cy), radius=3,
                                 color=cnt_color, thickness=-1)
+                        if flags["show_ellipses"]:
+                            cv2.ellipse(drawn_image, ellipse, (0, 0, 255), 3)
                         image_analysis["area"].append(cnt_area)
+                        image_analysis["ratios"].append(cnt_ratio)
                 else:
-                    continue
+                    if flags["show_ellipses"]:
+                        cv2.ellipse(drawn_image, ellipse, (0, 0, 255), 3)
 
         if flags["show_in_contours"] or flags["show_ex_contours"]:
             image_analysis["interval_range"] = fitToIntervals(areas=image_analysis["area"], num_of_bins=num_of_bins)
