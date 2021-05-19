@@ -295,7 +295,7 @@ class MainWindow(QMainWindow):
 
         # calculation page event listeners
         self.ui.btn_calculation_page_clear_images.clicked.connect(self.evnClearImagesButtonClickedPageCalculation)
-        self.ui.btn_calculation_page_send.clicked.connect(self.evnSendButtonClickedPageCalculation)
+        self.ui.btn_calculation_page_show.clicked.connect(self.evnSendButtonClickedPageCalculation)
         self.ui.btn_calculation_page_check_all.clicked.connect(self.evnCheckAllButtonClickedPageCalculation)
         self.ui.btn_calculation_page_uncheck_all.clicked.connect(self.evnUncheckAllButtonClickedPageCalculation)
         self.ui.btn_calculation_page_delete_selected_images.clicked.connect(
@@ -325,16 +325,9 @@ class MainWindow(QMainWindow):
             lambda: self.evnChangeMaxOrMinValuePageCalculation(self.imagesMinValues,
                                                                self.ui.frame_calculation_page_modifications_options_min_spin_box))
         self.ui.slider.valueChanged.connect(self.evtSliderValueChanged)
-        self.ui.check_box_merge_with_the_real_image.stateChanged.connect(self.evtChackBoxMergeImagesChanged)
 
     def evtSliderValueChanged(self):
         self.ui.label_slider.setText(str(str(self.ui.slider.value()) + '%'))
-
-    def evtChackBoxMergeImagesChanged(self):
-        if self.ui.check_box_merge_with_the_real_image.isChecked():
-            toggleWidgetAndChangeStyle([(self.ui.slider, True), (self.ui.label_slider, True)])
-        else:
-            toggleWidgetAndChangeStyle([(self.ui.slider, False), (self.ui.label_slider, False)])
 
     def evnAfterPrediction(self, segmented_images):
 
@@ -450,6 +443,18 @@ class MainWindow(QMainWindow):
                 self.thread['prediction'].after_prediction.connect(self.evnAfterPrediction)
                 self.thread['prediction'].update_progress.connect(self.evtUpdateProgress)
 
+    def merge_original_w_drawn(self, images_drawn, images_analyzed, checked_items):
+        for image_name in checked_items.keys():
+            if image_name in images_drawn and image_name in images_analyzed:
+                self.imagesDrawn[image_name] = images_drawn[image_name].copy()
+                self.imagesAnalyse[image_name] = images_analyzed[image_name].copy()
+        alpha = self.ui.slider.value()
+        for image_name in checked_items.keys():
+            if image_name in self.imagesDrawn:
+                original_name = image_name.replace("_calculated", "")
+                self.imagesDrawn[image_name] = merge_images(self.imageListOriginalImage[original_name],
+                                                            self.imagesDrawn[image_name], alpha=alpha / 100)
+
     def evtUpdateProgress(self, val):
         self.ui.progress_bar_page_predict.setValue(val)
 
@@ -499,10 +504,7 @@ class MainWindow(QMainWindow):
 
                 images_drawn, images_analyzed = analyze(checked_items, self.default_flags,
                                                         checked_min_max_values)
-                for image_name in checked_items.keys():
-                    if image_name in images_drawn and image_name in images_analyzed:
-                        self.imagesDrawn[image_name] = images_drawn[image_name].copy()
-                        self.imagesAnalyse[image_name] = images_analyzed[image_name].copy()
+                self.merge_original_w_drawn(images_drawn, images_analyzed, checked_items)
 
                 nparray_images = checked_items.keys()
                 names = []
@@ -517,7 +519,7 @@ class MainWindow(QMainWindow):
                     (self.ui.btn_calculation_page_save_csvs, True),
                     (self.ui.btn_calculation_page_delete_selected_images, True),
                     (self.ui.btn_calculation_page_clear_images, True),
-                    (self.ui.btn_calculation_page_send, True),
+                    (self.ui.btn_calculation_page_show, True),
                     (self.ui.btn_calculation_page_uncheck_all, True),
                     (self.ui.btn_calculation_page_save_graphs, True),
                     (self.ui.frame_calculation_page_modifications_options_min_spin_box, True),
@@ -525,17 +527,15 @@ class MainWindow(QMainWindow):
                     (self.ui.frame_calculation_page_modifications_options_max_label, True),
                     (self.ui.frame_calculation_page_modifications_options_min_label, True),
                     (self.ui.check_box_show_and_calculate_centroid, True),
+                    (self.ui.check_box_show_ellipses, True),
+                    (self.ui.slider, True),
+                    (self.ui.label_slider, True),
                     (self.ui.check_box_show_external_contures, True),
                     (self.ui.check_box_show_internal_contures, True),
-                    (self.ui.check_box_merge_with_the_real_image, True)
+
                 ]
 
-                merge_images_check_box = self.ui.check_box_merge_with_the_real_image
-                if merge_images_check_box.isChecked():
-                    toggleWidgetAndChangeStyle(widgets_tuples +
-                                               [(self.ui.slider, True), (self.ui.label_slider, True)])
-                else:
-                    toggleWidgetAndChangeStyle(widgets_tuples)
+                toggleWidgetAndChangeStyle(widgets_tuples)
 
                 import_list = self.ui.images_calculation_page_import_list
                 selected_calculation_list_size = len(import_list.selectedItems())
@@ -751,15 +751,19 @@ class MainWindow(QMainWindow):
                               (self.ui.btn_calculation_page_save_images, False),
                               (self.ui.btn_calculation_page_save_graphs, False),
                               (self.ui.btn_calculation_page_save_csvs, False),
-                              (self.ui.btn_calculation_page_send, False),
+                              (self.ui.btn_calculation_page_show, False),
                               (self.ui.frame_calculation_page_modifications_options_min_spin_box, False),
                               (self.ui.frame_calculation_page_modifications_options_max_spin_box, False),
                               (self.ui.frame_calculation_page_modifications_options_max_label, False),
                               (self.ui.frame_calculation_page_modifications_options_min_label, False),
                               (self.ui.check_box_show_and_calculate_centroid, False),
-                              (self.ui.check_box_show_external_contures, False), (self.ui.slider, False), (self.ui.label_slider, False), 
+                              (self.ui.check_box_show_ellipses, False),
+                              (self.ui.slider, False),
+                              (self.ui.label_slider, False),
+
+                              (self.ui.check_box_show_external_contures, False),
+
                               (self.ui.check_box_show_internal_contures, False),
-                              (self.ui.check_box_merge_with_the_real_image, False)
                               ]
             toggleWidgetAndChangeStyle(widgets_tuples)
         else:
@@ -767,25 +771,20 @@ class MainWindow(QMainWindow):
                               (self.ui.btn_calculation_page_save_images, True),
                               (self.ui.btn_calculation_page_save_graphs, True),
                               (self.ui.btn_calculation_page_save_csvs, True),
-                              (self.ui.btn_calculation_page_send, True),
+                              (self.ui.btn_calculation_page_show, True),
                               (self.ui.frame_calculation_page_modifications_options_min_spin_box, True),
                               (self.ui.frame_calculation_page_modifications_options_max_spin_box, True),
                               (self.ui.frame_calculation_page_modifications_options_max_label, True),
                               (self.ui.frame_calculation_page_modifications_options_min_label, True),
                               (self.ui.check_box_show_and_calculate_centroid, True),
+                              (self.ui.check_box_show_ellipses, True),
+                              (self.ui.slider, True),
+                              (self.ui.label_slider, True),
                               (self.ui.check_box_show_external_contures, True),
                               (self.ui.check_box_show_internal_contures, True),
-                              (self.ui.check_box_merge_with_the_real_image, True),
                               ]
 
-            merge_images_check_box = self.ui.check_box_merge_with_the_real_image
-
-            if merge_images_check_box.isChecked():
-                toggleWidgetAndChangeStyle(widgets_tuples +
-                                           [(self.ui.slider, True), (self.ui.label_slider, True)])
-            else:
-                toggleWidgetAndChangeStyle(widgets_tuples)
-
+            toggleWidgetAndChangeStyle(widgets_tuples)
 
     def evnImageListItemClickedPagePredict(self):
         """
@@ -1023,15 +1022,19 @@ class MainWindow(QMainWindow):
                               (self.ui.btn_calculation_page_save_images, False),
                               (self.ui.btn_calculation_page_save_graphs, False),
                               (self.ui.btn_calculation_page_save_csvs, False),
-                              (self.ui.btn_calculation_page_send, False),
+                              (self.ui.btn_calculation_page_show, False),
                               (self.ui.frame_calculation_page_modifications_options_min_spin_box, False),
                               (self.ui.frame_calculation_page_modifications_options_max_spin_box, False),
                               (self.ui.frame_calculation_page_modifications_options_max_label, False),
                               (self.ui.frame_calculation_page_modifications_options_min_label, False),
                               (self.ui.check_box_show_and_calculate_centroid, False),
-                              (self.ui.check_box_show_external_contures, False), (self.ui.slider, False), (self.ui.label_slider, False),
+                              (self.ui.check_box_show_ellipses, False),
+                              (self.ui.slider, False),
+                              (self.ui.label_slider, False),
+
+                              (self.ui.check_box_show_external_contures, False),
+
                               (self.ui.check_box_show_internal_contures, False),
-                              (self.ui.check_box_merge_with_the_real_image, False)
                               ]
             toggleWidgetAndChangeStyle(widgets_tuples)
             updateNumOfImages(self.ui.images_calculation_page_import_list, self.ui.label_calculate_page_images)
@@ -1046,7 +1049,6 @@ class MainWindow(QMainWindow):
             show_external = self.ui.check_box_show_external_contures
             show_and_calculate_centroid = self.ui.check_box_show_and_calculate_centroid
             show_internal = self.ui.check_box_show_internal_contures
-            merge_images_checked = self.ui.check_box_merge_with_the_real_image
 
             # flags for analyze function
             check_box_flags = {
@@ -1066,18 +1068,13 @@ class MainWindow(QMainWindow):
             images_drawn, images_analyzed = analyze(checked_calculate_items, check_box_flags,
                                                     checked_min_max_values,
                                                     num_of_bins=10)
-            for image_name in checked_calculate_items.keys():
-                if image_name in images_drawn and image_name in images_analyzed:
-                    self.imagesDrawn[image_name] = images_drawn[image_name].copy()
-                    self.imagesAnalyse[image_name] = images_analyzed[image_name].copy()
+            # checking if all flags are false
+            if not list(check_box_flags.values()).__contains__(True):
+                self.ui.slider.setValue(0)
 
-            if merge_images_checked.isChecked():
-                alpha = self.ui.slider.value()
-                for image_name in checked_calculate_items.keys():
-                    if image_name in self.imagesDrawn:
-                        original_name = image_name.replace("_calculated", "")
-                        self.imagesDrawn[image_name] = merge_images(self.imageListOriginalImage[original_name],
-                                                                    self.imagesDrawn[image_name], alpha=alpha / 100)
+            self.merge_original_w_drawn(images_drawn, images_analyzed, checked_calculate_items)
+            self.evnCurrentItemChanged(import_list.currentItem(),self.ui.label_calculate_page_selected_picture,
+                                       self.imagesDrawn,"calculation")
 
     def evnCheckAllButtonClickedPagePredict(self):
         for index in range(self.ui.images_predict_page_import_list.count()):
@@ -1134,25 +1131,21 @@ class MainWindow(QMainWindow):
                           (self.ui.btn_calculation_page_save_csvs, True),
                           (self.ui.btn_calculation_page_save_images, True),
                           (self.ui.btn_calculation_page_save_graphs, True),
-                          (self.ui.btn_calculation_page_send, True),
+                          (self.ui.btn_calculation_page_show, True),
                           (self.ui.btn_calculation_page_clear_images, True),
                           (self.ui.frame_calculation_page_modifications_options_min_spin_box, True),
                           (self.ui.frame_calculation_page_modifications_options_max_spin_box, True),
                           (self.ui.frame_calculation_page_modifications_options_max_label, True),
                           (self.ui.frame_calculation_page_modifications_options_min_label, True),
                           (self.ui.check_box_show_and_calculate_centroid, True),
+                          (self.ui.check_box_show_ellipses, True),
+                          (self.ui.slider, True),
+                          (self.ui.label_slider, True),
                           (self.ui.check_box_show_external_contures, True),
                           (self.ui.check_box_show_internal_contures, True),
-                          (self.ui.check_box_merge_with_the_real_image, True)
                           ]
 
-        merge_images_check_box = self.ui.check_box_merge_with_the_real_image
-
-        if merge_images_check_box.isChecked():
-            toggleWidgetAndChangeStyle(widgets_tuples +
-                                       [(self.ui.slider, True), (self.ui.label_slider, True)])
-        else:
-            toggleWidgetAndChangeStyle(widgets_tuples)
+        toggleWidgetAndChangeStyle(widgets_tuples)
 
         updateNumOfImages(self.ui.images_calculation_page_import_list, self.ui.label_calculate_page_images)
 
@@ -1184,16 +1177,19 @@ class MainWindow(QMainWindow):
                           (self.ui.btn_calculation_page_save_images, False),
                           (self.ui.btn_calculation_page_save_graphs, False),
                           (self.ui.btn_calculation_page_save_csvs, False),
-                          (self.ui.btn_calculation_page_send, False),
+                          (self.ui.btn_calculation_page_show, False),
                           (self.ui.btn_calculation_page_clear_images, False),
                           (self.ui.frame_calculation_page_modifications_options_min_spin_box, False),
                           (self.ui.frame_calculation_page_modifications_options_max_spin_box, False),
                           (self.ui.frame_calculation_page_modifications_options_max_label, False),
                           (self.ui.frame_calculation_page_modifications_options_min_label, False),
                           (self.ui.check_box_show_and_calculate_centroid, False),
-                          (self.ui.check_box_show_external_contures, False), (self.ui.slider, False), (self.ui.label_slider, False),
+                          (self.ui.check_box_show_ellipses, False),
+                          (self.ui.slider, False),
+                          (self.ui.label_slider, False),
+
+                          (self.ui.check_box_show_external_contures, False),
                           (self.ui.check_box_show_internal_contures, False),
-                          (self.ui.check_box_merge_with_the_real_image, False)
                           ]
 
         toggleWidgetAndChangeStyle(widgets_tuples)

@@ -2179,7 +2179,7 @@ QCheckBox::indicator:checked {
                            </widget>
                           </item>
                           <item>
-                           <widget class="QCheckBox" name="check_box_merge_with_the_real_image">
+                           <widget class="QCheckBox" name="check_box_show_ellipses">
                             <property name="enabled">
                              <bool>false</bool>
                             </property>
@@ -2203,7 +2203,7 @@ QCheckBox::indicator:checked {
 }</string>
                             </property>
                             <property name="text">
-                             <string>Merge with the real image</string>
+                             <string>Show Ellipses</string>
                             </property>
                            </widget>
                           </item>
@@ -2439,7 +2439,7 @@ QSlider::handle:hover {
                            </widget>
                           </item>
                           <item>
-                           <widget class="QPushButton" name="btn_calculation_page_send">
+                           <widget class="QPushButton" name="btn_calculation_page_show">
                             <property name="enabled">
                              <bool>false</bool>
                             </property>
@@ -2461,7 +2461,7 @@ QPushButton:hover {
 }</string>
                             </property>
                             <property name="text">
-                             <string>Send</string>
+                             <string>Show</string>
                             </property>
                             <property name="iconSize">
                              <size>

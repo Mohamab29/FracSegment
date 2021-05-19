@@ -1038,9 +1038,9 @@ class Ui_MainWindow(object):
         self.check_box_show_external_contures.setChecked(True)
         self.check_box_show_external_contures.setObjectName("check_box_show_external_contures")
         self.verticalLayout_27.addWidget(self.check_box_show_external_contures)
-        self.check_box_merge_with_the_real_image = QtWidgets.QCheckBox(self.frame_calculation_page_modifications_options)
-        self.check_box_merge_with_the_real_image.setEnabled(False)
-        self.check_box_merge_with_the_real_image.setStyleSheet("QCheckBox{\n"
+        self.check_box_show_ellipses = QtWidgets.QCheckBox(self.frame_calculation_page_modifications_options)
+        self.check_box_show_ellipses.setEnabled(False)
+        self.check_box_show_ellipses.setStyleSheet("QCheckBox{\n"
 "    color: #353a3d\n"
 "}\n"
 "QCheckBox::indicator {\n"
@@ -1057,8 +1057,8 @@ class Ui_MainWindow(object):
 "    background: 3px solid rgb(52, 59, 72);\n"
 "    border: 3px solid rgb(52, 59, 72);    \n"
 "}")
-        self.check_box_merge_with_the_real_image.setObjectName("check_box_merge_with_the_real_image")
-        self.verticalLayout_27.addWidget(self.check_box_merge_with_the_real_image)
+        self.check_box_show_ellipses.setObjectName("check_box_show_ellipses")
+        self.verticalLayout_27.addWidget(self.check_box_show_ellipses)
         self.frame_calculation_page_modifications_options_double_spin_box = QtWidgets.QFrame(self.frame_calculation_page_modifications_options)
         self.frame_calculation_page_modifications_options_double_spin_box.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_calculation_page_modifications_options_double_spin_box.setFrameShadow(QtWidgets.QFrame.Raised)
@@ -1199,10 +1199,10 @@ class Ui_MainWindow(object):
         self.label_slider.setObjectName("label_slider")
         self.horizontalLayout_11.addWidget(self.label_slider)
         self.verticalLayout_27.addWidget(self.frame_calculation_page_modifications_slider)
-        self.btn_calculation_page_send = QtWidgets.QPushButton(self.frame_calculation_page_modifications_options)
-        self.btn_calculation_page_send.setEnabled(False)
-        self.btn_calculation_page_send.setMinimumSize(QtCore.QSize(0, 20))
-        self.btn_calculation_page_send.setStyleSheet("QPushButton {\n"
+        self.btn_calculation_page_show = QtWidgets.QPushButton(self.frame_calculation_page_modifications_options)
+        self.btn_calculation_page_show.setEnabled(False)
+        self.btn_calculation_page_show.setMinimumSize(QtCore.QSize(0, 20))
+        self.btn_calculation_page_show.setStyleSheet("QPushButton {\n"
 "    color: rgb(43, 49, 56);\n"
 "    background-color: rgb(33, 37, 43);\n"
 "    border: 2px outset rgb(37, 40, 45);\n"
@@ -1211,9 +1211,9 @@ class Ui_MainWindow(object):
 "QPushButton:hover {\n"
 "    color: rgb(85, 170, 255);\n"
 "}")
-        self.btn_calculation_page_send.setIconSize(QtCore.QSize(16, 16))
-        self.btn_calculation_page_send.setObjectName("btn_calculation_page_send")
-        self.verticalLayout_27.addWidget(self.btn_calculation_page_send)
+        self.btn_calculation_page_show.setIconSize(QtCore.QSize(16, 16))
+        self.btn_calculation_page_show.setObjectName("btn_calculation_page_show")
+        self.verticalLayout_27.addWidget(self.btn_calculation_page_show)
         self.verticalLayout_23.addWidget(self.frame_calculation_page_modifications_options)
         self.verticalLayout_21.addWidget(self.frame_calculation_page_modifications)
         self.horizontalLayout_4.addWidget(self.frame_calculate_page_up_list)
@@ -1452,11 +1452,11 @@ class Ui_MainWindow(object):
         self.check_box_show_and_calculate_centroid.setText(_translate("MainWindow", "Show and calculate centroid"))
         self.check_box_show_internal_contures.setText(_translate("MainWindow", "Show Internal Contours"))
         self.check_box_show_external_contures.setText(_translate("MainWindow", "Show External Contours"))
-        self.check_box_merge_with_the_real_image.setText(_translate("MainWindow", "Merge with the real image"))
+        self.check_box_show_ellipses.setText(_translate("MainWindow", "Show Ellipses"))
         self.frame_calculation_page_modifications_options_min_label.setText(_translate("MainWindow", "Min"))
         self.frame_calculation_page_modifications_options_max_label.setText(_translate("MainWindow", "Max"))
         self.label_slider.setText(_translate("MainWindow", "50%"))
-        self.btn_calculation_page_send.setText(_translate("MainWindow", "Send"))
+        self.btn_calculation_page_show.setText(_translate("MainWindow", "Show"))
         self.btn_calculation_page_save_images.setText(_translate("MainWindow", "Save Images"))
         self.btn_calculation_page_save_csvs.setText(_translate("MainWindow", "Save to csvs"))
         self.btn_calculation_page_delete_selected_images.setText(_translate("MainWindow", "Delete Images"))
