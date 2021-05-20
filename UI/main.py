@@ -203,6 +203,11 @@ class Graphs(QWidget):
         self.ui.setupUi(self)
         self.setWindowTitle(picture_name)
         self.center()
+        self.setActions()
+        self.graphsDict = {}
+
+    def setGraphDict(self,dict):
+        self.graphsDict = dict
 
     def center(self):
         """
@@ -212,6 +217,23 @@ class Graphs(QWidget):
         cp = QDesktopWidget().availableGeometry().center()
         qr.moveCenter(cp)
         self.move(qr.topLeft())
+
+    def setActions(self):
+        self.ui.btn_save_graph.clicked.connect(self.evnSaveGraphButtonClicked)
+        self.ui.combobox_graphs.view().pressed.connect(self.evnComboboxItemClicked)
+
+    def evnSaveGraphButtonClicked(self):
+        print("ok")
+
+    def evnComboboxItemClicked(self, index):
+        item = self.ui.combobox_graphs.model().itemFromIndex(index)
+        item_name = item.text()
+        graphs_dict_key = item_name.split(" ")[0].lower()
+        graph_image = self.graphsDict[graphs_dict_key]
+        pixmap_image = convertCvImage2QtImageRGB(graph_image, "RGB")
+        label = self.ui.label_graph
+        label.setPixmap(pixmap_image)
+        imageLabelFrame(label, QFrame.StyledPanel, QFrame.Sunken, 3)
 
 
 class MainWindow(QMainWindow):
@@ -991,10 +1013,10 @@ class MainWindow(QMainWindow):
                 self.graphs_pops[list_item_name] = {
                     'area': area_numpy_image,
                     'ratio': ratio_numpy_image,
-                    # 'depth':,
+                    # 'dephnss':,
                     'graphs': Graphs(list_item_name)
                 }
-
+                self.graphs_pops[list_item_name]['graphs'].setGraphDict(self.graphs_pops[list_item_name])
                 label = self.graphs_pops[list_item_name]['graphs'].ui.label_graph
                 image = convertCvImage2QtImageRGB(self.graphs_pops[list_item.text()]['area'], "RGB")
                 label.setPixmap(image)
