@@ -1015,6 +1015,8 @@ class MainWindow(QMainWindow):
             if calculation_page_list.item(index).checkState() == 2:
                 list_item = calculation_page_list.item(index)
                 list_item_name = list_item.text()
+                if list_item_name in self.graphs_popups:
+                    continue
                 ratio_numpy_image = createRatioBinPlot(self.imagesAnalyse[list_item_name])
                 area_numpy_image = createAreaHistPlot(self.imagesAnalyse[list_item_name])
                 self.graphs_popups[list_item_name] = {
@@ -1154,8 +1156,8 @@ class MainWindow(QMainWindow):
             self.merge_original_w_drawn(images_drawn, images_analyzed, checked_calculate_items)
             self.evnCurrentItemChanged(import_list.currentItem(), self.ui.label_calculate_page_selected_picture,
                                        self.imagesDrawn, "calculation")
-
-            self.updateGraphPopupsAfterShowButtonClicked(import_list)
+            if check_box_flags["show_in_contours"] or check_box_flags["show_in_contours"]:
+                self.updateGraphPopupsAfterShowButtonClicked(import_list)
 
     def updateGraphPopupsAfterShowButtonClicked(self, import_list):
         for index in range(import_list.count()):
