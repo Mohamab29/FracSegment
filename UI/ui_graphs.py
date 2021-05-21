@@ -17,7 +17,7 @@ class Ui_Graphs(object):
         Graphs.resize(830, 513)
         Graphs.setMinimumSize(QtCore.QSize(800, 500))
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("../../../Desktop/icon-graphs.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(":/assets/icons/graph-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Graphs.setWindowIcon(icon)
         Graphs.setStyleSheet("background-color: #282c34")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(Graphs)
@@ -29,8 +29,8 @@ class Ui_Graphs(object):
         self.frame_graph_info.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_graph_info.setObjectName("frame_graph_info")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.frame_graph_info)
-        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout.setSpacing(0)
+        self.verticalLayout.setContentsMargins(9, 9, 9, 0)
+        self.verticalLayout.setSpacing(9)
         self.verticalLayout.setObjectName("verticalLayout")
         self.label_graph_2 = QtWidgets.QFrame(self.frame_graph_info)
         self.label_graph_2.setStyleSheet("#pagesContainer QPushButton {\n"
@@ -55,7 +55,7 @@ class Ui_Graphs(object):
         self.gridLayout_2.setObjectName("gridLayout_2")
         self.label_graph = QtWidgets.QLabel(self.label_graph_2)
         self.label_graph.setText("")
-        self.label_graph.setPixmap(QtGui.QPixmap("../../../Desktop/New folder (2)/images/2.png"))
+        self.label_graph.setPixmap(QtGui.QPixmap("../../../Google Drive/Final Project/train_dimpels/images/4.png"))
         self.label_graph.setScaledContents(True)
         self.label_graph.setAlignment(QtCore.Qt.AlignCenter)
         self.label_graph.setObjectName("label_graph")
@@ -67,7 +67,7 @@ class Ui_Graphs(object):
         self.frame_widgets.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_widgets.setObjectName("frame_widgets")
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.frame_widgets)
-        self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_2.setContentsMargins(0, 0, 0, 9)
         self.horizontalLayout_2.setSpacing(0)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.btn_save_graph = QtWidgets.QPushButton(self.frame_widgets)
@@ -138,6 +138,7 @@ class Ui_Graphs(object):
         self.combobox_graphs.setItemText(0, _translate("Graphs", "Area Graph"))
         self.combobox_graphs.setItemText(1, _translate("Graphs", "Ratio Graph"))
         self.combobox_graphs.setItemText(2, _translate("Graphs", "Depth Graph"))
+import icons_rc
 
 
 if __name__ == "__main__":

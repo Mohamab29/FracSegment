@@ -20,8 +20,8 @@
    <string>Graphs</string>
   </property>
   <property name="windowIcon">
-   <iconset>
-    <normaloff>../../../Desktop/icon-graphs.png</normaloff>../../../Desktop/icon-graphs.png</iconset>
+   <iconset resource="icons.qrc">
+    <normaloff>:/assets/icons/graph-icon.png</normaloff>:/assets/icons/graph-icon.png</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true">background-color: #282c34</string>
@@ -52,16 +52,16 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <property name="spacing">
-       <number>0</number>
+       <number>9</number>
       </property>
       <property name="leftMargin">
-       <number>0</number>
+       <number>9</number>
       </property>
       <property name="topMargin">
-       <number>0</number>
+       <number>9</number>
       </property>
       <property name="rightMargin">
-       <number>0</number>
+       <number>9</number>
       </property>
       <property name="bottomMargin">
        <number>0</number>
@@ -111,7 +111,7 @@
             <string/>
            </property>
            <property name="pixmap">
-            <pixmap>../../../Desktop/New folder (2)/images/2.png</pixmap>
+            <pixmap>../../../Google Drive/Final Project/train_dimpels/images/4.png</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -152,7 +152,7 @@
           <number>0</number>
          </property>
          <property name="bottomMargin">
-          <number>0</number>
+          <number>9</number>
          </property>
          <item>
           <widget class="QPushButton" name="btn_save_graph">
@@ -248,6 +248,8 @@ QComboBox QAbstractItemView {
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="icons.qrc"/>
+ </resources>
  <connections/>
 </ui>
