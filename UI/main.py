@@ -205,14 +205,20 @@ class Graphs(QWidget):
         self.center()
         self.setActions()
         self.graphsDict = {}
+        self.current_combobox_index = None
+
+    def setCurrentComboboxIndex(self, index):
+        self.current_combobox_index = index
+
+    def getCurrentComboboxIndex(self):
+        return self.current_combobox_index
 
     def setGraphDict(self, dict):
         self.graphsDict = dict
 
     def updateGraphs(self, updated_graphs_dict):
-        for key in self.graphsDict.keys():
-            if key != "graphs":
-                self.graphsDict[key] = updated_graphs_dict[key]
+        for key in updated_graphs_dict.keys():
+            self.graphsDict[key] = updated_graphs_dict[key]
 
     def center(self):
         """
@@ -230,9 +236,9 @@ class Graphs(QWidget):
     def evnSaveGraphButtonClicked(self):
         print("ok")
 
-    def evnComboboxItemClicked(self):
-        index = self.ui.combobox_graphs.currentIndex()
-        index = self.ui.combobox_graphs.model().index(index, 0)
+    def evnComboboxItemClicked(self, index):
+        print(index)
+        self.setCurrentComboboxIndex(index)
         item = self.ui.combobox_graphs.model().itemFromIndex(index)
         item_name = item.text()
         graphs_dict_key = item_name.split(" ")[0].lower()
@@ -1025,12 +1031,15 @@ class MainWindow(QMainWindow):
                     # 'depth':,
                     'graphs': Graphs(list_item_name)
                 }
-                self.graphs_popups[list_item_name]['graphs'].setGraphDict(self.graphs_popups[list_item_name])
-                label = self.graphs_popups[list_item_name]['graphs'].ui.label_graph
+                current_graph = self.graphs_popups[list_item_name]['graphs']
+                current_graph.setGraphDict(self.graphs_popups[list_item_name])
+                label = current_graph.ui.label_graph
                 image = convertCvImage2QtImageRGB(self.graphs_popups[list_item.text()]['area'], "RGB")
                 label.setPixmap(image)
                 imageLabelFrame(label, QFrame.StyledPanel, QFrame.Sunken, 3)
-                self.graphs_popups[list_item_name]['graphs'].show()
+                current_index = current_graph.ui.combobox_graphs.model().index(0, 0)
+                current_graph.setCurrentComboboxIndex(current_index)
+                current_graph.show()
 
     def saveItems(self, save_function, items_name):
         calculated_images_save = {}
@@ -1171,7 +1180,8 @@ class MainWindow(QMainWindow):
                     "area": area_numpy_image
                 }
                 self.graphs_popups[list_item_name]['graphs'].updateGraphs(updated_graphs)
-                self.graphs_popups[list_item_name]['graphs'].evnComboboxItemClicked()
+                current_index = self.graphs_popups[list_item_name]['graphs'].getCurrentComboboxIndex()
+                self.graphs_popups[list_item_name]['graphs'].evnComboboxItemClicked(current_index)
 
     def evnCheckAllButtonClickedPagePredict(self):
         for index in range(self.ui.images_predict_page_import_list.count()):
