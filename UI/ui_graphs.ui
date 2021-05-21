@@ -235,7 +235,7 @@ QComboBox QAbstractItemView {
            </item>
            <item>
             <property name="text">
-             <string>Dephnss Graph</string>
+             <string>Depth Graph</string>
             </property>
            </item>
           </widget>

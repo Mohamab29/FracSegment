@@ -267,7 +267,7 @@ class MainWindow(QMainWindow):
         self.imagesDrawn = {}
 
         # for graphs pop windows
-        self.graphs_pops = {}
+        self.graphs_popups = {}
         self.imagesMaxValues = {}
         self.imagesMinValues = {}
         self.currentItemClickedNameCalcPage = ''
@@ -1010,18 +1010,18 @@ class MainWindow(QMainWindow):
                 list_item_name = list_item.text()
                 ratio_numpy_image = createRatioBinPlot(self.imagesAnalyse[list_item_name])
                 area_numpy_image = createAreaHistPlot(self.imagesAnalyse[list_item_name])
-                self.graphs_pops[list_item_name] = {
+                self.graphs_popups[list_item_name] = {
                     'area': area_numpy_image,
                     'ratio': ratio_numpy_image,
-                    # 'dephnss':,
+                    # 'depth':,
                     'graphs': Graphs(list_item_name)
                 }
-                self.graphs_pops[list_item_name]['graphs'].setGraphDict(self.graphs_pops[list_item_name])
-                label = self.graphs_pops[list_item_name]['graphs'].ui.label_graph
-                image = convertCvImage2QtImageRGB(self.graphs_pops[list_item.text()]['area'], "RGB")
+                self.graphs_popups[list_item_name]['graphs'].setGraphDict(self.graphs_popups[list_item_name])
+                label = self.graphs_popups[list_item_name]['graphs'].ui.label_graph
+                image = convertCvImage2QtImageRGB(self.graphs_popups[list_item.text()]['area'], "RGB")
                 label.setPixmap(image)
                 imageLabelFrame(label, QFrame.StyledPanel, QFrame.Sunken, 3)
-                self.graphs_pops[list_item_name]['graphs'].show()
+                self.graphs_popups[list_item_name]['graphs'].show()
 
     def saveItems(self, save_function, items_name):
         calculated_images_save = {}

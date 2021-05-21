@@ -137,7 +137,7 @@ class Ui_Graphs(object):
         self.btn_save_graph.setText(_translate("Graphs", "Save Selected Graph"))
         self.combobox_graphs.setItemText(0, _translate("Graphs", "Area Graph"))
         self.combobox_graphs.setItemText(1, _translate("Graphs", "Ratio Graph"))
-        self.combobox_graphs.setItemText(2, _translate("Graphs", "Dephnss Graph"))
+        self.combobox_graphs.setItemText(2, _translate("Graphs", "Depth Graph"))
 
 
 if __name__ == "__main__":
