@@ -185,8 +185,9 @@ def createRatioBinPlot(image_analysis: dict, num_of_bins: int = 10) -> np.ndarra
                   fontsize='xx-large')
     ax.set_xlabel('Intervals of ratio',
                   fontsize='xx-large')
-
-    ax.set_xticklabels(labels=df_ratios['intervals'].unique(), rotation=45, size=15)
+    interval_names = df_ratios['intervals'].unique()
+    ax.set_xticks(range(len(interval_names)))
+    ax.set_xticklabels(labels=interval_names, rotation=45, size=15)
 
     ax.figure.savefig(f"scatter_graph.png", dpi=120)
     fig = ax.figure
