@@ -206,8 +206,13 @@ class Graphs(QWidget):
         self.setActions()
         self.graphsDict = {}
 
-    def setGraphDict(self,dict):
+    def setGraphDict(self, dict):
         self.graphsDict = dict
+
+    def updateGraphs(self, updated_graphs_dict):
+        for key in self.graphsDict.keys():
+            if key != "graphs":
+                self.graphsDict[key] = updated_graphs_dict[key]
 
     def center(self):
         """
@@ -225,7 +230,9 @@ class Graphs(QWidget):
     def evnSaveGraphButtonClicked(self):
         print("ok")
 
-    def evnComboboxItemClicked(self, index):
+    def evnComboboxItemClicked(self):
+        index = self.ui.combobox_graphs.currentIndex()
+        index = self.ui.combobox_graphs.model().index(index, 0)
         item = self.ui.combobox_graphs.model().itemFromIndex(index)
         item_name = item.text()
         graphs_dict_key = item_name.split(" ")[0].lower()
@@ -1147,6 +1154,22 @@ class MainWindow(QMainWindow):
             self.merge_original_w_drawn(images_drawn, images_analyzed, checked_calculate_items)
             self.evnCurrentItemChanged(import_list.currentItem(), self.ui.label_calculate_page_selected_picture,
                                        self.imagesDrawn, "calculation")
+
+            self.updateGraphPopupsAfterShowButtonClicked(import_list)
+
+    def updateGraphPopupsAfterShowButtonClicked(self, import_list):
+        for index in range(import_list.count()):
+            if import_list.item(index).checkState() == 2:
+                list_item = import_list.item(index)
+                list_item_name = list_item.text()
+                ratio_numpy_image = createRatioBinPlot(self.imagesAnalyse[list_item_name])
+                area_numpy_image = createAreaHistPlot(self.imagesAnalyse[list_item_name])
+                updated_graphs = {
+                    "ratio": ratio_numpy_image,
+                    "area": area_numpy_image
+                }
+                self.graphs_popups[list_item_name]['graphs'].updateGraphs(updated_graphs)
+                self.graphs_popups[list_item_name]['graphs'].evnComboboxItemClicked()
 
     def evnCheckAllButtonClickedPagePredict(self):
         for index in range(self.ui.images_predict_page_import_list.count()):
