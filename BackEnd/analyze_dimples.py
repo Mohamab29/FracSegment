@@ -1,13 +1,10 @@
 import os
 from typing import Tuple, List, Dict
 
-import matplotlib.pyplot as plt
 import numpy as np
 import cv2
 import random
 import pandas as pd
-from matplotlib import pyplot
-import seaborn as sns
 
 """
 When an image has it's mask predicted,A user can then click on the save csv file and the mask (or multiple masks) 
@@ -39,39 +36,6 @@ def random_color():
     """returns a tuple of three random integers between 0-255 in order to get a random color each time."""
     return (random.randint(0, 255),
             random.randint(0, 255), random.randint(0, 255))
-
-
-def calcCentroid(cnt: np.ndarray) -> Tuple[int, int]:
-    """
-    The function calculates the centroid of a given contour.
-
-    :param cnt: 3D numpy array of the contour shape.
-    :return cx,cy: the coordinates of the centroid.
-    """
-    cx, cy = 0, 0
-    try:
-        moment = cv2.moments(cnt)
-        # Calculate centroid
-        cx = int(moment['m10'] / moment['m00'])
-        cy = int(moment['m01'] / moment['m00'])
-    except ZeroDivisionError:
-        print("There was a contour who had an area equal to 0")
-
-    return cx, cy
-
-
-def calc_ratio(cnt: np.ndarray) -> Tuple[float, tuple]:
-    """
-    The function calculates the centroid of a given contour.
-
-    :param cnt: 3D numpy array of the contour shape.
-    :return ratio: float, the ratio of the minor and major axes of an ellipse that fits the given contour
-    """
-    ellipse = cv2.fitEllipse(cnt)
-    (_, _), (d1, d2), angle = ellipse
-    semi_major_axis = max(d1, d2)
-    semi_minor_axis = min(d1, d2)
-    return (semi_minor_axis / semi_major_axis), ellipse
 
 
 def findIntervals(areas: list, num_of_bins: int) -> List[pd.Interval]:
@@ -131,93 +95,37 @@ def saveImagesAnalysisToCSV(images_analysis: list, file_names: list, path: str):
         saveAnalysisToCSV(images_analysis[index], file_name, path)
 
 
-def from_fig_to_array(fig: plt.Figure) -> np.ndarray:
+def calc_centroid(cnt: np.ndarray) -> Tuple[int, int]:
     """
+    The function calculates the centroid of a given contour.
 
-    :param fig: a matplotlib figure that we want to convert to an array
-    :return: 3D array of the figure
+    :param cnt: 3D numpy array of the contour shape.
+    :return cx,cy: the coordinates of the centroid.
     """
-    fig.canvas.draw()
-    image_from_plot = np.frombuffer(fig.canvas.tostring_rgb(), dtype=np.uint8)
-    image_from_plot = image_from_plot.reshape(fig.canvas.get_width_height()[::-1] + (3,))
-    image = cv2.cvtColor(image_from_plot, cv2.COLOR_BGR2RGB)
-    return image
+    cx, cy = 0, 0
+    try:
+        moment = cv2.moments(cnt)
+        # Calculate centroid
+        cx = int(moment['m10'] / moment['m00'])
+        cy = int(moment['m01'] / moment['m00'])
+    except ZeroDivisionError:
+        print("There was a contour who had an area equal to 0")
+
+    return cx, cy
 
 
-def createRatioBinPlot(image_analysis: dict, num_of_bins: int = 10) -> np.ndarray:
+def calc_ratio(cnt: np.ndarray) -> Tuple[float, tuple]:
     """
-    The function takes a dictionary of an image analysis that contains properties of a single image,
-    and makes a histogram plot based on the area as the x axis and the frequency as the y-axis.
+    The function calculates the centroid of a given contour.
 
-
-    :param image_analysis: a dictionary containing the properties we wanted to analyze in a prediction.
-    :param num_of_bins: the number of intervals.
-    :return: 3D numpy array, the plot is converted into a numpy array
+    :param cnt: 3D numpy array of the contour shape.
+    :return ratio: float, the ratio of the minor and major axes of an ellipse that fits the given contour
     """
-    df_ratios = pd.DataFrame({
-        "ratios": image_analysis["ratios"],
-    }
-    )
-
-    df_ratios['intervals'] = pd.cut(x=df_ratios['ratios'], bins=num_of_bins, right=False)
-
-    df_ratios = df_ratios.sort_values('intervals')
-
-    ax_dims = (15, 15)
-    fig, ax = pyplot.subplots(figsize=ax_dims)
-    pal = sns.color_palette("Set2")
-    ax = sns.countplot(ax=ax, data=df_ratios, x="intervals", palette=pal)
-    ax.set_ylabel('Count',
-                  fontsize='xx-large')
-    ax.set_xlabel('Intervals of ratio',
-                  fontsize='xx-large')
-    interval_names = df_ratios['intervals'].unique()
-    ax.set_xticks(range(len(interval_names)))
-    ax.set_xticklabels(labels=interval_names, rotation=45, size=15)
-
-    ax.figure.savefig(f"scatter_graph.png", dpi=120)
-    fig = ax.figure
-    image_as_array = from_fig_to_array(fig)
-    plt.close(fig)
-    return image_as_array
-
-
-def createAreaHistPlot(image_analysis: dict, num_of_bins: int = 15) -> np.ndarray:
-    """
-    The function takes a dictionary of an image analysis that contains properties of a single image,
-    and makes a histogram plot based on the area as the x axis and the frequency as the y-axis.
-
-
-    :param image_analysis: a dictionary containing the properties we wanted to analyze in a prediction.
-    :param num_of_bins: the number of intervals.
-    :return: 3D numpy array, the plot is converted into a numpy array
-
-    """
-    intervals = findIntervals(image_analysis["area"], num_of_bins=num_of_bins)
-    # left_intervals  = [interval.left for interval in intervals]
-
-    df = pd.DataFrame({
-        "area": image_analysis["area"],
-        "intervals": image_analysis["interval_range"]
-    })
-    ax_dims = (15, 15)
-    fig, ax = pyplot.subplots(figsize=ax_dims)
-    ax = sns.histplot(ax=ax, data=df, x="intervals", multiple="dodge",
-                      shrink=0.5, stat="frequency", color="skyblue")
-    ax.set_xlabel('Intervals in μm',
-                  fontsize='xx-large')
-    ax.set_ylabel('Frequency',
-                  fontsize='x-large')
-    x = range(0, len(intervals))
-    ax.set_xticks(x)
-    ax.set_xticklabels(labels=intervals, rotation=45, size=15)
-    ax.margins(0.2, 0.2)
-    ax.autoscale(enable=True, axis="x", tight=True)
-    fig.tight_layout()
-
-    image_as_array = from_fig_to_array(fig)
-    plt.close(fig)
-    return image_as_array
+    ellipse = cv2.fitEllipse(cnt)
+    (_, _), (d1, d2), angle = ellipse
+    semi_major_axis = max(d1, d2)
+    semi_minor_axis = min(d1, d2)
+    return (semi_minor_axis / semi_major_axis), ellipse
 
 
 def calc_depth(image: np.ndarray, cnt: np.ndarray) -> float:
@@ -331,7 +239,7 @@ def analyze(images: dict
                     else:
                         image_analysis["contour_type"].append("internal")
                     if flags["calc_centroid"]:
-                        cx, cy = calcCentroid(cnt)
+                        cx, cy = calc_centroid(cnt)
                         image_analysis["centroid"].append((cx, cy))
                         cv2.circle(
                             drawn_image, (cx, cy), radius=3,
@@ -348,7 +256,7 @@ def analyze(images: dict
                         cv2.drawContours(drawn_image, [cnt], -1, cnt_color, 2)
                         image_analysis["contour_type"].append("internal")
                         if flags["calc_centroid"]:
-                            cx, cy = calcCentroid(cnt)
+                            cx, cy = calc_centroid(cnt)
                             image_analysis["centroid"].append((cx, cy))
                             cv2.circle(
                                 drawn_image, (cx, cy), radius=3,
@@ -366,7 +274,7 @@ def analyze(images: dict
                         image_analysis["contour_type"].append("external")
 
                         if flags["calc_centroid"]:
-                            cx, cy = calcCentroid(cnt)
+                            cx, cy = calc_centroid(cnt)
                             image_analysis["centroid"].append((cx, cy))
                             cv2.circle(
                                 drawn_image, (cx, cy), radius=3,

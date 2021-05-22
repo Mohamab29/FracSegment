@@ -7,8 +7,8 @@ from ui_main import Ui_MainWindow
 from ui_graphs import Ui_Graphs
 from PIL.ImageQt import ImageQt
 from BackEnd.segmenting import segment
-from BackEnd.analyze_dimples import analyze, saveImagesAnalysisToCSV, find_max_area, createRatioBinPlot, \
-    createAreaHistPlot
+from BackEnd.analyze_dimples import analyze, saveImagesAnalysisToCSV, find_max_area
+from BackEnd.creating_graphs import createRatioBinPlot, createAreaHistPlot, createDepthBinPlot
 from BackEnd.merge_images import merge_images
 import cv2
 import io
@@ -1057,10 +1057,11 @@ class MainWindow(QMainWindow):
 
                 ratio_numpy_image = createRatioBinPlot(self.imagesAnalyse[list_item_name])
                 area_numpy_image = createAreaHistPlot(self.imagesAnalyse[list_item_name])
+                depth_numpy_image = createDepthBinPlot(self.imagesAnalyse[list_item_name])
                 self.graphs_popups[list_item_name] = {
                     'area': area_numpy_image,
                     'ratio': ratio_numpy_image,
-                    # 'depth':,
+                    'depth': depth_numpy_image,
                     'graphs': Graphs(list_item_name)
                 }
                 current_graph = self.graphs_popups[list_item_name]['graphs']
@@ -1192,7 +1193,7 @@ class MainWindow(QMainWindow):
                         self.imagesMinValues[list_item_name], self.imagesMaxValues[list_item_name])
 
             images_drawn, images_analyzed = analyze(checked_calculate_items, check_box_flags,
-                                                    checked_min_max_values,original_images,
+                                                    checked_min_max_values, original_images,
                                                     num_of_bins=10)
             # checking if all flags are false
             if not list(check_box_flags.values()).__contains__(True):
@@ -1215,9 +1216,11 @@ class MainWindow(QMainWindow):
                     continue
                 ratio_numpy_image = createRatioBinPlot(self.imagesAnalyse[list_item_name])
                 area_numpy_image = createAreaHistPlot(self.imagesAnalyse[list_item_name])
+                depth_numpy_image = createDepthBinPlot(self.imagesAnalyse[list_item_name])
                 updated_graphs = {
                     "ratio": ratio_numpy_image,
-                    "area": area_numpy_image
+                    "area": area_numpy_image,
+                    "depth": depth_numpy_image
                 }
                 self.graphs_popups[list_item_name]['graphs'].updateGraphs(updated_graphs)
                 current_index = self.graphs_popups[list_item_name]['graphs'].getCurrentComboboxIndex()
