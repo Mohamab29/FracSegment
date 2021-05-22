@@ -191,7 +191,9 @@ def createRatioBinPlot(image_analysis: dict, num_of_bins: int = 10) -> np.ndarra
 
     ax.figure.savefig(f"scatter_graph.png", dpi=120)
     fig = ax.figure
-    return from_fig_to_array(fig)
+    image_as_array = from_fig_to_array(fig)
+    plt.close(fig)
+    return image_as_array
 
 
 def createAreaHistPlot(image_analysis: dict, num_of_bins: int = 15) -> np.ndarray:
@@ -226,10 +228,10 @@ def createAreaHistPlot(image_analysis: dict, num_of_bins: int = 15) -> np.ndarra
     ax.margins(0.2, 0.2)
     ax.autoscale(enable=True, axis="x", tight=True)
     fig.tight_layout()
-    # if not os.path.exists(f"{path}/files/graphs/"):
-    #     os.makedirs(f"{path}/files/graphs/")
-    # ax.figure.savefig(f"{path}/files/graphs/{file_name}_graph.png", dpi=120)
-    return from_fig_to_array(fig)
+
+    image_as_array = from_fig_to_array(fig)
+    plt.close(fig)
+    return image_as_array
 
 
 # noinspection DuplicatedCode

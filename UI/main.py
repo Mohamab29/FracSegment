@@ -202,6 +202,7 @@ class Graphs(QWidget):
         self.ui = Ui_Graphs()
         self.ui.setupUi(self)
         self.setWindowTitle(picture_name)
+        self.picture_name = picture_name
         self.center()
         self.setActions()
         self.graphsDict = {}
@@ -234,15 +235,28 @@ class Graphs(QWidget):
         self.ui.combobox_graphs.view().pressed.connect(self.evnComboboxItemClicked)
 
     def evnSaveGraphButtonClicked(self):
-        print("ok")
+
+        current_index = self.getCurrentComboboxIndex()
+
+        item = self.ui.combobox_graphs.model().itemFromIndex(current_index)
+        item_name = item.text()
+        graph_name = item_name.split(" ")[0].lower()
+
+        path = QFileDialog.getExistingDirectory(self, "Choose Folder")
+
+        if path and self.graphsDict[graph_name].any():
+            if not os.path.exists(f"{path}/files/graphs/"):
+                os.makedirs(f"{path}/files/graphs/")
+            file_name = self.picture_name.replace(".png", f"_{graph_name}_graph.jpg")
+            cv2.imwrite(f"{path}/files/graphs/{file_name}", self.graphsDict[graph_name],[int(cv2.IMWRITE_JPEG_QUALITY), 100])
+            showDialog(f'Save completed', f'Saving {self.picture_name} is completed!', QMessageBox.Information, True)
 
     def evnComboboxItemClicked(self, index):
-        print(index)
         self.setCurrentComboboxIndex(index)
         item = self.ui.combobox_graphs.model().itemFromIndex(index)
         item_name = item.text()
-        graphs_dict_key = item_name.split(" ")[0].lower()
-        graph_image = self.graphsDict[graphs_dict_key]
+        graph_name = item_name.split(" ")[0].lower()
+        graph_image = self.graphsDict[graph_name]
         pixmap_image = convertCvImage2QtImageRGB(graph_image, "RGB")
         label = self.ui.label_graph
         label.setPixmap(pixmap_image)
