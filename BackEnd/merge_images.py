@@ -10,8 +10,8 @@ def resize_two_images(left_img: np.ndarray, right_img: np.ndarray) -> Tuple[np.n
     :param right_img: 3D numpy array.
     :return: two numpy arrays resized to the same size.
     """
-    left_height, left_width, _ = left_img.shape
-    right_height, right_width, _ = right_img.shape
+    left_height, left_width = left_img.shape[0], left_img.shape[1]
+    right_height, right_width = right_img.shape[0], right_img.shape[1]
 
     desired_height = min(left_height, right_height)
     desired_width = min(left_width, right_width)

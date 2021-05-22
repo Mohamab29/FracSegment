@@ -248,7 +248,8 @@ class Graphs(QWidget):
             if not os.path.exists(f"{path}/files/graphs/"):
                 os.makedirs(f"{path}/files/graphs/")
             file_name = self.picture_name.replace(".png", f"_{graph_name}_graph.jpg")
-            cv2.imwrite(f"{path}/files/graphs/{file_name}", self.graphsDict[graph_name],[int(cv2.IMWRITE_JPEG_QUALITY), 100])
+            cv2.imwrite(f"{path}/files/graphs/{file_name}", self.graphsDict[graph_name],
+                        [int(cv2.IMWRITE_JPEG_QUALITY), 100])
             showDialog(f'Save completed', f'Saving {self.picture_name} is completed!', QMessageBox.Information, True)
 
     def evnComboboxItemClicked(self, index):
@@ -546,18 +547,21 @@ class MainWindow(QMainWindow):
         checked_min_max_values = {}
         already_calculated_images = []
         checked_items = {}
+        original_images = {}
 
         for index in range(results_page_list.count()):
             list_item = results_page_list.item(index)
             list_item_name = list_item.text()
             list_item_calc_name = list_item_name.replace('_predicted', '_calculated')
+            real_name = list_item_name.replace('_predicted', '')
             if results_page_list.item(index).checkState() == 2:
                 if list_item_calc_name not in self.imagesForCalculationNpArray.keys():
 
                     checked_items[list_item_calc_name] = self.PredictedImagesNpArray[list_item_name]
+                    original_images[list_item_calc_name] = self.imageListOriginalImage[real_name]
+
                     max_value = find_max_area(self.PredictedImagesNpArray[list_item_name])
                     min_value = self.ui.frame_calculation_page_modifications_options_min_spin_box.value()
-
                     checked_min_max_values[list_item_calc_name] = (min_value, max_value)
                 else:
                     already_calculated_images.append(list_item_calc_name)
@@ -582,7 +586,8 @@ class MainWindow(QMainWindow):
                           QMessageBox.Question):
 
                 images_drawn, images_analyzed = analyze(checked_items, self.default_flags,
-                                                        checked_min_max_values)
+                                                        checked_min_max_values, original_images=original_images)
+
                 self.merge_original_w_drawn(images_drawn, images_analyzed, checked_items)
 
                 nparray_images = checked_items.keys()
@@ -634,25 +639,29 @@ class MainWindow(QMainWindow):
 
     def evnSaveCsvsButtonClickedPageResults(self):
         """
-        This event runs when we press the save scvs button on the second page (results) of the app.
+        This event runs when we press the save CSVs button on the second page (results) of the app.
         """
         predicted_images_nparray = {}
         checked_min_max_values = {}
         default_min_value = self.ui.frame_calculation_page_modifications_options_min_spin_box.value()
         default_max_value = self.ui.frame_calculation_page_modifications_options_max_spin_box.value()
         results_page_list = self.ui.images_results_page_import_list
-
+        original_images = {}
         for index in range(results_page_list.count()):
             if results_page_list.item(index).checkState() == 2:
                 list_item = results_page_list.item(index)
                 list_item_name = list_item.text()
+                real_name = list_item_name.replace('_predicted', '')
+
+                original_images[list_item_name] = self.imageListOriginalImage[real_name]
                 predicted_images_nparray[list_item_name] = self.PredictedImagesNpArray[list_item_name]
                 checked_min_max_values[list_item_name] = (default_min_value, default_max_value)
 
         path = QFileDialog.getExistingDirectory(self, "Choose Folder")
 
         if path and predicted_images_nparray:
-            _, images_analysis = analyze(predicted_images_nparray, self.default_flags, checked_min_max_values)
+            _, images_analysis = analyze(predicted_images_nparray, self.default_flags, checked_min_max_values,
+                                         original_images)
             saveImagesAnalysisToCSV(list(images_analysis.values()), list(images_analysis.keys()), path)
             showDialog(f'Save completed', f'Saving csvs is completed!', QMessageBox.Information, True)
 
@@ -691,11 +700,14 @@ class MainWindow(QMainWindow):
         default_min_value = self.ui.frame_calculation_page_modifications_options_min_spin_box.value()
         default_max_value = self.ui.frame_calculation_page_modifications_options_max_spin_box.value()
         results_page_list = self.ui.images_results_page_import_list
-
+        original_images = {}
         for index in range(results_page_list.count()):
             if results_page_list.item(index).checkState() == 2:
                 list_item = results_page_list.item(index)
                 list_item_name = list_item.text()
+                real_name = list_item_name.replace('_predicted', '')
+
+                original_images[list_item_name] = self.imageListOriginalImage[real_name]
                 predicted_images_pixmap[list_item_name] = self.PredictedImagesPixMap[list_item_name]
                 predicted_images_nparray[list_item_name] = self.PredictedImagesNpArray[list_item_name]
                 checked_min_max_values[list_item_name] = (default_min_value, default_max_value)
@@ -703,7 +715,8 @@ class MainWindow(QMainWindow):
         path = QFileDialog.getExistingDirectory(self, "Choose Folder")
 
         if path and predicted_images_nparray and predicted_images_pixmap:
-            _, images_analysis = analyze(predicted_images_nparray, self.default_flags, checked_min_max_values)
+            _, images_analysis = analyze(predicted_images_nparray, self.default_flags, checked_min_max_values,
+                                         original_images)
             saveImagesAnalysisToCSV(list(images_analysis.values()), list(images_analysis.keys()), path)
 
             if not os.path.exists(f"{path}/files/predicted_images/"):
@@ -1080,7 +1093,7 @@ class MainWindow(QMainWindow):
         if self.imageListPathDict and showDialog('Clear all images', 'Are you sure?', QMessageBox.Information):
             self.ui.images_predict_page_import_list.clear()
             self.imageListPathDict.clear()
-            self.imageListOriginalImage.clear()
+            # self.imageListOriginalImage.clear()
             imageLabelFrame(self.ui.label_predict_page_selected_picture, 0, 0, 0)
             self.ui.label_predict_page_selected_picture.setText("Please load and select image.")
 
@@ -1165,17 +1178,21 @@ class MainWindow(QMainWindow):
                 'calc_centroid': show_and_calculate_centroid.isChecked(),
                 'show_ellipses': show_ellipses.isChecked()
             }
+            original_images = {}
 
             for index in range(import_list.count()):
                 if import_list.item(index).checkState() == 2:
                     list_item = import_list.item(index)
                     list_item_name = list_item.text()
+                    real_name = list_item_name.replace('_calculated', '')
+
+                    original_images[list_item_name] = self.imageListOriginalImage[real_name]
                     checked_calculate_items[list_item_name] = self.imagesForCalculationNpArray[list_item_name]
                     checked_min_max_values[list_item_name] = (
                         self.imagesMinValues[list_item_name], self.imagesMaxValues[list_item_name])
 
             images_drawn, images_analyzed = analyze(checked_calculate_items, check_box_flags,
-                                                    checked_min_max_values,
+                                                    checked_min_max_values,original_images,
                                                     num_of_bins=10)
             # checking if all flags are false
             if not list(check_box_flags.values()).__contains__(True):

@@ -60,7 +60,7 @@ def calcCentroid(cnt: np.ndarray) -> Tuple[int, int]:
     return cx, cy
 
 
-def calcRatio(cnt: np.ndarray) -> Tuple[float, tuple]:
+def calc_ratio(cnt: np.ndarray) -> Tuple[float, tuple]:
     """
     The function calculates the centroid of a given contour.
 
@@ -130,20 +130,6 @@ def saveImagesAnalysisToCSV(images_analysis: list, file_names: list, path: str):
         file_name = file_names[index].split('.')[0]
         saveAnalysisToCSV(images_analysis[index], file_name, path)
 
-
-# def saveImagesToHistPlots(images_analysis: list, file_names: list, path: str, num_of_bins: int = 15):
-#     """
-#     If given a list of dictionaries, we send each dictionary to the createAndSaveHistPlot function and then we create
-#     a graph for each image and then we save it with the corresponding file name into a png file.
-#
-#     :param images_analysis: a list of dictionaries containing the properties we analyzed in a prediction.
-#     :param num_of_bins: the number of intervals.
-#     :param file_names: a list of file name that correspond to the given images analysis
-#     :param path: folder path.
-#     """
-#     for index in range(images_analysis.__len__()):
-#         file_name = file_names[index].split('.')[0]
-#         createAndSaveHistPlot(images_analysis[index], num_of_bins, file_name, path)
 
 def from_fig_to_array(fig: plt.Figure) -> np.ndarray:
     """
@@ -234,11 +220,64 @@ def createAreaHistPlot(image_analysis: dict, num_of_bins: int = 15) -> np.ndarra
     return image_as_array
 
 
+def calc_depth(image: np.ndarray, cnt: np.ndarray) -> float:
+    """
+    calculating the depth of a dimple using the contour we obtained from the mask of the original image.
+    
+    :param image: 2D numpy array, in the context of this function it needs to be a gray scale original image.
+    :param cnt: 3D numpy array, a contour.
+
+    :return: float, the depth calculated.
+    """
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+    img1 = np.zeros(image.shape, dtype=np.uint8)
+    img2 = img1.copy()
+
+    # drawing the contour which will basically give the edges of the object
+    cv2.drawContours(img1, [cnt], -1, 255, 2)
+
+    # drawing inside the  edges
+    cv2.fillPoly(img2, [cnt], 255)
+
+    # adding the filled poly with the drawn contour gives bigger object that
+    # contains the both the edges and the insides of the object
+    img1 = img1 + img2
+
+    res = np.bitwise_and(img1, image)
+
+    # cropping the ROI (the object we want)
+    x, y, w, h = cv2.boundingRect(cnt)
+
+    # (de)increased values in order to get nonzero borders or lost pixels
+    # avoiding edges
+    x = x if x == 0 else x - 1
+    y = y if y == 0 else y - 1
+    h = (y + h + 1) if (y + h + 1) <= image.shape[0] else y + h
+    w = (x + w + 1) if (x + w + 1) <= image.shape[1] else x + w
+
+    # cropping the contour 
+    res1 = res[y:h, x:w]
+
+    # taking the min(none-zero) and max value in order to calculate the delta  
+    min_value = np.min(res1[np.nonzero(res1)])
+    max_value = np.max(res1[np.nonzero(res1)])
+    delta = abs(max_value - min_value)
+
+    # the average pixel in the grayscale image
+    average_px_value = int(np.average(image))
+
+    # returning the depth
+    return round(delta / average_px_value, 5)
+
+
 # noinspection DuplicatedCode
 def analyze(images: dict
             , flags: dict
             , min_max_values: dict
-            , num_of_bins=15) -> Tuple[dict, dict]:
+            , original_images: dict
+            , num_of_bins=15
+            ) -> Tuple[dict, dict]:
     """
     Analyze black and white images, and finds contours in these images
     and calculates different properties for each contour
@@ -250,6 +289,8 @@ def analyze(images: dict
         3- calc_centroid: boolean, if the user wants to calculate the centroid.<br>
     :param min_max_values: a dictionary that contains requested min and max value for each image.
     :param num_of_bins: the number of intervals.
+    :param original_images: dictionary, where the key is the image name identical to that on in images dict, and value
+    is 3D numpy array.
     :returns: two dictionaries, the first dictionary values are the drawn images based on the given options and <br>
         the second dictionary values are image analysis for each given image,the keys are image names.
     """
@@ -266,7 +307,7 @@ def analyze(images: dict
 
         drawn_image = np.zeros(images[name].shape + (3,), dtype=np.uint8)
 
-        image_analysis = {"contour_index": [], "contour_type": [], "area": [], "ratios": []}
+        image_analysis = {"contour_index": [], "contour_type": [], "area": [], "ratios": [], "depth": []}
         if flags["calc_centroid"]:
             image_analysis["centroid"] = []
         image_analysis["interval_range"] = []
@@ -279,7 +320,9 @@ def analyze(images: dict
             cnt_area = cv2.contourArea(cnt)
             cnt_color = random_color()
             if min_limit < cnt_area < max_limit:
-                cnt_ratio, ellipse = calcRatio(cnt)
+                cnt_ratio, ellipse = calc_ratio(cnt)
+                cnt_depth = calc_depth(image=original_images[name], cnt=cnt)
+
                 if flags["show_in_contours"] and flags["show_ex_contours"]:
                     image_analysis["contour_index"].append(i)
                     cv2.drawContours(drawn_image, [cnt], -1, cnt_color, 2)
@@ -297,6 +340,7 @@ def analyze(images: dict
                         cv2.ellipse(drawn_image, ellipse, (0, 0, 255), 3)
                     image_analysis["area"].append(cnt_area)
                     image_analysis["ratios"].append(cnt_ratio)
+                    image_analysis["depth"].append(cnt_depth)
 
                 elif flags["show_in_contours"] and not flags["show_ex_contours"]:
                     if hier != -1:
@@ -313,6 +357,7 @@ def analyze(images: dict
                             cv2.ellipse(drawn_image, ellipse, (0, 0, 255), 3)
                         image_analysis["area"].append(cnt_area)
                         image_analysis["ratios"].append(cnt_ratio)
+                        image_analysis["depth"].append(cnt_depth)
 
                 elif flags["show_ex_contours"] and not flags["show_in_contours"]:
                     if hier == -1:
@@ -330,6 +375,7 @@ def analyze(images: dict
                             cv2.ellipse(drawn_image, ellipse, (0, 0, 255), 3)
                         image_analysis["area"].append(cnt_area)
                         image_analysis["ratios"].append(cnt_ratio)
+                        image_analysis["depth"].append(cnt_depth)
                 else:
                     if flags["show_ellipses"]:
                         cv2.ellipse(drawn_image, ellipse, (0, 0, 255), 3)
