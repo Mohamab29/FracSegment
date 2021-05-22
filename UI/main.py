@@ -1166,6 +1166,7 @@ class MainWindow(QMainWindow):
         if showDialog('Send custom properties',
                       f'Send for {countCheckedItems(import_list, "num_of_check_items")} images?',
                       QMessageBox.Question):
+            # self.sharedTermsPageCalculation()
             checked_calculate_items = {}
             checked_min_max_values = {}
             show_external = self.ui.check_box_show_external_contures
@@ -1206,6 +1207,7 @@ class MainWindow(QMainWindow):
             if check_box_flags["show_in_contours"] or check_box_flags["show_ex_contours"]:
                 if self.graphs_popups.__len__() > 0:
                     self.updateGraphPopupsAfterShowButtonClicked(import_list)
+            # self.sharedTermsPageCalculation()
 
     def updateGraphPopupsAfterShowButtonClicked(self, import_list):
         for index in range(import_list.count()):
