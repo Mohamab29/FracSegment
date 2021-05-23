@@ -302,6 +302,7 @@ class MainWindow(QMainWindow):
         self.setActions()
         self.center()
         self.thread = {}
+        self.ui.label_3.setText("v1.6.3")
 
     def closeEvent(self, event):
         for key in self.thread.keys():
