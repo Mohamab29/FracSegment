@@ -1172,7 +1172,28 @@ class MainWindow(QMainWindow):
         if showDialog('Send custom properties',
                       f'Send for {countCheckedItems(import_list, "num_of_check_items")} images?',
                       QMessageBox.Question):
-            # self.sharedTermsPageCalculation()
+            widgets_tuples = [
+                (self.ui.btn_calculation_page_save_images, False),
+                (self.ui.btn_calculation_page_save_csvs, False),
+                (self.ui.btn_calculation_page_delete_selected_images, False),
+                (self.ui.btn_calculation_page_clear_images, False),
+                (self.ui.btn_calculation_page_show, False),
+                (self.ui.btn_calculation_page_uncheck_all, False),
+                (self.ui.btn_calculation_page_show_graphs, False),
+                (self.ui.frame_calculation_page_modifications_options_min_spin_box, False),
+                (self.ui.frame_calculation_page_modifications_options_max_spin_box, False),
+                (self.ui.frame_calculation_page_modifications_options_max_label, False),
+                (self.ui.frame_calculation_page_modifications_options_min_label, False),
+                (self.ui.check_box_show_and_calculate_centroid, False),
+                (self.ui.check_box_show_ellipses, False),
+                (self.ui.slider, False),
+                (self.ui.label_slider, False),
+                (self.ui.check_box_show_external_contures, False),
+                (self.ui.check_box_show_internal_contures, False),
+
+            ]
+
+            toggleWidgetAndChangeStyle(widgets_tuples)
             checked_calculate_items = {}
             checked_min_max_values = {}
             show_external = self.ui.check_box_show_external_contures
@@ -1213,7 +1234,28 @@ class MainWindow(QMainWindow):
             if check_box_flags["show_in_contours"] or check_box_flags["show_ex_contours"]:
                 if self.graphs_popups.__len__() > 0:
                     self.updateGraphPopupsAfterShowButtonClicked(import_list)
-            # self.sharedTermsPageCalculation()
+            widgets_tuples = [
+                (self.ui.btn_calculation_page_save_images, True),
+                (self.ui.btn_calculation_page_save_csvs, True),
+                (self.ui.btn_calculation_page_delete_selected_images, True),
+                (self.ui.btn_calculation_page_clear_images, True),
+                (self.ui.btn_calculation_page_show, True),
+                (self.ui.btn_calculation_page_uncheck_all, True),
+                (self.ui.btn_calculation_page_show_graphs, True),
+                (self.ui.frame_calculation_page_modifications_options_min_spin_box, True),
+                (self.ui.frame_calculation_page_modifications_options_max_spin_box, True),
+                (self.ui.frame_calculation_page_modifications_options_max_label, True),
+                (self.ui.frame_calculation_page_modifications_options_min_label, True),
+                (self.ui.check_box_show_and_calculate_centroid, True),
+                (self.ui.check_box_show_ellipses, True),
+                (self.ui.slider, True),
+                (self.ui.label_slider, True),
+                (self.ui.check_box_show_external_contures, True),
+                (self.ui.check_box_show_internal_contures, True),
+
+            ]
+
+            toggleWidgetAndChangeStyle(widgets_tuples)
 
     def updateGraphPopupsAfterShowButtonClicked(self, import_list):
         for index in range(import_list.count()):
