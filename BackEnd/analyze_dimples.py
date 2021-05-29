@@ -128,14 +128,15 @@ def calc_ratio(cnt: np.ndarray) -> Tuple[float, tuple]:
     return (semi_minor_axis / semi_major_axis), ellipse
 
 
-def calc_depth(image: np.ndarray, cnt: np.ndarray) -> float:
+def calc_depth(image: np.ndarray, global_avg: int, cnt: np.ndarray) -> tuple[float, float]:
     """
     calculating the depth of a dimple using the contour we obtained from the mask of the original image.
     
     :param image: 2D numpy array, in the context of this function it needs to be a gray scale original image.
+    :param global_avg: int, the average pixel value in the whole image.
     :param cnt: 3D numpy array, a contour.
 
-    :return: float, the depth calculated.
+    :return: tuple of two floating numbers. right is local average depth and left is global average depth calculated.
     """
     image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
@@ -167,16 +168,18 @@ def calc_depth(image: np.ndarray, cnt: np.ndarray) -> float:
     # cropping the contour 
     res1 = res[y:h, x:w]
 
-    # taking the min(none-zero) and max value in order to calculate the delta  
-    min_value = np.min(res1[np.nonzero(res1)])
-    max_value = np.max(res1[np.nonzero(res1)])
+    # taking the min(none-zero) and max value in order to calculate the delta
+    non_zero_res = res1[np.nonzero(res1)]
+    min_value = np.min(non_zero_res)
+    max_value = np.max(non_zero_res)
     delta = abs(max_value - min_value)
 
-    # the average pixel in the grayscale image
-    average_px_value = int(np.average(image))
+    # the avg non-zero value in the given contour and can be called
+    # the local average pixel because this is calculated per contour
+    local_avg = np.average(non_zero_res)
 
-    # returning the depth
-    return round(delta / average_px_value, 5)
+    # returning the depths
+    return round(delta / local_avg, 5), round(delta / global_avg, 5)
 
 
 # noinspection DuplicatedCode
@@ -215,13 +218,13 @@ def analyze(images: dict
 
         drawn_image = np.zeros(images[name].shape + (3,), dtype=np.uint8)
 
-        image_analysis = {"contour_index": [], "contour_type": [], "area": [], "ratios": [], "depth": []}
+        image_analysis = {"contour_index": [], "contour_type": [], "area": [], "ratio": [], "local": [], "global": []}
         if flags["calc_centroid"]:
             image_analysis["centroid"] = []
         image_analysis["interval_range"] = []
 
         min_limit, max_limit = min_max_values[name]
-
+        global_avg = np.average(original_images[name])
         for i in range(len(contours)):
             cnt = contours[i]
             hier = hierarchy[0][i][3]
@@ -229,7 +232,8 @@ def analyze(images: dict
             cnt_color = random_color()
             if min_limit < cnt_area < max_limit:
                 cnt_ratio, ellipse = calc_ratio(cnt)
-                cnt_depth = calc_depth(image=original_images[name], cnt=cnt)
+                cnt_local_depth, cnt_global_depth = calc_depth(image=original_images[name], global_avg=global_avg,
+                                                               cnt=cnt)
 
                 if flags["show_in_contours"] and flags["show_ex_contours"]:
                     image_analysis["contour_index"].append(i)
@@ -247,8 +251,9 @@ def analyze(images: dict
                     if flags["show_ellipses"]:
                         cv2.ellipse(drawn_image, ellipse, (0, 0, 255), 3)
                     image_analysis["area"].append(cnt_area)
-                    image_analysis["ratios"].append(cnt_ratio)
-                    image_analysis["depth"].append(cnt_depth)
+                    image_analysis["ratio"].append(cnt_ratio)
+                    image_analysis["local"].append(cnt_local_depth)
+                    image_analysis["global"].append(cnt_global_depth)
 
                 elif flags["show_in_contours"] and not flags["show_ex_contours"]:
                     if hier != -1:
@@ -264,8 +269,9 @@ def analyze(images: dict
                         if flags["show_ellipses"]:
                             cv2.ellipse(drawn_image, ellipse, (0, 0, 255), 3)
                         image_analysis["area"].append(cnt_area)
-                        image_analysis["ratios"].append(cnt_ratio)
-                        image_analysis["depth"].append(cnt_depth)
+                        image_analysis["ratio"].append(cnt_ratio)
+                        image_analysis["local"].append(cnt_local_depth)
+                        image_analysis["global"].append(cnt_global_depth)
 
                 elif flags["show_ex_contours"] and not flags["show_in_contours"]:
                     if hier == -1:
@@ -282,8 +288,10 @@ def analyze(images: dict
                         if flags["show_ellipses"]:
                             cv2.ellipse(drawn_image, ellipse, (0, 0, 255), 3)
                         image_analysis["area"].append(cnt_area)
-                        image_analysis["ratios"].append(cnt_ratio)
-                        image_analysis["depth"].append(cnt_depth)
+                        image_analysis["ratio"].append(cnt_ratio)
+                        image_analysis["local"].append(cnt_local_depth)
+                        image_analysis["global"].append(cnt_global_depth)
+
                 else:
                     if flags["show_ellipses"]:
                         cv2.ellipse(drawn_image, ellipse, (0, 0, 255), 3)

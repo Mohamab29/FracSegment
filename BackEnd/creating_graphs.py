@@ -17,7 +17,7 @@ def from_fig_to_array(fig: plt.Figure) -> np.ndarray:
     return image
 
 
-def create_count_plot_and_array(ax: plt.Figure, data: pd.DataFrame, x: str, palette,x_label:str) -> np.ndarray:
+def create_count_plot_and_array(ax: plt.Figure, data: pd.DataFrame, x: str, palette, x_label: str) -> np.ndarray:
     ax = sns.countplot(ax=ax, data=data, x=x, palette=palette)
     ax.set_ylabel('Count',
                   fontsize='xx-large')
@@ -33,53 +33,58 @@ def create_count_plot_and_array(ax: plt.Figure, data: pd.DataFrame, x: str, pale
     return image_as_array
 
 
-def createDepthBinPlot(image_analysis: dict, num_of_bins: int = 10) -> np.ndarray:
+def createBinPlot(image_analysis: dict, measurement_name: str, color_palette: str, x_label: str,
+                  num_of_bins: int = 10) -> np.ndarray:
     """
     The function takes a dictionary of an image analysis that contains properties of a single image,
     and makes a histogram plot based on the depth intervals as the x axis and the frequency as the y-axis.
 
 
     :param image_analysis: a dictionary containing the properties we wanted to analyze in a prediction.
+    :param measurement_name: string, could be ratio,local,global.
+    :param color_palette: string, name of color palette from seaborn
+    :param x_label: string, the label under the the x axis.
     :param num_of_bins: the number of intervals.
+
     :return: 3D numpy array, the plot is converted into a numpy array
     """
     df_depth = pd.DataFrame({
-        "depth": image_analysis['depth'],
+        measurement_name: image_analysis[measurement_name],
     }
     )
-    df_depth['intervals'] = pd.cut(x=df_depth['depth'], bins=num_of_bins, right=False)
+    df_depth['intervals'] = pd.cut(x=df_depth[measurement_name], bins=num_of_bins, right=False)
 
     df_depth = df_depth.sort_values('intervals')
 
     ax_dims = (15, 15)
     fig, ax = pyplot.subplots(figsize=ax_dims)
-    pal = sns.color_palette("dark")
-    return create_count_plot_and_array(ax, df_depth, "intervals", pal,'Intervals of depth')
+    pal = sns.color_palette(color_palette)
+    return create_count_plot_and_array(ax, df_depth, "intervals", pal, x_label)
 
 
-def createRatioBinPlot(image_analysis: dict, num_of_bins: int = 10) -> np.ndarray:
-    """
-    The function takes a dictionary of an image analysis that contains properties of a single image,
-    and makes a histogram plot based on the ratio intervals as the x axis and the frequency as the y-axis.
-
-
-    :param image_analysis: a dictionary containing the properties we wanted to analyze in a prediction.
-    :param num_of_bins: the number of intervals.
-    :return: 3D numpy array, the plot is converted into a numpy array
-    """
-    df_ratios = pd.DataFrame({
-        "ratios": image_analysis["ratios"],
-    }
-    )
-
-    df_ratios['intervals'] = pd.cut(x=df_ratios['ratios'], bins=num_of_bins, right=False)
-
-    df_ratios = df_ratios.sort_values('intervals')
-
-    ax_dims = (15, 15)
-    fig, ax = pyplot.subplots(figsize=ax_dims)
-    pal = sns.color_palette("Set2")
-    return create_count_plot_and_array(ax, df_ratios, "intervals", pal,'Intervals of ratio')
+# def createRatioBinPlot(image_analysis: dict, num_of_bins: int = 10) -> np.ndarray:
+#     """
+#     The function takes a dictionary of an image analysis that contains properties of a single image,
+#     and makes a histogram plot based on the ratio intervals as the x axis and the frequency as the y-axis.
+#
+#
+#     :param image_analysis: a dictionary containing the properties we wanted to analyze in a prediction.
+#     :param num_of_bins: the number of intervals.
+#     :return: 3D numpy array, the plot is converted into a numpy array
+#     """
+#     df_ratios = pd.DataFrame({
+#         "ratios": image_analysis["ratios"],
+#     }
+#     )
+#
+#     df_ratios['intervals'] = pd.cut(x=df_ratios['ratios'], bins=num_of_bins, right=False)
+#
+#     df_ratios = df_ratios.sort_values('intervals')
+#
+#     ax_dims = (15, 15)
+#     fig, ax = pyplot.subplots(figsize=ax_dims)
+#     pal = sns.color_palette("Set2")
+#     return create_count_plot_and_array(ax, df_ratios, "intervals", pal, 'Intervals of ratio')
 
 
 def createAreaHistPlot(image_analysis: dict, num_of_bins: int = 15) -> np.ndarray:

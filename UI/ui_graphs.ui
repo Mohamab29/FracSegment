@@ -108,10 +108,7 @@
          <item row="0" column="0" alignment="Qt::AlignHCenter">
           <widget class="QLabel" name="label_graph">
            <property name="text">
-            <string/>
-           </property>
-           <property name="pixmap">
-            <pixmap>../../../Google Drive/Final Project/train_dimpels/images/4.png</pixmap>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;Please select Graph&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -225,17 +222,22 @@ QComboBox QAbstractItemView {
            </property>
            <item>
             <property name="text">
-             <string>Area Graph</string>
+             <string>Area</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>Ratio Graph</string>
+             <string>Ratio</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>Depth Graph</string>
+             <string>Local Avg Depth</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Global Avg Depth</string>
             </property>
            </item>
           </widget>

@@ -34,18 +34,18 @@ class Ui_Graphs(object):
         self.verticalLayout.setObjectName("verticalLayout")
         self.label_graph_2 = QtWidgets.QFrame(self.frame_graph_info)
         self.label_graph_2.setStyleSheet("#pagesContainer QPushButton {\n"
-"    border: 2px solid rgb(52, 59, 72);\n"
-"    border-radius: 5px;    \n"
-"    background-color: rgb(52, 59, 72);\n"
-"}\n"
-"#pagesContainer QPushButton:hover {\n"
-"    background-color: rgb(57, 65, 80);\n"
-"    border: 2px solid rgb(61, 70, 86);\n"
-"}\n"
-"#pagesContainer QPushButton:pressed {    \n"
-"    background-color: rgb(35, 40, 49);\n"
-"    border: 2px solid rgb(43, 50, 61);\n"
-"}")
+                                         "    border: 2px solid rgb(52, 59, 72);\n"
+                                         "    border-radius: 5px;    \n"
+                                         "    background-color: rgb(52, 59, 72);\n"
+                                         "}\n"
+                                         "#pagesContainer QPushButton:hover {\n"
+                                         "    background-color: rgb(57, 65, 80);\n"
+                                         "    border: 2px solid rgb(61, 70, 86);\n"
+                                         "}\n"
+                                         "#pagesContainer QPushButton:pressed {    \n"
+                                         "    background-color: rgb(35, 40, 49);\n"
+                                         "    border: 2px solid rgb(43, 50, 61);\n"
+                                         "}")
         self.label_graph_2.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.label_graph_2.setFrameShadow(QtWidgets.QFrame.Raised)
         self.label_graph_2.setObjectName("label_graph_2")
@@ -54,8 +54,6 @@ class Ui_Graphs(object):
         self.gridLayout_2.setSpacing(0)
         self.gridLayout_2.setObjectName("gridLayout_2")
         self.label_graph = QtWidgets.QLabel(self.label_graph_2)
-        self.label_graph.setText("")
-        self.label_graph.setPixmap(QtGui.QPixmap("../../../Google Drive/Final Project/train_dimpels/images/4.png"))
         self.label_graph.setScaledContents(True)
         self.label_graph.setAlignment(QtCore.Qt.AlignCenter)
         self.label_graph.setObjectName("label_graph")
@@ -73,54 +71,55 @@ class Ui_Graphs(object):
         self.btn_save_graph = QtWidgets.QPushButton(self.frame_widgets)
         self.btn_save_graph.setMinimumSize(QtCore.QSize(150, 25))
         self.btn_save_graph.setStyleSheet(" QPushButton {\n"
-"    border: 2px solid rgb(52, 59, 72);\n"
-"    border-radius: 5px;    \n"
-"    background-color: rgb(52, 59, 72);\n"
-"    color: #fff\n"
-"}\n"
-" QPushButton:hover {\n"
-"    background-color: rgb(57, 65, 80);\n"
-"    border: 2px solid rgb(61, 70, 86);\n"
-"}\n"
-" QPushButton:pressed {    \n"
-"    background-color: rgb(35, 40, 49);\n"
-"    border: 2px solid rgb(43, 50, 61);\n"
-"}")
+                                          "    border: 2px solid rgb(52, 59, 72);\n"
+                                          "    border-radius: 5px;    \n"
+                                          "    background-color: rgb(52, 59, 72);\n"
+                                          "    color: #fff\n"
+                                          "}\n"
+                                          " QPushButton:hover {\n"
+                                          "    background-color: rgb(57, 65, 80);\n"
+                                          "    border: 2px solid rgb(61, 70, 86);\n"
+                                          "}\n"
+                                          " QPushButton:pressed {    \n"
+                                          "    background-color: rgb(35, 40, 49);\n"
+                                          "    border: 2px solid rgb(43, 50, 61);\n"
+                                          "}")
         self.btn_save_graph.setObjectName("btn_save_graph")
         self.horizontalLayout_2.addWidget(self.btn_save_graph)
         self.combobox_graphs = QtWidgets.QComboBox(self.frame_widgets)
         self.combobox_graphs.setMinimumSize(QtCore.QSize(150, 25))
         self.combobox_graphs.setStyleSheet("QComboBox{\n"
-"    background-color: rgb(27, 29, 35);\n"
-"    border-radius: 5px;\n"
-"    border: 2px solid rgb(33, 37, 43);\n"
-"    padding: 5px;\n"
-"    padding-left: 10px;\n"
-"    color: #fff\n"
-"}\n"
-"QComboBox:hover{\n"
-"    border: 2px solid rgb(64, 71, 88);\n"
-"}\n"
-"QComboBox::drop-down {\n"
-"    subcontrol-origin: padding;\n"
-"    subcontrol-position: top right;\n"
-"    width: 25px; \n"
-"    border-left-width: 3px;\n"
-"    border-left-color: rgba(39, 44, 54, 150);\n"
-"    border-left-style: solid;\n"
-"    border-top-right-radius: 3px;\n"
-"    border-bottom-right-radius: 3px;    \n"
-"    background-image: url(./assets/icons/cil-arrow-bottom.png);\n"
-"    background-position: center;\n"
-"    background-repeat: no-reperat;\n"
-" }\n"
-"QComboBox QAbstractItemView {\n"
-"    color: rgb(255, 121, 198);    \n"
-"    background-color: rgb(33, 37, 43);\n"
-"    padding: 10px;\n"
-"    selection-background-color: rgb(39, 44, 54);\n"
-"}")
+                                           "    background-color: rgb(27, 29, 35);\n"
+                                           "    border-radius: 5px;\n"
+                                           "    border: 2px solid rgb(33, 37, 43);\n"
+                                           "    padding: 5px;\n"
+                                           "    padding-left: 10px;\n"
+                                           "    color: #fff\n"
+                                           "}\n"
+                                           "QComboBox:hover{\n"
+                                           "    border: 2px solid rgb(64, 71, 88);\n"
+                                           "}\n"
+                                           "QComboBox::drop-down {\n"
+                                           "    subcontrol-origin: padding;\n"
+                                           "    subcontrol-position: top right;\n"
+                                           "    width: 25px; \n"
+                                           "    border-left-width: 3px;\n"
+                                           "    border-left-color: rgba(39, 44, 54, 150);\n"
+                                           "    border-left-style: solid;\n"
+                                           "    border-top-right-radius: 3px;\n"
+                                           "    border-bottom-right-radius: 3px;    \n"
+                                           "    background-image: url(./assets/icons/cil-arrow-bottom.png);\n"
+                                           "    background-position: center;\n"
+                                           "    background-repeat: no-reperat;\n"
+                                           " }\n"
+                                           "QComboBox QAbstractItemView {\n"
+                                           "    color: rgb(255, 121, 198);    \n"
+                                           "    background-color: rgb(33, 37, 43);\n"
+                                           "    padding: 10px;\n"
+                                           "    selection-background-color: rgb(39, 44, 54);\n"
+                                           "}")
         self.combobox_graphs.setObjectName("combobox_graphs")
+        self.combobox_graphs.addItem("")
         self.combobox_graphs.addItem("")
         self.combobox_graphs.addItem("")
         self.combobox_graphs.addItem("")
@@ -134,15 +133,20 @@ class Ui_Graphs(object):
     def retranslateUi(self, Graphs):
         _translate = QtCore.QCoreApplication.translate
         Graphs.setWindowTitle(_translate("Graphs", "Graphs"))
+        self.label_graph.setText(_translate("Graphs",
+                                            "<html><head/><body><p><span style=\" color:#ffffff;\">Please select Graph</span></p></body></html>"))
         self.btn_save_graph.setText(_translate("Graphs", "Save Selected Graph"))
-        self.combobox_graphs.setItemText(0, _translate("Graphs", "Area Graph"))
-        self.combobox_graphs.setItemText(1, _translate("Graphs", "Ratio Graph"))
-        self.combobox_graphs.setItemText(2, _translate("Graphs", "Depth Graph"))
-import icons_rc
+        self.combobox_graphs.setItemText(0, _translate("Graphs", "Area"))
+        self.combobox_graphs.setItemText(1, _translate("Graphs", "Ratio"))
+        self.combobox_graphs.setItemText(2, _translate("Graphs", "Local Avg Depth"))
+        self.combobox_graphs.setItemText(3, _translate("Graphs", "Global Avg Depth"))
 
+
+import icons_rc
 
 if __name__ == "__main__":
     import sys
+
     app = QtWidgets.QApplication(sys.argv)
     Graphs = QtWidgets.QWidget()
     ui = Ui_Graphs()

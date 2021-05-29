@@ -8,7 +8,7 @@ from ui_graphs import Ui_Graphs
 from PIL.ImageQt import ImageQt
 from BackEnd.segmenting import segment
 from BackEnd.analyze_dimples import analyze, saveImagesAnalysisToCSV, find_max_area
-from BackEnd.creating_graphs import createRatioBinPlot, createAreaHistPlot, createDepthBinPlot
+from BackEnd.creating_graphs import createBinPlot, createAreaHistPlot
 from BackEnd.merge_images import merge_images
 import cv2
 import io
@@ -1056,13 +1056,18 @@ class MainWindow(QMainWindow):
                     else:
                         self.graphs_popups.pop(list_item_name)
 
-                ratio_numpy_image = createRatioBinPlot(self.imagesAnalyse[list_item_name])
+                ratio_numpy_image = createBinPlot(self.imagesAnalyse[list_item_name], "ratio", "Set2",
+                                                  "Intervals of Ratio")
                 area_numpy_image = createAreaHistPlot(self.imagesAnalyse[list_item_name])
-                depth_numpy_image = createDepthBinPlot(self.imagesAnalyse[list_item_name])
+                depth_local_avg_numpy_image = createBinPlot(self.imagesAnalyse[list_item_name], "local", "tab10",
+                                                            "Intervals of local average")
+                depth_global_avg_numpy_image = createBinPlot(self.imagesAnalyse[list_item_name], "global", "Paired",
+                                                             "Intervals of global average")
                 self.graphs_popups[list_item_name] = {
                     'area': area_numpy_image,
                     'ratio': ratio_numpy_image,
-                    'depth': depth_numpy_image,
+                    'local': depth_local_avg_numpy_image,
+                    'global': depth_global_avg_numpy_image,
                     'graphs': Graphs(list_item_name)
                 }
                 current_graph = self.graphs_popups[list_item_name]['graphs']
@@ -1217,13 +1222,18 @@ class MainWindow(QMainWindow):
                 list_item_name = list_item.text()
                 if list_item_name not in self.graphs_popups:
                     continue
-                ratio_numpy_image = createRatioBinPlot(self.imagesAnalyse[list_item_name])
+                ratio_numpy_image = createBinPlot(self.imagesAnalyse[list_item_name], "ratio", "Set2",
+                                                  "Intervals of Ratio")
                 area_numpy_image = createAreaHistPlot(self.imagesAnalyse[list_item_name])
-                depth_numpy_image = createDepthBinPlot(self.imagesAnalyse[list_item_name])
+                depth_local_avg_numpy_image = createBinPlot(self.imagesAnalyse[list_item_name], "local", "tab10",
+                                                            "Intervals of local average")
+                depth_global_avg_numpy_image = createBinPlot(self.imagesAnalyse[list_item_name], "global", "Paired",
+                                                             "Intervals of global average")
                 updated_graphs = {
                     "ratio": ratio_numpy_image,
                     "area": area_numpy_image,
-                    "depth": depth_numpy_image
+                    "local": depth_local_avg_numpy_image,
+                    "global": depth_global_avg_numpy_image
                 }
                 self.graphs_popups[list_item_name]['graphs'].updateGraphs(updated_graphs)
                 current_index = self.graphs_popups[list_item_name]['graphs'].getCurrentComboboxIndex()
