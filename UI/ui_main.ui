@@ -153,8 +153,8 @@ QPushButton:hover {
         <widget class="QFrame" name="frame_top">
          <property name="minimumSize">
           <size>
-           <width>0</width>
-           <height>70</height>
+           <width>20</width>
+           <height>20</height>
           </size>
          </property>
          <property name="styleSheet">
@@ -166,6 +166,48 @@ QPushButton:hover {
          <property name="frameShadow">
           <enum>QFrame::Raised</enum>
          </property>
+         <layout class="QVBoxLayout" name="verticalLayout_34">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="label_4">
+            <property name="maximumSize">
+             <size>
+              <width>150</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">margin-left:10px</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="pixmap">
+             <pixmap resource="icons.qrc">:/assets/images/logo.png</pixmap>
+            </property>
+            <property name="scaledContents">
+             <bool>true</bool>
+            </property>
+            <property name="margin">
+             <number>0</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
       </layout>
@@ -1874,7 +1916,7 @@ QPushButton:hover {
                     <enum>QFrame::Raised</enum>
                    </property>
                    <layout class="QGridLayout" name="gridLayout_2">
-                    <item row="0" column="0" alignment="Qt::AlignHCenter">
+                    <item row="1" column="0" alignment="Qt::AlignHCenter">
                      <widget class="QLabel" name="label_calculate_page_selected_picture">
                       <property name="styleSheet">
                        <string notr="true">QLabel {color: rgb(130, 130, 130)}</string>

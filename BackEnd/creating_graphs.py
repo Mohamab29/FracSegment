@@ -109,7 +109,7 @@ def createAreaHistPlot(image_analysis: dict, num_of_bins: int = 15) -> np.ndarra
     fig, ax = pyplot.subplots(figsize=ax_dims)
     ax = sns.histplot(ax=ax, data=df, x="intervals", multiple="dodge",
                       shrink=0.5, stat="frequency", color="skyblue")
-    ax.set_xlabel('Intervals in μm',
+    ax.set_xlabel('Intervals of area',
                   fontsize='xx-large')
     ax.set_ylabel('Frequency',
                   fontsize='x-large')
