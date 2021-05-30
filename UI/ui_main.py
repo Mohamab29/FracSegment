@@ -324,7 +324,7 @@ class Ui_MainWindow(object):
 "QListWidget::indicator:checked {\n"
 "    background: 3px solid rgb(52, 59, 72);\n"
 "    border: 3px solid rgb(52, 59, 72);    \n"
-"    background-image: url(./assets/icons/icon-check-small.png)\n"
+"    background-image: url(:/assets/icons/icon-check-small.png)\n"
 "}")
         self.images_predict_page_import_list.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.images_predict_page_import_list.setFrameShadow(QtWidgets.QFrame.Plain)
@@ -641,7 +641,7 @@ class Ui_MainWindow(object):
 "QListWidget::indicator:checked {\n"
 "    background: 3px solid rgb(52, 59, 72);\n"
 "    border: 3px solid rgb(52, 59, 72);    \n"
-"    background-image: url(./assets/icons/icon-check-small.png)\n"
+"    background-image: url(:/assets/icons/icon-check-small.png)\n"
 "}")
         self.images_results_page_import_list.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.images_results_page_import_list.setFrameShadow(QtWidgets.QFrame.Plain)
@@ -953,7 +953,7 @@ class Ui_MainWindow(object):
 "QListWidget::indicator:checked {\n"
 "    background: 3px solid rgb(52, 59, 72);\n"
 "    border: 3px solid rgb(52, 59, 72);    \n"
-"    background-image: url(./assets/icons/icon-check-small.png)\n"
+"    background-image: url(:/assets/icons/icon-check-small.png)\n"
 "}")
         self.images_calculation_page_import_list.setFrameShadow(QtWidgets.QFrame.Plain)
         self.images_calculation_page_import_list.setLineWidth(2)

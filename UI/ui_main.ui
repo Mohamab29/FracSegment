@@ -732,7 +732,7 @@ QListWidget::indicator:hover {
 QListWidget::indicator:checked {
     background: 3px solid rgb(52, 59, 72);
 	border: 3px solid rgb(52, 59, 72);	
-	background-image: url(./assets/icons/icon-check-small.png)
+	background-image: url(:/assets/icons/icon-check-small.png)
 }</string>
                          </property>
                          <property name="frameShape">
@@ -1398,7 +1398,7 @@ QListWidget::indicator:hover {
 QListWidget::indicator:checked {
     background: 3px solid rgb(52, 59, 72);
 	border: 3px solid rgb(52, 59, 72);	
-	background-image: url(./assets/icons/icon-check-small.png)
+	background-image: url(:/assets/icons/icon-check-small.png)
 }</string>
                       </property>
                       <property name="frameShape">
@@ -2055,7 +2055,7 @@ QListWidget::indicator:hover {
 QListWidget::indicator:checked {
     background: 3px solid rgb(52, 59, 72);
 	border: 3px solid rgb(52, 59, 72);	
-	background-image: url(./assets/icons/icon-check-small.png)
+	background-image: url(:/assets/icons/icon-check-small.png)
 }</string>
                          </property>
                          <property name="frameShadow">

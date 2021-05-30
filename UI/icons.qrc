@@ -33,11 +33,8 @@
     <file>assets/icons/edit-icon.png</file>
     <file>assets/icons/calc-icon.png</file>
     <file>assets/icons/graph-icon.png</file>
+    <file>assets/icons/icon-check-small.png</file>
     <file>assets/images/logo.png</file>
-
-
-
-
 
 </qresource>
 </RCC>
