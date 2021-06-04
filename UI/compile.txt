@@ -1,4 +1,4 @@
 pyuic5 -x ui_main.ui -o ui_main.py
 pyrcc5 -o icons_rc.py icons.qrc
 
-pyuic5 -x ui_graphs.ui -o ui_graphs.py
+pyuic5 -x ui_graphs.ui -o ui_graphs.pypyh

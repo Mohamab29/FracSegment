@@ -62,31 +62,6 @@ def createBinPlot(image_analysis: dict, measurement_name: str, color_palette: st
     return create_count_plot_and_array(ax, df_depth, "intervals", pal, x_label)
 
 
-# def createRatioBinPlot(image_analysis: dict, num_of_bins: int = 10) -> np.ndarray:
-#     """
-#     The function takes a dictionary of an image analysis that contains properties of a single image,
-#     and makes a histogram plot based on the ratio intervals as the x axis and the frequency as the y-axis.
-#
-#
-#     :param image_analysis: a dictionary containing the properties we wanted to analyze in a prediction.
-#     :param num_of_bins: the number of intervals.
-#     :return: 3D numpy array, the plot is converted into a numpy array
-#     """
-#     df_ratios = pd.DataFrame({
-#         "ratios": image_analysis["ratios"],
-#     }
-#     )
-#
-#     df_ratios['intervals'] = pd.cut(x=df_ratios['ratios'], bins=num_of_bins, right=False)
-#
-#     df_ratios = df_ratios.sort_values('intervals')
-#
-#     ax_dims = (15, 15)
-#     fig, ax = pyplot.subplots(figsize=ax_dims)
-#     pal = sns.color_palette("Set2")
-#     return create_count_plot_and_array(ax, df_ratios, "intervals", pal, 'Intervals of ratio')
-
-
 def createAreaHistPlot(image_analysis: dict, num_of_bins: int = 15) -> np.ndarray:
     """
     The function takes a dictionary of an image analysis that contains properties of a single image,

@@ -1,54 +1,13 @@
-from typing import Union, Tuple, Optional
+from typing import Tuple
 import cv2
 import numpy as np
 from tqdm import tqdm
 from tensorflow import keras
 from skimage.util.shape import view_as_windows
-import matplotlib.pyplot as plt
 
 # a global size that we want to resize images to
 DESIRED_SIZE = 1024
 MODEL_NAME = "model"
-
-
-def display(img, title, cmap='gray'):
-    """
-    :arg img:an image we want to display
-    :type title: str
-    :arg cmap: using grayscale colo map to show gray scale images
-    """
-    fig = plt.figure(figsize=(10, 8))
-    ax = fig.add_subplot(111)
-    plt.title(title)
-    ax.imshow(img, cmap=cmap)
-    plt.show()
-
-
-def image_resize(img: np.ndarray, d_size: int = DESIRED_SIZE) -> int:
-    """
-    the function take an image then resize to a desired size and then add a border to where there us no data
-    :param img: an image we want to resize
-    :param d_size:the desired size that we want our image to be at
-    :return:the image resized with remaining borders being reflected
-    """
-
-    old_size = img.shape[:2]  # old_size is in (height, width) format
-
-    # taking the ratio based on the original size
-    ratio = float(d_size) / max(old_size)
-    new_size = tuple([int(x * ratio) for x in old_size])
-
-    img = cv2.resize(img, (new_size[1], new_size[0]))
-
-    delta_w = d_size - new_size[1]
-    delta_h = d_size - new_size[0]
-    top, bottom = delta_h // 2, delta_h - (delta_h // 2)
-    left, right = delta_w // 2, delta_w - (delta_w // 2)
-
-    color = [0, 0, 0]
-    new_img = cv2.copyMakeBorder(img, top, bottom, left, right, cv2.BORDER_CONSTANT, value=color)
-
-    return new_img
 
 
 def split_to_patches(image: np.ndarray, d_size=256) -> Tuple[np.ndarray, tuple]:
@@ -129,7 +88,7 @@ def clean_mask(image):
     return crop_image(thresh_image)
 
 
-def load_images(paths: list) -> Union[np.ndarray, list]:
+def load_images(paths: list) -> np.ndarray:
     """
      The function takes a list of image paths and loads them.
      :param paths: a list of paths for images we want to load
@@ -149,7 +108,7 @@ def load_images(paths: list) -> Union[np.ndarray, list]:
     return images
 
 
-def segment(paths: list, pb_signal) -> Union[np.ndarray, list]:
+def segment(paths: list, pb_signal) -> np.ndarray:
     """
     the main function that handles the image segmentation after the User has chosen to predict selected images.
 
@@ -171,12 +130,12 @@ def segment(paths: list, pb_signal) -> Union[np.ndarray, list]:
     overall_percentage = 0
 
     for img in original_images:
-            patches, original_shape = split_to_patches(img)
-            prediction = model.predict(x=patches, verbose=1, use_multiprocessing=True)
-            patched_img = patch_back(prediction, original_shape)
-            predicted_masks.append(clean_mask(patched_img))
-            already_predicted_size += 1
-            overall_percentage = (100 * already_predicted_size) / total_images_size
-            pb_signal(overall_percentage)
+        patches, original_shape = split_to_patches(img)
+        prediction = model.predict(x=patches, verbose=1, use_multiprocessing=True)
+        patched_img = patch_back(prediction, original_shape)
+        predicted_masks.append(clean_mask(patched_img))
+        already_predicted_size += 1
+        overall_percentage = (100 * already_predicted_size) / total_images_size
+        pb_signal(overall_percentage)
 
     return predicted_masks

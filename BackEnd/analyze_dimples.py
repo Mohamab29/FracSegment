@@ -128,18 +128,17 @@ def calc_ratio(cnt: np.ndarray) -> Tuple[float, tuple]:
     return (semi_minor_axis / semi_major_axis), ellipse
 
 
-def calc_depth(image: np.ndarray, global_avg: int, cnt: np.ndarray) -> tuple[float, float]:
+def calc_depth(image: np.ndarray, cnt: np.ndarray) -> tuple[float, float]:
     """
     calculating the depth of a dimple using the contour we obtained from the mask of the original image.
     
     :param image: 2D numpy array, in the context of this function it needs to be a gray scale original image.
-    :param global_avg: int, the average pixel value in the whole image.
     :param cnt: 3D numpy array, a contour.
 
     :return: tuple of two floating numbers. right is local average depth and left is global average depth calculated.
     """
     image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-
+    global_avg = np.average(image)
     img1 = np.zeros(image.shape, dtype=np.uint8)
     img2 = img1.copy()
 
@@ -224,7 +223,6 @@ def analyze(images: dict
         image_analysis["interval_range"] = []
 
         min_limit, max_limit = min_max_values[name]
-        global_avg = np.average(original_images[name])
         for i in range(len(contours)):
             cnt = contours[i]
             hier = hierarchy[0][i][3]
@@ -232,7 +230,7 @@ def analyze(images: dict
             cnt_color = random_color()
             if min_limit < cnt_area < max_limit:
                 cnt_ratio, ellipse = calc_ratio(cnt)
-                cnt_local_depth, cnt_global_depth = calc_depth(image=original_images[name], global_avg=global_avg,
+                cnt_local_depth, cnt_global_depth = calc_depth(image=original_images[name],
                                                                cnt=cnt)
 
                 if flags["show_in_contours"] and flags["show_ex_contours"]:
