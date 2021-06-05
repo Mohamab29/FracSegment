@@ -49,7 +49,7 @@ def split_to_patches(image: np.ndarray, d_size=256) -> Tuple[np.ndarray, tuple]:
 
 def patch_back(prediction: np.ndarray, original_shape: tuple, d_size=256) -> np.ndarray:
     """
-    When thee model makes a prediction for an image it takes patches made form the same image and returns a predicted mask
+    When the model makes a prediction for an image it takes patches made form the same image and returns a predicted mask
     with the same amount of patches, so we want to repatch back the prediction into the original shape of the image
     before we made patches from it.
 
@@ -88,7 +88,7 @@ def clean_mask(image):
     return crop_image(thresh_image)
 
 
-def load_images(paths: list) -> np.ndarray:
+def load_images(paths: list) -> list[np.ndarray]:
     """
      The function takes a list of image paths and loads them.
      :param paths: a list of paths for images we want to load
