@@ -136,3 +136,4 @@ Include
 UI/.idea
 UI/.vscode
 *.cfg
+.idea/
