@@ -9,6 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+import UI.icons_rc
 
 
 class Ui_MainWindow(object):
@@ -1519,8 +1520,6 @@ class Ui_MainWindow(object):
         self.label_2.setText(_translate("MainWindow", " By: Vladis Markin & Mohamed Abomokh"))
         self.label_3.setText(_translate("MainWindow", "v1.0.0   "))
 
-
-import icons_rc
 
 if __name__ == "__main__":
     import sys

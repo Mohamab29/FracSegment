@@ -9,6 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+import UI.icons_rc
 
 
 class Ui_Graphs(object):
@@ -141,8 +142,6 @@ class Ui_Graphs(object):
         self.combobox_graphs.setItemText(2, _translate("Graphs", "Local Avg Depth"))
         self.combobox_graphs.setItemText(3, _translate("Graphs", "Global Avg Depth"))
 
-
-import icons_rc
 
 if __name__ == "__main__":
     import sys

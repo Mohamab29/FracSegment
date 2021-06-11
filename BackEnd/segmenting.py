@@ -122,7 +122,7 @@ def segment(paths: list, pb_signal) -> np.ndarray:
         return original_images
 
     # we load the trained model
-    model = keras.models.load_model(f'../assets/models/{MODEL_NAME}.h5')
+    model = keras.models.load_model(f'./assets/models/{MODEL_NAME}.h5')
     # the masks of each image will be contained in this variable
     predicted_masks = []
     total_images_size = original_images.__len__()

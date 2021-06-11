@@ -3,8 +3,8 @@ import time
 
 from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog, QMessageBox, QDesktopWidget, QFrame, QWidget
 from PyQt5 import QtCore, QtGui, QtWidgets
-from ui_main import Ui_MainWindow
-from ui_graphs import Ui_Graphs
+from UI.ui_main import Ui_MainWindow
+from UI.ui_graphs import Ui_Graphs
 from PIL.ImageQt import ImageQt
 from BackEnd.segmenting import segment
 from BackEnd.analyze_dimples import analyze, saveImagesAnalysisToCSV, find_max_area
@@ -14,7 +14,7 @@ import cv2
 import io
 from PIL import Image
 from PyQt5.QtCore import QBuffer
-from styles import widgets_style
+from UI.styles import widgets_style
 import sys
 
 
