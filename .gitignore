@@ -130,3 +130,9 @@ dmypy.json
 
 assets/models/
 BackEnd/csv_files
+Scripts/
+share/
+Include
+UI/.idea
+UI/.vscode
+*.cfg
